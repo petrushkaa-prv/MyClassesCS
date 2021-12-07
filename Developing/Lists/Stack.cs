@@ -6,15 +6,23 @@ namespace Developing.MyClasses
 {
     namespace List
     {
-        public class Stack<T> : IEnumerable<T>, IMyClasses<T>
+        public class Stack<T> : IEnumerable<T>, IMyClasses<T> where T : IComparable<T>
         {
             private int _counter = 0;
             public int Size => _counter;
 
             private Node.SinglyLinked<T> _topNode = null;
+
             public Node.SinglyLinked<T> TopNode => _topNode;
-            public T Peek => _topNode.Value;
-            
+            public T Peek
+            {
+                get
+                {
+                    if (IsEmpty) throw new InvalidOperationException();
+                    return _topNode.Value;
+                }
+            }
+
             public bool IsEmpty => Size == 0;
 
             public Stack()
@@ -182,6 +190,17 @@ namespace Developing.MyClasses
                 {
                     Push(element);
                 }
+            }
+
+            /// <inheritdoc />
+            public bool Contains(T element)
+            {
+                foreach (var el in TopNode)
+                {
+                    if (el.CompareTo(element) > 0) return true;
+                }
+
+                return false;
             }
 
             /// <inheritdoc />

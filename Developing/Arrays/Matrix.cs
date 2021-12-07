@@ -9,14 +9,19 @@
 // 26
 #endregion
 
+using System;
+using System.Reflection.Metadata.Ecma335;
+
 namespace Developing.MyClasses
 {
-    public class Matrix<T> : IMyClasses<T>
+    public class Matrix<T> : IMyClasses<T> where T : IComparable<T>
     {
         private T[] _matrixElements = null;
+
         private int _matrixSize = 0;
         public int Size => _matrixSize;
         public bool IsEmpty => _matrixSize == 0;
+
         private int _matrixRows = 0;
         private int _matrixColumns = 0;
 
@@ -24,7 +29,6 @@ namespace Developing.MyClasses
         {
 
         }
-
         public Matrix(int size)
         {
             _matrixRows = size;
@@ -32,7 +36,6 @@ namespace Developing.MyClasses
             _matrixSize = size * size;
             _matrixElements = new T[_matrixSize];
         }
-
         public Matrix(int rows, int cols)
         {
             _matrixRows = rows;
@@ -40,7 +43,6 @@ namespace Developing.MyClasses
             _matrixSize = rows * cols;
             _matrixElements = new T[_matrixSize];
         }
-
         public Matrix(int rows, int cols, T[] arr)
         {
             _matrixRows = rows;
@@ -53,7 +55,6 @@ namespace Developing.MyClasses
                 _matrixElements[i] = arr[i];
             }
         }
-
         public Matrix(Matrix<T> old)
         {
             _matrixSize = old._matrixSize;
@@ -80,7 +81,6 @@ namespace Developing.MyClasses
 
             return res;
         }
-
         public static Matrix<T> operator -(Matrix<T> old)
         {
             Matrix<T> res = old;
@@ -92,7 +92,6 @@ namespace Developing.MyClasses
 
             return res;
         }
-
         public static Matrix<T> operator -(Matrix<T> lhs, Matrix<T> rhs)
         {
             if (lhs._matrixSize != rhs._matrixSize) throw new System.Exception("Matrix dimensions must agree");
@@ -108,7 +107,18 @@ namespace Developing.MyClasses
                 _matrixElements[i] = element;
             }
         }
-        
+
+        /// <inheritdoc />
+        public bool Contains(T element)
+        {
+            foreach (var matrixElement in _matrixElements)
+            {
+                if (element.CompareTo(matrixElement) > 0) return true;
+            }
+
+            return false;
+        }
+
         public override string ToString()
         {
             string res = new string("");

@@ -6,7 +6,7 @@ namespace Developing.MyClasses
 {
     namespace Node
     {
-        public class SinglyLinked<T> : IEnumerable<T>
+        public class SinglyLinked<T> : IEnumerable<T> where T : IComparable<T>
         {
             public T Value { get; set; }
             public SinglyLinked<T> Next { get; set; }

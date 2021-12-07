@@ -13,5 +13,6 @@ namespace Developing.MyClasses
         int Size { get; }
 
         void FillWith(T element, int howMany = 0);
+        bool Contains(T element);
     }
 }
