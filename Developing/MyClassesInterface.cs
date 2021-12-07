@@ -9,6 +9,9 @@ namespace Developing.MyClasses
     /// </summary>
     interface IMyClasses<T>
     {
+        bool IsEmpty { get; }
+        int Size { get; }
+
         void FillWith(T element, int howMany = 0);
     }
 }

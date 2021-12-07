@@ -13,21 +13,21 @@ namespace Developing.MyClasses
 {
     public class Matrix<T> : IMyClasses<T>
     {
-        public void FillWith(T el);
-    }
-
-    public class Matrix<T> : IMatrix<T>
-    {
         private T[] _matrixElements = null;
         private int _matrixSize = 0;
         private int _matrixRows = 0;
         private int _matrixColumns = 0;
 
+        /// <inheritdoc />
+        public bool IsEmpty => _matrixSize == 0;
+
+        /// <inheritdoc />
+        public int Size => _matrixSize;
+
         public Matrix()
         {
 
         }
-
         public Matrix(int size)
         {
             _matrixRows = size;
@@ -35,7 +35,6 @@ namespace Developing.MyClasses
             _matrixSize = size * size;
             _matrixElements = new T[_matrixSize];
         }
-
         public Matrix(int rows, int cols)
         {
             _matrixRows = rows;
@@ -43,7 +42,6 @@ namespace Developing.MyClasses
             _matrixSize = rows * cols;
             _matrixElements = new T[_matrixSize];
         }
-
         public Matrix(int rows, int cols, T[] arr)
         {
             _matrixRows = rows;
@@ -56,7 +54,6 @@ namespace Developing.MyClasses
                 _matrixElements[i] = arr[i];
             }
         }
-
         public Matrix(Matrix<T> old)
         {
             _matrixSize = old._matrixSize;

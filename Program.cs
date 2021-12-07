@@ -85,9 +85,9 @@ namespace Developing
 
 //var random = new Random();
 
-//Node<int> root = new Node<int>(1);
-//root.next = new Node<int>(2);
-//root.next.next = new Node<int>(3);
+//SinglyLinked<int> root = new SinglyLinked<int>(1);
+//root.next = new SinglyLinked<int>(2);
+//root.next.next = new SinglyLinked<int>(3);
 
 //foreach (var VARIABLE in root)
 //{

@@ -9,15 +9,9 @@ namespace Developing.MyClasses
         private int _counter = 0;
         public int Size => _counter;
 
-        private Node<T> _topNode = null;
-        public Node<T> TopNode => _topNode;
-        public T Peek => _topNode.Value;
-
-        //public static bool IsNull(Stack<T> stack) => stack == null;
-
-        //public bool IsEmpty() => _counter == 0;
-        //public int Size() => _counter;
-        //public T Peek() => _topNode.Value;
+        private Node.SinglyLinked<T> _topSinglyLinked = null;
+        public Node.SinglyLinked<T> TopSinglyLinked => _topSinglyLinked;
+        public T Peek => _topSinglyLinked.Value;
 
         public bool IsEmpty => Size == 0;
 
@@ -39,23 +33,23 @@ namespace Developing.MyClasses
         {
             this._counter++;
 
-            Node<T> newNode = new Node<T>(value);
+            Node.SinglyLinked<T> newSinglyLinked = new Node.SinglyLinked<T>(value);
 
-            if (_topNode == null)
+            if (_topSinglyLinked == null)
             {
-                _topNode = newNode;
+                _topSinglyLinked = newSinglyLinked;
                 return;
             }
 
-            newNode.Next = _topNode;
-            _topNode = newNode;
+            newSinglyLinked.Next = _topSinglyLinked;
+            _topSinglyLinked = newSinglyLinked;
         }
         public void Pop()
         {
             if (IsEmpty) return;
 
             _counter--;
-            _topNode = _topNode.Next;
+            _topSinglyLinked = _topSinglyLinked.Next;
         }
         public Stack<T> Copy()
         {
@@ -70,7 +64,7 @@ namespace Developing.MyClasses
             T[] res = new T[stack.Size];
 
             int i = 0;
-            //Node<T> ptr = stack.TopNode;
+            //SinglyLinked<T> ptr = stack.TopSinglyLinked;
 
             foreach (var v in stack)
             {
@@ -83,7 +77,7 @@ namespace Developing.MyClasses
             return res;
         }
         public static implicit operator Stack<T>(T[] arr) => new Stack<T>(arr);
-
+        
         public static Stack<T> operator +(Stack<T> lhs, Stack<T> rhs)
         {
             if (lhs.IsEmpty) return rhs.Copy();
@@ -125,7 +119,7 @@ namespace Developing.MyClasses
             //if (IsNull(lhs) || IsNull(rhs)) return false;
             if (lhs.Size != rhs.Size) return false;
 
-            Node<T> rptr = rhs.TopNode;
+            Node.SinglyLinked<T> rptr = rhs.TopSinglyLinked;
 
             foreach (var v in lhs)
             {
@@ -154,7 +148,7 @@ namespace Developing.MyClasses
                 if (idx > this.Size || idx < 0) throw new IndexOutOfRangeException();
                 //if (IsEmpty || IsNull(this)) throw new Exception();
 
-                Node<T> tmp = TopNode;
+                Node.SinglyLinked<T> tmp = TopSinglyLinked;
 
                 int i = 0;
                 while (tmp != null && i != idx)
@@ -196,7 +190,6 @@ namespace Developing.MyClasses
             //return res;
         }
         
-
         /// <inheritdoc />
         void IMyClasses<T>.FillWith(T element, int howMany)
         {
@@ -215,7 +208,7 @@ namespace Developing.MyClasses
         }
 
         /// <inheritdoc />
-        public override int GetHashCode() => HashCode.Combine(this._topNode, this._counter);
+        public override int GetHashCode() => HashCode.Combine(this._topSinglyLinked, this._counter);
 
         /// <inheritdoc />
         public override string ToString()
@@ -223,10 +216,10 @@ namespace Developing.MyClasses
             return string.Join(" -> ", (T[])this);
         }
 
-        // version 3 (see Node class)
+        // version 3 (see SinglyLinked class)
         public IEnumerator<T> GetEnumerator()
         {
-            return _topNode.GetEnumerator();
+            return _topSinglyLinked.GetEnumerator();
         }
         
         IEnumerator IEnumerable.GetEnumerator()
@@ -245,10 +238,10 @@ namespace Developing.MyClasses
 //{
 //    private T[] stack;
 //    private int position = -1;
-//    public StackEnumerator(Node<T> node, int size)
+//    public StackEnumerator(SinglyLinked<T> SinglyLinked, int size)
 //    {
 //        stack = new T[size];
-//        Node<T> temp = node; 
+//        SinglyLinked<T> temp = SinglyLinked; 
 //        for (int i = 0; i < size && temp != null; i++)
 //        {
 //            stack[i] = temp.value;
@@ -283,12 +276,12 @@ namespace Developing.MyClasses
 //}
 //public IEnumerator GetEnumerator()
 //{
-//    return new StackEnumerator(topNode, counter);
+//    return new StackEnumerator(topSinglyLinked, counter);
 //}
 // version 1 (using yield)
 //public IEnumerable<T> GetAll()
 //{
-//    Node<T> temp = topNode;
+//    SinglyLinked<T> temp = topSinglyLinked;
 //    for (int i = 0; i < counter; i++)
 //    {
 //        yield return temp.value;
