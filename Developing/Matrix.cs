@@ -13,6 +13,11 @@ namespace Developing.MyClasses
 {
     public class Matrix<T> : IMyClasses<T>
     {
+        public void FillWith(T el);
+    }
+
+    public class Matrix<T> : IMatrix<T>
+    {
         private T[] _matrixElements = null;
         private int _matrixSize = 0;
         private int _matrixRows = 0;
@@ -106,7 +111,7 @@ namespace Developing.MyClasses
                 _matrixElements[i] = element;
             }
         }
-
+        
         public override string ToString()
         {
             string res = new string("");
@@ -119,5 +124,6 @@ namespace Developing.MyClasses
 
             return res;
         }
+        
     }
 }

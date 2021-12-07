@@ -13,6 +13,12 @@ namespace Developing.MyClasses
         public Node<T> TopNode => _topNode;
         public T Peek => _topNode.Value;
 
+        //public static bool IsNull(Stack<T> stack) => stack == null;
+
+        //public bool IsEmpty() => _counter == 0;
+        //public int Size() => _counter;
+        //public T Peek() => _topNode.Value;
+
         public bool IsEmpty => Size == 0;
 
         public Stack()
@@ -189,7 +195,7 @@ namespace Developing.MyClasses
 
             //return res;
         }
-
+        
 
         /// <inheritdoc />
         void IMyClasses<T>.FillWith(T element, int howMany)
