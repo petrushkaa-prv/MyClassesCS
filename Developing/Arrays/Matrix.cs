@@ -14,7 +14,8 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace Developing.MyClasses
 {
-    public class Matrix<T> : IMyClasses<T> where T : IComparable<T>
+    public class Matrix<T> : IMyClasses<T> 
+        where T : IComparable<T>
     {
         private T[] _matrixElements = null;
 

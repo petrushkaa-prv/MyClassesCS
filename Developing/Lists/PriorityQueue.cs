@@ -5,8 +5,21 @@ namespace Developing.MyClasses
 {
     namespace List
     {
-        public class MinPriorityQueue<T> : IMyClasses<T> where T : IComparable<T>
+        public class MinPriorityQueue<T> : IMyClasses<T> 
+            where T : IComparable<T>
         {
+            private class SinglyLinkedPriority<T> : Node.SinglyLinked<T> 
+                where T : IComparable<T>
+            {
+                public int Priority { get; set; }
+
+                public SinglyLinkedPriority(T elem, int prio, SinglyLinkedPriority<T> next):
+                    base(elem, next)
+                {
+                    Priority = prio;
+                }
+            }
+
             private int _count = 0;
             public int Size => _count;
             public bool IsEmpty => _count == 0;
