@@ -4,78 +4,81 @@ using System.Collections.Generic;
 
 namespace Developing.MyClasses
 {
-    public class Node<T> : IEnumerable<T>
+    namespace Node
     {
-        public T Value { get; set; }
-        public Node<T> Next { get; set; }
-
-        public Node(T value, Node<T> next = null)
+        public class SinglyLinked<T> : IEnumerable<T>
         {
-            Value = value;
-            Next = next;
-        }
+            public T Value { get; set; }
+            public SinglyLinked<T> Next { get; set; }
 
-        class NodeEnumerator : IEnumerator<T>
-        {
-            //private int _pos = -1;
-
-            private bool _start = true;
-            private Node<T> _root;
-            private Node<T> _current;
-
-            public NodeEnumerator(Node<T> newroot)
+            public SinglyLinked(T value, SinglyLinked<T> next = null)
             {
-                _current = _root = newroot;
+                Value = value;
+                Next = next;
             }
 
-            public bool MoveNext()
+            class SinglyLinkedEnumerator : IEnumerator<T>
             {
-                if (_root == null) return false;
+                //private int _pos = -1;
 
-                if (_start)
+                private bool _start = true;
+                private SinglyLinked<T> _root;
+                private SinglyLinked<T> _current;
+
+                public SinglyLinkedEnumerator(SinglyLinked<T> newroot)
                 {
-                    _start = false;
-                    return true;
+                    _current = _root = newroot;
                 }
 
-                _current = _current.Next;
-
-                return _current != null;
-            }
-
-            public void Reset()
-            {
-                _current = _root;
-                _start = true;
-            }
-
-            public T Current
-            {
-                get
+                public bool MoveNext()
                 {
-                    if (_current == null)
-                        throw new InvalidOperationException();
+                    if (_root == null) return false;
 
-                    return _current.Value;
+                    if (_start)
+                    {
+                        _start = false;
+                        return true;
+                    }
+
+                    _current = _current.Next;
+
+                    return _current != null;
+                }
+
+                public void Reset()
+                {
+                    _current = _root;
+                    _start = true;
+                }
+
+                public T Current
+                {
+                    get
+                    {
+                        if (_current == null)
+                            throw new InvalidOperationException();
+
+                        return _current.Value;
+                    }
+                }
+
+                object? IEnumerator.Current => Current;
+
+                public void Dispose()
+                {
+                    GC.SuppressFinalize(this);
                 }
             }
 
-            object? IEnumerator.Current => Current;
-
-            public void Dispose()
+            public IEnumerator<T> GetEnumerator()
             {
-                GC.SuppressFinalize(this);
+                return new SinglyLinkedEnumerator(this);
             }
-        }
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            return new NodeEnumerator(this);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
         }
     }
 }

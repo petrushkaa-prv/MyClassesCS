@@ -13,13 +13,10 @@ namespace Developing.MyClasses
 {
     public class Matrix<T> : IMyClasses<T>
     {
-        public void FillWith(T el);
-    }
-
-    public class Matrix<T> : IMatrix<T>
-    {
         private T[] _matrixElements = null;
         private int _matrixSize = 0;
+        public int Size => _matrixSize;
+        public bool IsEmpty => _matrixSize == 0;
         private int _matrixRows = 0;
         private int _matrixColumns = 0;
 
