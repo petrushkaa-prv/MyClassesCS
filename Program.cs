@@ -72,8 +72,14 @@ namespace Developing
             Console.WriteLine(intchars);
 
             Vector<(int elem, string descr)> vec = new Vector<(int elem, string descr)>();
+            Random rand = new Random();
 
+            for (int i = 0; i < 5; i++)
+            {
+                vec.Push((i, rand.Next(10).ToString()));
+            }
 
+            Console.WriteLine(vec);
         }
     }
 }

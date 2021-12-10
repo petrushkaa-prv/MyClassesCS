@@ -1,15 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Developing.MyClasses;
 
 namespace Developing.Arrays
 {
-    class Vector<T> : IMyClasses<T>
+    public static class VectorExtension
     {
-        private T[] _vector;
-        private int _size;
-        private int _count;
+
+    }
+
+    public class Vector<T> : IMyClasses<T>, IEnumerable<T>
+        where T : struct
+    {
+        private protected T[] _vector;
+        private protected int _size;
+        private protected int _count;
 
         public int Count => _count;
 
@@ -36,14 +43,16 @@ namespace Developing.Arrays
             }
         }
 
-        public void Push(T el)
+        public virtual void Push(T el)
         {
             _vector[_count++] = el;
+            
+            Extend();
         }
 
-        private void Extend()
+        protected void Extend()
         {
-            if (Count == Size)
+            if (_count >= _size)
             {
                 T[] temp = _vector;
                 _vector = new T[_size *= 2];
@@ -83,6 +92,29 @@ namespace Developing.Arrays
             }
 
             return res;
+        }
+
+        public void Append(Vector<T> vec)
+        {
+            foreach (var VARIABLE in vec)
+            {
+                Push(VARIABLE);
+            }
+        }
+
+        /// <inheritdoc />
+        public IEnumerator<T> GetEnumerator()
+        {
+            for (int i = 0; i < _count; i++)
+            {
+                yield return _vector[i];
+            }
+        }
+
+        /// <inheritdoc />
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
