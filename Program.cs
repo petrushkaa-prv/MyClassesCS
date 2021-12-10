@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
+using Developing.Arrays;
 
 
 namespace Developing
@@ -58,6 +61,7 @@ namespace Developing
         }
     }
 
+
     static class Program
     {
         static void Main(string[] args)
@@ -66,6 +70,10 @@ namespace Developing
                 new MyClasses.List.Stack<char>("Something".ToCharArray()).Convert(lambda => (int)lambda - 48);
 
             Console.WriteLine(intchars);
+
+            Vector<(int elem, string descr)> vec = new Vector<(int elem, string descr)>();
+
+
         }
     }
 }
