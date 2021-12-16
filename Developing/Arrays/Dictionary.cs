@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using Developing.Arrays;
 
-namespace CS_Test_Chamber.Developing.Arrays
+namespace Developing.Arrays
 {
     public class Dictionary<TKey, TValue> : Vector<(TKey key, TValue value)>
         where TKey : struct
@@ -39,6 +40,18 @@ namespace CS_Test_Chamber.Developing.Arrays
         public void Push(TKey key, TValue value)
         {
             Push((key, value));
+        }
+
+        public void Deconstruct(out TKey[] keys, out TValue[] values)
+        {
+            keys = new TKey[this._count];
+            values = new TValue[this._count];
+
+            for (int i = 0; i < _count; i++)
+            {
+                keys[i] = _vector[i].key;
+                values[i] = _vector[i].value;
+            }
         }
     }
 }

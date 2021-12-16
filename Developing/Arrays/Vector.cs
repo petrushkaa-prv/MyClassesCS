@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Developing;
 using Developing.MyClasses;
 
 namespace Developing.Arrays
@@ -12,7 +13,7 @@ namespace Developing.Arrays
     }
 
     public class Vector<T> : IMyClasses<T>, IEnumerable<T>
-        where T : struct
+        //where T : struct
     {
         private protected T[] _vector;
         private protected int _size;
@@ -31,10 +32,10 @@ namespace Developing.Arrays
             _size = 2;
         }
 
-        public Vector(T[] arr)
+        public Vector(params T[] arr)
         {
             _count = arr.Length;
-            _size = 2 * arr.Length;
+            _size = 2 * _count;
             _vector = new T[_size];
 
             for (int i = 0; i < arr.Length; i++)
@@ -49,7 +50,23 @@ namespace Developing.Arrays
             
             Extend();
         }
+        protected void Pop()
+        {
+            if(IsEmpty) return;
 
+            _vector[_count--] = default;
+        }
+        public virtual Vector<T> Copy()
+        {
+            Vector<T> res = new Vector<T>();
+
+            foreach (var elem in this)
+            {
+                res.Push(elem);
+            }
+
+            return res;
+        }
         protected void Extend()
         {
             if (_count >= _size)
@@ -63,7 +80,6 @@ namespace Developing.Arrays
                 }
             }
         }
-
         /// <inheritdoc />
         public void FillWith(T element, int howMany = 0)
         {
@@ -74,32 +90,53 @@ namespace Developing.Arrays
                 Extend();
             }
         }
-
         /// <inheritdoc />
         public bool Contains(T element)
         {
             return Array.BinarySearch(_vector, element) >= 0;
         }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            string res = string.Empty;
-
-            for (int i = 0; i < _count; i++)
-            {
-                res += _vector[i].ToString();
-            }
-
-            return res;
-        }
-
         public void Append(Vector<T> vec)
         {
             foreach (var VARIABLE in vec)
             {
                 Push(VARIABLE);
             }
+        }
+
+        public static Vector<T> operator +(Vector<T> lhs, Vector<T> rhs)
+        {
+            var res = new Vector<T>();
+
+            var tuple = (lhs, rhs);
+
+            foreach (var elemTuple in tuple.DoubleEnumerableTuples<Vector<T>, Vector<T>, T, T>(arg => arg))
+            {
+                res.Push((dynamic)elemTuple.valT1 + (dynamic)elemTuple.valT2);       
+            }
+
+            return res;
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object? obj)
+        {
+            return base.Equals(obj);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode() => HashCode.Combine(_vector, _count, _size);
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            string res = string.Empty;
+
+            foreach (var elem in this)
+            {
+                res += elem + "\t";
+            }
+
+            return res;
         }
 
         /// <inheritdoc />
