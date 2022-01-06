@@ -10,9 +10,9 @@
 #endregion
 
 using System;
-using System.Reflection.Metadata.Ecma335;
+using Developing.MyClasses;
 
-namespace Developing.MyClasses
+namespace CS_Test_Chamber.Developing.Arrays
 {
     public class Matrix<T> : IMyClasses<T> 
         where T : IComparable<T>
@@ -132,6 +132,5 @@ namespace Developing.MyClasses
 
             return res;
         }
-        
     }
 }

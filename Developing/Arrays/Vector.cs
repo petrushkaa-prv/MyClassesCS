@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using Developing;
+using CS_Test_Chamber.Developing.GeneralExtensions;
 using Developing.MyClasses;
 
-namespace Developing.Arrays
+namespace CS_Test_Chamber.Developing.Arrays
 {
     public static class VectorExtension
     {
 
     }
 
-    public class Vector<T> : IMyClasses<T>, IEnumerable<T>
-        //where T : struct
+    public class Vector<T> : IMyClasses<T>, IStackLike<T>, IEnumerable<T>
+        // where T : struct
     {
         private protected T[] _vector;
         private protected int _size;
         private protected int _count;
 
         public int Count => _count;
+        public T Peek => _vector[Count];
 
         /// <inheritdoc />
         public bool IsEmpty => _count == 0;
@@ -50,7 +50,8 @@ namespace Developing.Arrays
             
             Extend();
         }
-        protected void Pop()
+
+        public void Pop()
         {
             if(IsEmpty) return;
 
@@ -69,15 +70,14 @@ namespace Developing.Arrays
         }
         protected void Extend()
         {
-            if (_count >= _size)
-            {
-                T[] temp = _vector;
-                _vector = new T[_size *= 2];
+            if (_count < _size) return;
 
-                for (int i = 0; i < temp.Length; i++)
-                {
-                    _vector[i] = temp[i];
-                }
+            T[] temp = _vector;
+            _vector = new T[_size *= 2];
+
+            for (int i = 0; i < temp.Length; i++)
+            {
+                _vector[i] = temp[i];
             }
         }
         /// <inheritdoc />
@@ -106,21 +106,24 @@ namespace Developing.Arrays
         public static Vector<T> operator +(Vector<T> lhs, Vector<T> rhs)
         {
             var res = new Vector<T>();
-
-            var tuple = (lhs, rhs);
-
-            foreach (var elemTuple in tuple.DoubleEnumerableTuples<Vector<T>, Vector<T>, T, T>(arg => arg))
+            
+            foreach (var elemTuple in (lhs, rhs).
+                DoubleEnumerableTuples<T, T, T>(arg => arg.Item1 + (dynamic)arg.Item2))
             {
-                res.Push((dynamic)elemTuple.valT1 + (dynamic)elemTuple.valT2);       
+                res.Push(elemTuple);      
             }
 
             return res;
+        }
+        public static Vector<T> operator -(Vector<T> lhs, Vector<T> rhs)
+        {
+            return lhs + rhs.Transform<Vector<T>, T>(arg => -(dynamic)arg);
         }
 
         /// <inheritdoc />
         public override bool Equals(object? obj)
         {
-            return base.Equals(obj);
+            return base.Equals((Vector<T>)obj);
         }
 
         /// <inheritdoc />

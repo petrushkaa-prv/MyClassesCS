@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-using Developing.Arrays;
 
-namespace Developing.Arrays
+namespace CS_Test_Chamber.Developing.Arrays
 {
     public class Dictionary<TKey, TValue> : Vector<(TKey key, TValue value)>
         where TKey : struct

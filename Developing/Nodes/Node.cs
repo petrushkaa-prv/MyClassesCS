@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Developing.MyClasses
+namespace CS_Test_Chamber.Developing.Nodes
 {
     namespace Node
     {
