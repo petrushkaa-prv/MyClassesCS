@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CS_Test_Chamber.Developing.GeneralExtensions;
+using Developing.MyClasses;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using CS_Test_Chamber.Developing.GeneralExtensions;
-using Developing.MyClasses;
 
 namespace CS_Test_Chamber.Developing.Arrays
 {
@@ -12,7 +12,7 @@ namespace CS_Test_Chamber.Developing.Arrays
     }
 
     public class Vector<T> : IMyClasses<T>, IStackLike<T>, IEnumerable<T>
-        // where T : struct
+    // where T : struct
     {
         private protected T[] _vector;
         private protected int _size;
@@ -47,13 +47,13 @@ namespace CS_Test_Chamber.Developing.Arrays
         public virtual void Push(T el)
         {
             _vector[_count++] = el;
-            
+
             Extend();
         }
 
         public void Pop()
         {
-            if(IsEmpty) return;
+            if (IsEmpty) return;
 
             _vector[_count--] = default;
         }
@@ -106,11 +106,11 @@ namespace CS_Test_Chamber.Developing.Arrays
         public static Vector<T> operator +(Vector<T> lhs, Vector<T> rhs)
         {
             var res = new Vector<T>();
-            
+
             foreach (var elemTuple in (lhs, rhs).
                 DoubleEnumerableTuples<T, T, T>(arg => arg.Item1 + (dynamic)arg.Item2))
             {
-                res.Push(elemTuple);      
+                res.Push(elemTuple);
             }
 
             return res;

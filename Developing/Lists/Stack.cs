@@ -84,7 +84,7 @@ namespace CS_Test_Chamber.Developing.Lists
         {
 
         }
-        public Stack(T[] arr)
+        public Stack(params T[] arr)
         {
             foreach (var val in arr)
             {

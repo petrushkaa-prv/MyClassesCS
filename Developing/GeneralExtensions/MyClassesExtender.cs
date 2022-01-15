@@ -10,10 +10,10 @@ namespace CS_Test_Chamber.Developing.GeneralExtensions
     public static class MyClassesExtender
     {
         public static IEnumerable<TOut> DoubleEnumerableTuples<T1, T2, TOut>
-    (
-        this (IEnumerable<T1> Item1, IEnumerable<T2> Item2) objectTuple,
-        Func<(T1, T2), TOut> func = null
-    )
+        (
+            this (IEnumerable<T1> Item1, IEnumerable<T2> Item2) objectTuple,
+            Func<(T1, T2), TOut> func = null
+        )
         {
             var enumIn1 = objectTuple.Item1.GetEnumerator();
             if (!enumIn1.MoveNext()) yield break;
@@ -41,9 +41,9 @@ namespace CS_Test_Chamber.Developing.GeneralExtensions
 
 
         public static IEnumerable<(T1, T2)> GetEnumerable<T1, T2>
-    (
-        this (IEnumerable<T1>, IEnumerable<T2>) objectTuple
-    )
+        (
+            this (IEnumerable<T1>, IEnumerable<T2>) objectTuple
+        )
         {
             var enumIn1 = objectTuple.Item1.GetEnumerator();
             if (!enumIn1.MoveNext()) yield break;
