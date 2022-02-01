@@ -11,7 +11,7 @@ namespace Developing.MyClasses
     public interface IMyClasses<T>
     {
         bool IsEmpty { get; }
-        int Size { get; }
+        public int Size { get; }
 
         void FillWith(T element, int howMany = 0);
         bool Contains(T element);

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using CS_Test_Chamber.Developing.Arrays;
 using Developing.MyClasses;
 
 //using System.Collections.Generic;
@@ -74,10 +75,13 @@ namespace CS_Test_Chamber
 
         static void Main(string[] args)
         {
-            FileStream file = File.OpenWrite(Path.GetFullPath(@"..\..\..\") + "text.txt");
+            var vec = new Vector<int>(1, 2, 3, 4);
+            Console.WriteLine((Vector<int>)(vec + 1 == vec));
+            Console.WriteLine((Vector<int>)(vec == vec));
 
-            byte[] text = new UTF8Encoding(true).GetBytes("Greetings to everybody! I'm a text writer!");
-            file.Write(text, 0, text.Length);
+            var vec2 = new Vector<int>(1, 1, 3, -2);
+
+            Console.WriteLine((Vector<int>)(vec2 == vec));
         }
     }
 }

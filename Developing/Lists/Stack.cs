@@ -60,21 +60,18 @@ namespace CS_Test_Chamber.Developing.Lists
         }
     }
 
-    public class Stack<T> : IEnumerable<T>, IMyClasses<T>, IStackLike<T>
+    public class Stack<T> : IEnumerable<T>, /*IMyClasses<T>,*/ IStackLike<T>
             where T : IComparable<T>
     {
-        private int _counter = 0;
-        public int Size => _counter;
+        public int Size { get; private set; } = 0;
+        public SinglyLinked<T> TopNode { get; private set; } = null;
 
-        private SinglyLinked<T> _topNode = null;
-
-        public SinglyLinked<T> TopNode => _topNode;
         public T Peek
         {
             get
             {
                 if (IsEmpty) throw new InvalidOperationException();
-                return _topNode.Value;
+                return TopNode.Value;
             }
         }
 
@@ -91,31 +88,31 @@ namespace CS_Test_Chamber.Developing.Lists
                 Push(val);
             }
 
-            _counter = arr.Length;
+            Size = arr.Length;
         }
 
         public void Push(T value)
         {
-            this._counter++;
+            this.Size++;
 
             SinglyLinked<T> newNode = new SinglyLinked<T>(value);
 
-            if (_topNode == null)
+            if (TopNode == null)
             {
-                _topNode = newNode;
+                TopNode = newNode;
                 return;
             }
 
-            newNode.Next = _topNode;
-            _topNode = newNode;
+            newNode.Next = TopNode;
+            TopNode = newNode;
         }
 
         public void Pop()
         {
             if (IsEmpty) return;
 
-            _counter--;
-            _topNode = _topNode.Next;
+            Size--;
+            TopNode = TopNode.Next;
         }
 
         public Stack<T> Copy()
@@ -239,7 +236,7 @@ namespace CS_Test_Chamber.Developing.Lists
 
 
         /// <inheritdoc />
-        void IMyClasses<T>.FillWith(T element, int howMany)
+        public void FillWith(T element, int howMany)
         {
             if (IsEmpty) return;
 
@@ -267,7 +264,7 @@ namespace CS_Test_Chamber.Developing.Lists
         }
 
         /// <inheritdoc />
-        public override int GetHashCode() => HashCode.Combine(this._topNode, this._counter);
+        public override int GetHashCode() => HashCode.Combine(this.TopNode, this.Size);
 
         /// <inheritdoc />
         public override string ToString()
@@ -278,7 +275,7 @@ namespace CS_Test_Chamber.Developing.Lists
         // version 3 (see Node.SinglyLinked class)
         public IEnumerator<T> GetEnumerator()
         {
-            return _topNode.GetEnumerator();
+            return TopNode.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
