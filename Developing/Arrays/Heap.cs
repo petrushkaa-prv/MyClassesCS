@@ -1,7 +1,7 @@
-﻿using Developing.MyClasses;
+﻿using Developing.Interfaces;
 using System;
 
-namespace CS_Test_Chamber.Developing.Arrays
+namespace Developing.Arrays
 {
     internal static class Heap
     {
@@ -10,10 +10,8 @@ namespace CS_Test_Chamber.Developing.Arrays
         {
             private T[] _heapElements;
             private int _heapSize;
-
-            /// <inheritdoc />
+            
             public int Size { get; private set; }
-            /// <inheritdoc />
             public bool IsEmpty => Size == 0;
 
             private int GetIdxLeft(int idx) => 2 * idx + 1;
@@ -45,10 +43,20 @@ namespace CS_Test_Chamber.Developing.Arrays
                 }
             }
 
+            private void CreateHeap(T[] arr)
+            {
+                for(int i = 0; i < arr.Length; i++)
+                    this.Add(arr[i]);
+            }
+
             public Min(int capacity = 2)
             {
                 _heapElements = new T[_heapSize = capacity];
                 Size = 0;
+            }
+            public Min(T[] arr)
+            {
+                CreateHeap(arr);
             }
 
             public T Peek()
@@ -69,9 +77,9 @@ namespace CS_Test_Chamber.Developing.Arrays
             }
             public void Add(T item)
             {
-                _heapElements[Size++] = item;
-
                 Expand();
+
+                _heapElements[Size++] = item;
 
                 HeapifyUp();
             }
@@ -111,6 +119,11 @@ namespace CS_Test_Chamber.Developing.Arrays
                     i = j;
                 }
             }
+
+            public static explicit operator T[](Min<T> el) => el._heapElements;
+            public static explicit operator Min<T>(T[] arr) => new Min<T>(arr);
+
+            public static T[] HeapifyArray(T[] arr) => (T[])((Min<T>)arr);
 
             /// <inheritdoc />
             public void FillWith(T element, int howMany = 0)

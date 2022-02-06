@@ -1,11 +1,11 @@
-﻿using CS_Test_Chamber.Developing.Nodes;
-using Developing.MyClasses;
+﻿using Developing.Interfaces;
+using Developing.Nodes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CS_Test_Chamber.Developing.Lists
+namespace Developing.Lists
 {
     public static class StackExtender
     {
@@ -31,11 +31,11 @@ namespace CS_Test_Chamber.Developing.Lists
             return res;
         }
 
-        public static global::CS_Test_Chamber.Developing.Lists.Stack<N> Convert<T, N>(this global::CS_Test_Chamber.Developing.Lists.Stack<T> stack)
+        public static Stack<N> Convert<T, N>(this Stack<T> stack)
             where N : IComparable<N>
             where T : IComparable<T>
         {
-            global::CS_Test_Chamber.Developing.Lists.Stack<N> res = new global::CS_Test_Chamber.Developing.Lists.Stack<N>();
+            var res = new Stack<N>();
 
             foreach (var VARIABLE in stack.Reverse())
             {
@@ -45,11 +45,11 @@ namespace CS_Test_Chamber.Developing.Lists
             return res;
         }
 
-        public static Developing.Lists.Stack<N> Convert<T, N>(this Developing.Lists.Stack<T> stack, Func<T, N> func)
+        public static Stack<N> Convert<T, N>(this Stack<T> stack, Func<T, N> func)
             where N : IComparable<N>
             where T : IComparable<T>
         {
-            Developing.Lists.Stack<N> res = new Developing.Lists.Stack<N>();
+            Stack<N> res = new Stack<N>();
 
             foreach (var VARIABLE in stack.Reverse())
             {

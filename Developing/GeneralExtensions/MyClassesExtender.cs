@@ -3,7 +3,7 @@ using System.Collections.Generic;
 //using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using Developing.MyClasses;
+using Developing.Interfaces;
 
 namespace CS_Test_Chamber.Developing.GeneralExtensions
 {

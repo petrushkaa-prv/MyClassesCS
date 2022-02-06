@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using CS_Test_Chamber.Developing.Nodes;
+using Developing.Nodes;
 
-namespace CS_Test_Chamber.Tree
+namespace Developing.Tree
 {
     internal class BstTree<T>
         where T : IComparable<T>

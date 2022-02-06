@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace CS_Test_Chamber.Developing.Nodes
+namespace Developing.Nodes
 {
     /// <summary>
     /// Represents a singly linked Node that implements automatic iterating.
@@ -20,62 +20,62 @@ namespace CS_Test_Chamber.Developing.Nodes
                 Next = next;
             }
 
-            class SinglyLinkedEnumerator : IEnumerator<T>
-            {
-                //private int _pos = -1;
+            //class SinglyLinkedEnumerator : IEnumerator<T>
+            //{
+            //    //private int _pos = -1;
+            //    private bool _start = true;
+            //    private SlNode<T> _root;
+            //    private SlNode<T> _current;
+            //    public SinglyLinkedEnumerator(SlNode<T> newroot)
+            //    {
+            //        _current = _root = newroot;
+            //    }
+            //    public bool MoveNext()
+            //    {
+            //        if (_root == null) return false;
+            //        if (_start)
+            //        {
+            //            _start = false;
+            //            return true;
+            //        }
+            //        _current = _current.Next;
+            //        return _current != null;
+            //    }
+            //    public void Reset()
+            //    {
+            //        _current = _root;
+            //        _start = true;
+            //    }
+            //    public T Current
+            //    {
+            //        get
+            //        {
+            //            if (_current == null)
+            //                throw new InvalidOperationException();
+            //            return _current.Value;
+            //        }
+            //    }
+            //    object? IEnumerator.Current => Current;
+            //    public void Dispose()
+            //    {
+            //        GC.SuppressFinalize(this);
+            //    }
+            //}
+            //public IEnumerator<T> GetEnumerator()
+            //{
+            //    return new SinglyLinkedEnumerator(this);
+            //}
 
-                private bool _start = true;
-                private SlNode<T> _root;
-                private SlNode<T> _current;
-
-                public SinglyLinkedEnumerator(SlNode<T> newroot)
-                {
-                    _current = _root = newroot;
-                }
-
-                public bool MoveNext()
-                {
-                    if (_root == null) return false;
-
-                    if (_start)
-                    {
-                        _start = false;
-                        return true;
-                    }
-
-                    _current = _current.Next;
-
-                    return _current != null;
-                }
-
-                public void Reset()
-                {
-                    _current = _root;
-                    _start = true;
-                }
-
-                public T Current
-                {
-                    get
-                    {
-                        if (_current == null)
-                            throw new InvalidOperationException();
-
-                        return _current.Value;
-                    }
-                }
-
-                object? IEnumerator.Current => Current;
-
-                public void Dispose()
-                {
-                    GC.SuppressFinalize(this);
-                }
-            }
-
+            /// <inheritdoc />
             public IEnumerator<T> GetEnumerator()
             {
-                return new SinglyLinkedEnumerator(this);
+                SlNode<T> ptr = this;
+
+                while (ptr != null)
+                {
+                    yield return ptr.Value;
+                    ptr = ptr.Next;
+                }
             }
 
             IEnumerator IEnumerable.GetEnumerator()

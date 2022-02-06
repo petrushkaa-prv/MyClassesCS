@@ -2,9 +2,9 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using CS_Test_Chamber.Developing.Arrays;
-using CS_Test_Chamber.Tree;
-using Developing.MyClasses;
+using Developing.Arrays;
+using Developing.Lists;
+using Developing.Tree;
 
 //using System.Collections.Generic;
 //using System.Linq;
@@ -77,14 +77,44 @@ namespace CS_Test_Chamber
         static void Main(string[] args)
         {
             var rand = new Random(1337);
-            BstTree<int> tree = new BstTree<int>();
+            int[] arr = new int[10];
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < arr.Length; i++)
             {
-                int rnd = rand.Next(0, 10);
-                Console.Write(rnd + "\t");
-                tree.Insert(rnd);
+                arr[i] = rand.Next(0,10);
+                Console.Write(arr[i] + "\t");
+            }
+
+            Console.WriteLine();
+
+            var heap = Heap.Min<int>.HeapifyArray(arr);
+
+            for (int i = 0; i < heap.Length; i++)
+            {
+                Console.Write(heap[i] + "\t");
             }
         }
     }
 }
+
+/*
+ * TODO: Refactor Heap (completely) also add building from the bottom
+ *
+ * TODO: Implement:                         Status:
+ * TODO:            Biparental heap
+ * TODO:            Leftist heap
+ * TODO:            Skew heap
+ * TODO:            Binomial queue
+ * TODO:            Fibonacci queue
+ * TODO:            BST tree                Done
+ * TODO:            AVL tree
+ * TODO:            B-tree
+ * TODO:            2-3 tree
+ * TODO:            2-3-4 tree
+ * TODO:            BR tree
+ * TODO:            Splay tree
+ * TODO:            RST tree
+ *
+ * TODO: Experiment:
+ * TODO:            Try unsafe on BST<int>
+ */
