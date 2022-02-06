@@ -129,7 +129,8 @@ namespace CS_Test_Chamber.Developing.Arrays
                 do
                 {
                     i = element.CompareTo(GetLeft(i)) > 0 ? GetIdxLeft(i) : GetIdxRight(i);
-                } while (HasLeft(i) || HasRight(i) || _heapElements[i].CompareTo(element) == 0);
+                } 
+                while (HasLeft(i) || HasRight(i) || _heapElements[i].CompareTo(element) == 0);
 
                 return _heapElements[i].CompareTo(element) == 0 ? i : -1;
             }

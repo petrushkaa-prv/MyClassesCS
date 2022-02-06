@@ -4,15 +4,17 @@ using System.Collections.Generic;
 
 namespace CS_Test_Chamber.Developing.Nodes
 {
-    namespace Node
-    {
-        public class SinglyLinked<T> : IEnumerable<T> 
+    /// <summary>
+    /// Represents a singly linked Node that implements automatic iterating.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class SlNode<T> : IEnumerable<T> 
             where T : IComparable<T>
         {
             public T Value { get; set; }
-            public SinglyLinked<T> Next { get; set; }
+            public SlNode<T> Next { get; set; }
 
-            public SinglyLinked(T value, SinglyLinked<T> next = null)
+            public SlNode(T value, SlNode<T> next = null)
             {
                 Value = value;
                 Next = next;
@@ -23,10 +25,10 @@ namespace CS_Test_Chamber.Developing.Nodes
                 //private int _pos = -1;
 
                 private bool _start = true;
-                private SinglyLinked<T> _root;
-                private SinglyLinked<T> _current;
+                private SlNode<T> _root;
+                private SlNode<T> _current;
 
-                public SinglyLinkedEnumerator(SinglyLinked<T> newroot)
+                public SinglyLinkedEnumerator(SlNode<T> newroot)
                 {
                     _current = _root = newroot;
                 }
@@ -81,5 +83,17 @@ namespace CS_Test_Chamber.Developing.Nodes
                 return GetEnumerator();
             }
         }
+
+    /// <summary>
+    /// Represents a Binary Search Tree Node containing the main value
+    /// in it and two children.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class BstNode<T>
+        where T : IComparable<T>
+    {
+        public T Value { get; set; }
+        public BstNode<T> Left { get; set; }
+        public BstNode<T> Right { get; set; }
     }
 }

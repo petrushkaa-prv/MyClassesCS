@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using CS_Test_Chamber.Developing.Arrays;
+using CS_Test_Chamber.Tree;
 using Developing.MyClasses;
 
 //using System.Collections.Generic;
@@ -75,13 +76,15 @@ namespace CS_Test_Chamber
 
         static void Main(string[] args)
         {
-            var vec = new Vector<int>(1, 2, 3, 4);
-            Console.WriteLine((Vector<int>)(vec + 1 == vec));
-            Console.WriteLine((Vector<int>)(vec == vec));
+            var rand = new Random(1337);
+            BstTree<int> tree = new BstTree<int>();
 
-            var vec2 = new Vector<int>(1, 1, 3, -2);
-
-            Console.WriteLine((Vector<int>)(vec2 == vec));
+            for (int i = 0; i < 5; i++)
+            {
+                int rnd = rand.Next(0, 10);
+                Console.Write(rnd + "\t");
+                tree.Insert(rnd);
+            }
         }
     }
 }

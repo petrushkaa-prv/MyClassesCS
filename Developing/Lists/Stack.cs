@@ -1,4 +1,4 @@
-﻿using CS_Test_Chamber.Developing.Nodes.Node;
+﻿using CS_Test_Chamber.Developing.Nodes;
 using Developing.MyClasses;
 using System;
 using System.Collections;
@@ -64,7 +64,7 @@ namespace CS_Test_Chamber.Developing.Lists
             where T : IComparable<T>
     {
         public int Size { get; private set; } = 0;
-        public SinglyLinked<T> TopNode { get; private set; } = null;
+        public SlNode<T> TopNode { get; private set; } = null;
 
         public T Peek
         {
@@ -95,7 +95,7 @@ namespace CS_Test_Chamber.Developing.Lists
         {
             this.Size++;
 
-            SinglyLinked<T> newNode = new SinglyLinked<T>(value);
+            SlNode<T> newNode = new SlNode<T>(value);
 
             if (TopNode == null)
             {
@@ -128,7 +128,7 @@ namespace CS_Test_Chamber.Developing.Lists
             T[] res = new T[stack.Size];
 
             int i = 0;
-            //Node.SinglyLinked<T> ptr = stack.TopNode.SinglyLinked;
+            //Node.SlNode<T> ptr = stack.TopNode.SlNode;
 
             foreach (var v in stack)
             {
@@ -183,7 +183,7 @@ namespace CS_Test_Chamber.Developing.Lists
             //if (IsNull(lhs) || IsNull(rhs)) return false;
             if (lhs.Size != rhs.Size) return false;
 
-            SinglyLinked<T> rptr = rhs.TopNode;
+            SlNode<T> rptr = rhs.TopNode;
 
             foreach (var v in lhs)
             {
@@ -212,7 +212,7 @@ namespace CS_Test_Chamber.Developing.Lists
                 if (idx > this.Size || idx < 0) throw new IndexOutOfRangeException();
                 //if (IsEmpty || IsNull(this)) throw new Exception();
 
-                SinglyLinked<T> tmp = TopNode;
+                SlNode<T> tmp = TopNode;
 
                 int i = 0;
                 while (tmp != null && i != idx)
@@ -272,7 +272,7 @@ namespace CS_Test_Chamber.Developing.Lists
             return string.Join(" -> ", (T[])this);
         }
 
-        // version 3 (see Node.SinglyLinked class)
+        // version 3 (see Node.SlNode class)
         public IEnumerator<T> GetEnumerator()
         {
             return TopNode.GetEnumerator();

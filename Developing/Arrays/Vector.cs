@@ -10,7 +10,7 @@ namespace CS_Test_Chamber.Developing.Arrays
 
     }
 
-    // TODO: Implement vector transposition
+    // TODO: Return to basic Vector Implementation, and separate this to another project
     public class Vector<T> : IStackLike<T>, IEnumerable<T>
     {
         private protected T[] _vector;

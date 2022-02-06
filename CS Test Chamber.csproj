@@ -7,4 +7,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Developing\Arrays\Dictionary.cs" />
+    <Compile Remove="Developing\Arrays\Vector.cs" />
+  </ItemGroup>
+
 </Project>
