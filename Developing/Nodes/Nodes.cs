@@ -126,4 +126,11 @@ namespace Developing.Nodes
     {
         public int Balance;
     }
+
+    public class SplayNode<T> : BinaryNode<T, SplayNode<T>>
+        where T : IComparable<T>
+    {
+        // can be modified for a parent pointer
+        // for iterative splay implementation
+    }
 }

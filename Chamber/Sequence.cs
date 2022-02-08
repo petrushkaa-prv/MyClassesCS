@@ -38,6 +38,8 @@ namespace CS_Test_Chamber.Chamber
             }
         }
 
+        public static explicit operator int[](Sequence seq) => seq._array;
+
         /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator()
         {

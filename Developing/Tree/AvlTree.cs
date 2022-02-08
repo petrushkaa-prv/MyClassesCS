@@ -22,18 +22,6 @@ namespace Developing.Tree
 
 
 
-        public AvlNode<T> Search(T value)
-        {
-            var ptr = Root;
-
-            while (ptr != null && ptr.Value.CompareTo(value) != 0)
-            {
-                ptr = value.CompareTo(ptr.Value) > 0 ? ptr.Right : ptr.Left;
-            }
-
-            return ptr;
-        }
-
         private void RightRotation(ref AvlNode<T> p)
         {
             var x = p.Right;
@@ -52,7 +40,6 @@ namespace Developing.Tree
             x.Balance = x.Balance == 0 ? -1 :  0;
             p = x;
         }
-
         private void DoubleLeftRotation(ref AvlNode<T> p)
         {
             RightRotation(ref p.Left);

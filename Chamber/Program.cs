@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -15,24 +16,13 @@ namespace CS_Test_Chamber.Chamber
 {
     static class Program
     { 
-        static Sequence _rand = new (25, Seed: 12);
+        static Sequence _rand = new (5, Seed: 12);
 
         static void Main(string[] args)
         {
-            var avl = new AvlTree<int>();
-            var bst = new BstTree<int>();
+            var splay = new SplayTree<int>((int[])_rand);
 
-            foreach (var elem in _rand)
-            {
-                avl.Insert(elem);
-                bst.Insert(elem);
-            }
-
-            Console.WriteLine(_rand);
-            Console.WriteLine();
-            avl.Print2D();
-            Console.WriteLine("\n\n");
-            bst.Print2D();
+            splay.Print2D();
         }
     }
 }
@@ -52,7 +42,7 @@ namespace CS_Test_Chamber.Chamber
  * TODO:            2-3 tree
  * TODO:            2-3-4 tree
  * TODO:            BR tree
- * TODO:            Splay tree
+ * TODO:            Splay tree                  BUG!
  * TODO:            RST tree
  * TODO:            AVL<->BR<->2-3-4 conv.  
  *

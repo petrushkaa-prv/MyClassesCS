@@ -13,6 +13,7 @@ namespace Developing.GeneralExtensions
     {
         public static void Print2D<TValue, TNode>(this BinaryTree<TValue, TNode> tree) 
             where TNode : BinaryNode<TValue, TNode>
+            where TValue : IComparable<TValue>
         {
             if (tree.Root == null) return;
 

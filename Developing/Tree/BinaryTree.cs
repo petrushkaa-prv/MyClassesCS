@@ -8,12 +8,22 @@ namespace Developing.Tree
 {
     public abstract class BinaryTree<TValue, TNode>
         where TNode : BinaryNode<TValue, TNode>
+        where TValue : IComparable<TValue>
     {
         protected internal TNode Root;
         public virtual int Height => CalculateHeight(Root);
+        
+        public virtual TNode Search(TValue value)
+        {
+            var ptr = Root;
 
+            while (ptr != null && ptr.Value.CompareTo(value) != 0)
+            {
+                ptr = value.CompareTo(ptr.Value) > 0 ? ptr.Right : ptr.Left;
+            }
 
-
+            return ptr;
+        }
         public abstract void Insert(TValue value);
         public abstract void Delete(TValue value);
 

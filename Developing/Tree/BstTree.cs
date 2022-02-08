@@ -23,20 +23,23 @@ namespace Developing.Tree
             }
         }
 
-
-
-        public BstNode<T> Search(T val, out BstNode<T> prev)
+        
+        public new BstNode<T> Search(T value)
         {
-            BstNode<T> ptr = null;
+            return Search(value, out _);
+        }
+        public BstNode<T> Search(T value, out BstNode<T> prev)
+        {
+            BstNode<T> ptr;
             prev = null;
 
             if (null == (ptr = Root)) return null;
 
-            while (ptr != null && ptr.Value.CompareTo(val) != 0)
+            while (ptr != null && ptr.Value.CompareTo(value) != 0)
             {
                 prev = ptr;
 
-                ptr = val.CompareTo(ptr.Value) > 0 ? ptr.Right : ptr.Left;
+                ptr = value.CompareTo(ptr.Value) > 0 ? ptr.Right : ptr.Left;
             }
 
             return ptr;
