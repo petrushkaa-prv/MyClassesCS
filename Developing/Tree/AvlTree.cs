@@ -52,38 +52,43 @@ namespace Developing.Tree
             x.Balance = x.Balance == 0 ? -1 :  0;
             p = x;
         }
+
         private void DoubleLeftRotation(ref AvlNode<T> p)
         {
-            var x = p.Left;
-            var y = x.Right;
+            RightRotation(ref p.Left);
+            LeftRotation(ref p);
 
-            x.Right = y.Left;
-            y.Left = x;
-            p.Left = y.Right;
-            y.Right = p;
-            p.Balance = y.Balance == 1 ? -1 : 0;
-            x.Balance = y.Balance == -1 ? 1 : 0;
-            y.Balance = 0;
-            p = y;
+            //    var x = p.Left;
+            //    var y = x.Right;
+            //    x.Right = y.Left;
+            //    y.Left = x;
+            //    p.Left = y.Right;
+            //    y.Right = p;
+            //    p.Balance = y.Balance == 1 ? -1 : 0;
+            //    x.Balance = y.Balance == -1 ? 1 : 0;
+            //    y.Balance = 0;
+            //    p = y;
         }
         private void DoubleRightRotation(ref AvlNode<T> p)
         {
-            var x = p.Right;
-            var y = x.Left;
+            LeftRotation(ref p.Right);
+            RightRotation(ref p);
 
-            x.Left = y.Right;
-            y.Right = x;
-            p.Right = y.Left;
-            y.Left = p;
-            p.Balance = y.Balance == -1 ? 1 : 0;
-            x.Balance = y.Balance == 1 ? -1 : 0;
-            y.Balance = 0;
-            p = y;
+            //var x = p.Right;
+            //var y = x.Left;
+            //x.Left = y.Right;
+            //y.Right = x;
+            //p.Right = y.Left;
+            //y.Left = p;
+            //p.Balance = y.Balance == -1 ? 1 : 0;
+            //x.Balance = y.Balance == 1 ? -1 : 0;
+            //y.Balance = 0;
+            //p = y;
         }
 
         public override void Insert(T value)
         {
-            var h = true;
+            var h = false;
             Insert(value, ref Root, ref h);
         }
         private void Insert(T value, ref AvlNode<T> root, ref bool h)
@@ -131,7 +136,7 @@ namespace Developing.Tree
                                 break;
                         }
 
-                    break;
+                    return;
                 }
                 // right subtree
                 case >/*=*/ 0: // uncomment to ensure value repeaters
@@ -272,5 +277,16 @@ namespace Developing.Tree
 
             return ptr;
         }
+
+
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            var res = string.Empty;
+            return PrintInOrder(Root, ref res);
+        }
+        /// <inheritdoc />
+        public override int GetHashCode() => HashCode.Combine(Root);
     }
 }

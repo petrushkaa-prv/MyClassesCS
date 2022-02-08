@@ -112,7 +112,5 @@ namespace Developing.GeneralExtensions
 
             return res;
         }
-
-
     }
 }

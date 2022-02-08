@@ -12,6 +12,8 @@ namespace Developing.Tree
         protected internal TNode Root;
         public virtual int Height => CalculateHeight(Root);
 
+
+
         public abstract void Insert(TValue value);
         public abstract void Delete(TValue value);
 
@@ -21,6 +23,18 @@ namespace Developing.Tree
                 return 0;
 
             return Math.Max(CalculateHeight(node.Left) + 1, CalculateHeight(node.Right) + 1);
+        }
+        public virtual string PrintInOrder(BinaryNode<TValue, TNode> ptr, ref string res)
+        {
+            if (ptr == null) return string.Empty;
+
+            PrintInOrder(ptr.Left, ref res);
+
+            res += ptr.Value + " ";
+
+            PrintInOrder(ptr.Right, ref res);
+
+            return res;
         }
     }
 }

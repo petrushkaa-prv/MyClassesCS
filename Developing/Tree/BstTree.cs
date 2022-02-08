@@ -146,19 +146,6 @@ namespace Developing.Tree
         //        Math.Max(CalculateHeight(node.Left) + 1, CalculateHeight(node.Right) + 1);
         //}
 
-        private string PrintInOrder(BstNode<T> ptr, ref string res)
-        {
-            if (ptr == null) return string.Empty;
-
-            PrintInOrder(ptr.Left, ref res);
-
-            res += ptr.Value + " ";
-
-            PrintInOrder(ptr.Right, ref res);
-
-            return res;
-        }
-
 
 
         /// <inheritdoc />

@@ -11,118 +11,43 @@ using Developing.Tree;
 //using System.Collections.Generic;
 //using System.Linq;
 
-namespace CS_Test_Chamber
+namespace CS_Test_Chamber.Chamber
 {
-    //public class FileOperator
-    //{
-    //    public FileStream FileStream;
-    //    private string _fileName;
-    //    private string _filePath;
-
-    //    public FileOperator(string filePath, string fileName = "Sample.txt")
-    //    {
-    //        _filePath = filePath;
-    //        _fileName = fileName;
-
-    //        if (File.Exists(filePath + fileName))
-    //        {
-    //            FileStream = File.Open(filePath + fileName, FileMode.Append, FileAccess.Write);
-    //        }
-    //        else
-    //        {
-    //            FileStream = File.Create(filePath + fileName);
-    //        }
-    //    }
-    //    ~FileOperator()
-    //    {
-    //        FileStream.Close();
-    //    }
-
-    //    public static FileStream CreateFileInCurrentDirectory(string fileName, string fileType = "txt", bool clearOld = false)
-    //    {
-    //        var fullFileName = Path.GetFullPath(@"..\..\..\") + fileName + "." + fileType;
-
-    //        if (File.Exists(fullFileName) && !clearOld) return null;
-
-    //        return File.Create(fullFileName);
-    //    }
-    //}
-
     static class Program
-    {
-        //static Task<int> AsyncFunction(int seed, StreamWriter writer)
-        //{
-        //    return Task<int>.Run((() =>
-        //    {
-        //        var rand = new Random(seed);
-        //        var stack = new Stack<int>();
-
-        //        for (int i = 0; i < 100; i++)
-        //        {
-        //            var curr = rand.Next(0, i);
-        //            writer.WriteLine($"[{i}] = {curr}");
-        //            stack.Push(curr);
-
-        //            Thread.Sleep(100);
-        //        }
-
-        //        var sum = 0;
-        //        foreach (var el in stack)
-        //        {
-        //            sum += el;
-        //        }
-
-        //        return sum;
-        //    }));
-        //}
-
-        static Random _rand = new Random(0);
+    { 
+        static Sequence _rand = new (25, Seed: 12);
 
         static void Main(string[] args)
         {
-            var arr = new int[7];
+            var avl = new AvlTree<int>();
+            var bst = new BstTree<int>();
 
-            for (int i = 0; i < arr.Length; i++)
+            foreach (var elem in _rand)
             {
-                arr[i] = _rand.Next(0, 25);
-                Console.Write(arr[i] + "\t");
+                avl.Insert(elem);
+                bst.Insert(elem);
             }
 
+            Console.WriteLine(_rand);
             Console.WriteLine();
-
-            var tree = new AvlTree<int>(arr);
-            tree.Print2D();
-
+            avl.Print2D();
             Console.WriteLine("\n\n");
-            tree.Delete(18);
-
-            tree.Print2D();
-            Console.WriteLine("\n\n");
-            tree.Delete(5);
-
-            tree.Print2D();
-
-            Console.WriteLine("\n\n");
-            tree.Insert(24);
-
-            tree.Print2D();
-            Console.WriteLine("\n\n");
-            Console.WriteLine(tree.Height);
+            bst.Print2D();
         }
     }
 }
 
 /*
- * TODO: Implement:                         Status:
- * TODO:            2D printing for BTrees  Done
+ * TODO: Implement:                             Status:
+ * TODO:            2D printing for BTrees      Done
  * TODO:            2D pr. vertical
  * TODO:            Biparental heap
  * TODO:            Leftist heap
  * TODO:            Skew heap
  * TODO:            Binomial queue
  * TODO:            Fibonacci queue
- * TODO:            BST tree                Done
- * TODO:            AVL tree
+ * TODO:            BST tree                    Done
+ * TODO:            AVL tree                    Done
  * TODO:            B-tree
  * TODO:            2-3 tree
  * TODO:            2-3-4 tree
@@ -136,5 +61,5 @@ namespace CS_Test_Chamber
  * TODO:            And comp. unit tests
  *
  * TODO: Refactor:
- * TODO:            Heap (completely)       Done
+ * TODO:            Heap (completely)           Done
  */
