@@ -6,15 +6,25 @@ using Developing.Nodes;
 
 namespace Developing.Tree
 {
-    internal class AvlTree<T> : BinaryTreeBase<T, AvlNode<T>>
+    internal class AvlTree<T> : BinaryTree<T, AvlNode<T>>
         where T : IComparable<T>
     {
+        public T Max => FindMax(Root).Value;
+        public T Min => FindMin(Root).Value;
+
+        public AvlTree(params T[] arr)
+        {
+            foreach (var item in arr)
+            {
+                Insert(item);
+            }
+        }
 
 
 
         public AvlNode<T> Search(T value)
         {
-            var ptr = base.Root;
+            var ptr = Root;
 
             while (ptr != null && ptr.Value.CompareTo(value) != 0)
             {
@@ -42,22 +52,39 @@ namespace Developing.Tree
             x.Balance = x.Balance == 0 ? -1 :  0;
             p = x;
         }
-        private void LeftRightRotation(ref AvlNode<T> p)
+        private void DoubleLeftRotation(ref AvlNode<T> p)
         {
-            var left = p.Left;
-            RightRotation(ref left);
-            LeftRotation(ref p);
+            var x = p.Left;
+            var y = x.Right;
+
+            x.Right = y.Left;
+            y.Left = x;
+            p.Left = y.Right;
+            y.Right = p;
+            p.Balance = y.Balance == 1 ? -1 : 0;
+            x.Balance = y.Balance == -1 ? 1 : 0;
+            y.Balance = 0;
+            p = y;
         }
-        private void RightLeftRotation(ref AvlNode<T> p)
+        private void DoubleRightRotation(ref AvlNode<T> p)
         {
-            var right = p.Right;
-            LeftRotation(ref right);
-            RightRotation(ref p);
+            var x = p.Right;
+            var y = x.Left;
+
+            x.Left = y.Right;
+            y.Right = x;
+            p.Right = y.Left;
+            y.Left = p;
+            p.Balance = y.Balance == -1 ? 1 : 0;
+            x.Balance = y.Balance == 1 ? -1 : 0;
+            y.Balance = 0;
+            p = y;
         }
 
-        public void Insert(T value)
+        public override void Insert(T value)
         {
-
+            var h = true;
+            Insert(value, ref Root, ref h);
         }
         private void Insert(T value, ref AvlNode<T> root, ref bool h)
         {
@@ -77,28 +104,173 @@ namespace Developing.Tree
                 return;
             }
 
-            if (value.CompareTo(root.Value) < 0) // left subtree
+            switch (value.CompareTo(root.Value))
             {
-                var left = root.Left;
-                Insert(value, ref left, ref h);
-
-                if (h)
+                // left subtree
+                case < 0:
                 {
-                    switch (root.Balance)
-                    {
-                        //case == 1:
-                        //    ptr = root.Left;
-                        //    if(ptr.Balance == 1 || ptr.Balance == 0)
-                        //        LeftRotation(ref root);
-                        //    else
-                        //        LeftRightRotation(ref root);
-                        //    h = false;
-                        //    break;
+                    Insert(value, ref root.Left, ref h);
 
-                    }
+                    if (h)
+                        switch (root.Balance)
+                        {
+                            case 1:
+                                ptr = root.Left;
+                                if (ptr.Balance is 1 or 0)
+                                    LeftRotation(ref root);
+                                else
+                                    DoubleLeftRotation(ref root);
+                                h = false;
+                                break;
+                            case 0:
+                                root.Balance = 1;
+                                break;
+                            case -1:
+                                root.Balance = 0;
+                                h = false;
+                                break;
+                        }
+
+                    break;
+                }
+                // right subtree
+                case >/*=*/ 0: // uncomment to ensure value repeaters
+                {
+                    Insert(value, ref root.Right, ref h);
+
+                    if (h)
+                        switch (root.Balance)
+                        {
+                            case 1:
+                                root.Balance = 0;
+                                h = false;
+                                break;
+                            case 0:
+                                root.Balance = -1;
+                                break;
+                            case -1:
+                                ptr = root.Right;
+                                if (ptr.Balance is -1 or 0)
+                                    RightRotation(ref root);
+                                else
+                                    DoubleRightRotation(ref root);
+                                h = false;
+                                break;
+                        }
+
+                    break;
                 }
             }
         }
+        public override void Delete(T value)
+        {
+            var h = true;
+            Delete(value, ref Root, ref h);
+        }
+        private void Delete(T value, ref AvlNode<T> root, ref bool h)
+        {
+            var done = false;
 
+            if (root == null)
+            {
+                h = false;
+                done = true;
+            }
+            else if (value.CompareTo(root.Value) < 0) // left subtree
+            {
+                Delete(value, ref root.Left, ref h);
+
+                if (h)
+                {
+                    if (root.Balance >= 0)
+                    {
+                        root.Balance--;
+                        if (root.Balance == -1)
+                            h = false;
+                    }
+                    else
+                    {
+                        if(root.Right.Balance == -1)
+                            RightRotation(ref root);
+                        else
+                            DoubleRightRotation(ref root);
+
+                        done = true;
+                    }
+                }
+            }
+            else if (value.CompareTo(root.Value) == 0) // root
+            {
+                if (root.Left == null || root.Right == null)
+                {
+                    AvlNode<T> x;
+                    if (root.Left != null)
+                        x = root.Right;
+                    else
+                        x = root.Left;
+
+                    root = x;
+                    h = true;
+                    done = true;
+                }
+                else
+                {
+                    AvlNode<T> y = root.Right;
+                    while (y.Left != null)
+                    {
+                        y = y.Left;
+                    }
+
+                    root.Value = y.Value;
+                    value = root.Value;
+                }
+            }
+
+            if (!done && value.CompareTo(root.Value) >= 0) // right subtree
+            {
+                Delete(value, ref root.Right, ref h);
+
+                if (h)
+                {
+                    if (root.Balance <= 0)
+                    {
+                        root.Balance++;
+                        if (root.Balance == 1)
+                            h = false;
+                    }
+                    else
+                    {
+                        if(root.Left.Balance == 1)
+                            LeftRotation(ref root);
+                        else 
+                            DoubleLeftRotation(ref root);
+                    }
+                }
+            }
+
+        }
+
+        public AvlNode<T> FindMax(AvlNode<T> node)
+        {
+            var ptr = node;
+
+            while (ptr.Right != null)
+            {
+                ptr = ptr.Right;
+            }
+
+            return ptr;
+        }
+        public AvlNode<T> FindMin(AvlNode<T> node)
+        {
+            var ptr = node;
+
+            while (ptr.Left != null)
+            {
+                ptr = ptr.Left;
+            }
+
+            return ptr;
+        }
     }
 }

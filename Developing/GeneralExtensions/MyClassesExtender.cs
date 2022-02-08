@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using Developing.Interfaces;
+using Developing.Nodes;
 using Developing.Tree;
 
 namespace Developing.GeneralExtensions
 {
     public static class MyClassesExtender
     {
-        public static void Print2D<TValue, TNode>(this BinaryTreeBase<TValue, TNode> tree) 
-            where TNode : IBinaryNode<TValue, TNode>
+        public static void Print2D<TValue, TNode>(this BinaryTree<TValue, TNode> tree) 
+            where TNode : BinaryNode<TValue, TNode>
         {
             if (tree.Root == null) return;
 
@@ -19,7 +20,7 @@ namespace Developing.GeneralExtensions
         }
 
         public static void Print2DFromNode<TValue, TNode>(TNode ptr, int level)
-            where TNode : IBinaryNode<TValue, TNode>
+            where TNode : BinaryNode<TValue, TNode>
         {
             if(ptr == null) return;
 

@@ -23,11 +23,4 @@ namespace Developing.Interfaces
         void Pop();
         public T Peek {get;}
     }
-
-    public interface IBinaryNode<TValue, TNode>
-    {
-        public TValue Value { get; set; }
-        public TNode Left { get; set; }
-        public TNode Right { get; set; }
-    }
 }

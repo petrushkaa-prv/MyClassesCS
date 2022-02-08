@@ -76,33 +76,38 @@ namespace CS_Test_Chamber
         //    }));
         //}
 
-        static Random _rand = new Random();
+        static Random _rand = new Random(0);
 
         static void Main(string[] args)
         {
-            var arr = new int[15];
+            var arr = new int[7];
 
             for (int i = 0; i < arr.Length; i++)
             {
-                arr[i] = _rand.Next(0, 50);
+                arr[i] = _rand.Next(0, 25);
                 Console.Write(arr[i] + "\t");
             }
 
             Console.WriteLine();
 
-            var tree = new BstTree<int>(arr);
+            var tree = new AvlTree<int>(arr);
+            tree.Print2D();
 
-            Console.WriteLine(tree);
+            Console.WriteLine("\n\n");
+            tree.Delete(18);
 
-            Console.WriteLine();
-            Console.WriteLine();
+            tree.Print2D();
+            Console.WriteLine("\n\n");
+            tree.Delete(5);
 
             tree.Print2D();
 
-            Console.WriteLine();
-            Console.WriteLine(tree.Max + "\n" + 
-                              tree.Min + "\n" + 
-                              tree.Height);
+            Console.WriteLine("\n\n");
+            tree.Insert(24);
+
+            tree.Print2D();
+            Console.WriteLine("\n\n");
+            Console.WriteLine(tree.Height);
         }
     }
 }
@@ -124,9 +129,11 @@ namespace CS_Test_Chamber
  * TODO:            BR tree
  * TODO:            Splay tree
  * TODO:            RST tree
+ * TODO:            AVL<->BR<->2-3-4 conv.  
  *
  * TODO: Experiment:
  * TODO:            Try unsafe on BST<int>
+ * TODO:            And comp. unit tests
  *
  * TODO: Refactor:
  * TODO:            Heap (completely)       Done

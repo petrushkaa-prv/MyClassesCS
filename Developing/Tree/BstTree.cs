@@ -6,14 +6,14 @@ using Developing.Nodes;
 
 namespace Developing.Tree
 {
-    internal class BstTree<T> : BinaryTreeBase<T, BstNode<T>>
+    internal class BstTree<T> : BinaryTree<T, BstNode<T>>
         where T : IComparable<T>
     {
         //private BstNode<T> _root;
 
         public T Max => FindMax(Root).Value;
         public T Min => FindMin(Root).Value;
-        public int Height => CalculateHeight(Root);
+        //public int Height => base.CalculateHeight(Root);
         
         public BstTree(params T[] arr)
         {
@@ -42,7 +42,7 @@ namespace Developing.Tree
             return ptr;
         }
         
-        public void Insert(T value)
+        public override void Insert(T value)
         {
             var node = new BstNode<T>
             {
@@ -62,7 +62,7 @@ namespace Developing.Tree
                     last.Right = node;
             }
         }
-        public void Delete(T value)
+        public override void Delete(T value)
         {
             BstNode<T> ptr = null;
             if (null == (ptr = Search(value, out var last))) return;
@@ -138,13 +138,13 @@ namespace Developing.Tree
             return ptr;
         }
 
-        public int CalculateHeight(BstNode<T> node)
-        {
-            if (node == null) return 0;
+        //public int CalculateHeight(BstNode<T> node)
+        //{
+        //    if (node == null) return 0;
 
-            return
-                Math.Max(CalculateHeight(node.Left) + 1, CalculateHeight(node.Right) + 1);
-        }
+        //    return
+        //        Math.Max(CalculateHeight(node.Left) + 1, CalculateHeight(node.Right) + 1);
+        //}
 
         private string PrintInOrder(BstNode<T> ptr, ref string res)
         {

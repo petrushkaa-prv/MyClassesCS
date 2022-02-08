@@ -3,8 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using Developing.Interfaces;
 
+
 namespace Developing.Nodes
 {
+    /// <summary>
+    /// Is the base class for all binary nodes in this project
+    /// the inheritance of it was created to assure future
+    /// extenstion methods to work universally on all trees
+    /// using it.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <typeparam name="TNode"></typeparam>
+    /// <remarks>
+    /// Is an abstract class an can't be created locally.
+    /// </remarks>
+    public abstract class BinaryNode<TValue, TNode>
+    {
+        public TValue Value;
+        public TNode Left;
+        public TNode Right;
+    }
+
     /// <summary>
     /// Represents a singly linked Node that implements automatic iterating.
     /// </summary>
@@ -90,20 +109,21 @@ namespace Developing.Nodes
     /// in it and two children.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BstNode<T> : IBinaryNode<T, BstNode<T>>
+    public class BstNode<T> : BinaryNode<T, BstNode<T>>
         where T : IComparable<T>
     {
-        public T Value { get; set; }
-        public BstNode<T> Left { get; set; }
-        public BstNode<T> Right { get; set; }
     }
-
-    public class AvlNode<T> : IBinaryNode<T, AvlNode<T>>
+    
+    /// <summary>
+    /// Represents a AVL (creators: Adelson-Velskij & Landis) Tree Node
+    /// that contains the main value, and a additional parameter Balance
+    /// which is represents the difference between the left and right subtree
+    /// e.g. Balance = Left_Subtree_Height - Right_Subtree_Height.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class AvlNode<T> : BinaryNode<T, AvlNode<T>>
         where T : IComparable<T>
     {
-        public T Value { get; set; }
-        public int Balance { get; set; }
-        public AvlNode<T> Left { get; set; }
-        public AvlNode<T> Right { get; set; }
+        public int Balance;
     }
 }
