@@ -3,7 +3,9 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using Developing.Arrays;
+using Developing.GeneralExtensions;
 using Developing.Lists;
+using Developing.Nodes;
 using Developing.Tree;
 
 //using System.Collections.Generic;
@@ -74,33 +76,41 @@ namespace CS_Test_Chamber
         //    }));
         //}
 
+        static Random _rand = new Random();
+
         static void Main(string[] args)
         {
-            var rand = new Random(1337);
-            int[] arr = new int[10];
+            var arr = new int[15];
 
             for (int i = 0; i < arr.Length; i++)
             {
-                arr[i] = rand.Next(0,10);
+                arr[i] = _rand.Next(0, 50);
                 Console.Write(arr[i] + "\t");
             }
 
             Console.WriteLine();
 
-            var heap = Heap.Min<int>.HeapifyArray(arr);
+            var tree = new BstTree<int>(arr);
 
-            for (int i = 0; i < heap.Length; i++)
-            {
-                Console.Write(heap[i] + "\t");
-            }
+            Console.WriteLine(tree);
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            tree.Print2D();
+
+            Console.WriteLine();
+            Console.WriteLine(tree.Max + "\n" + 
+                              tree.Min + "\n" + 
+                              tree.Height);
         }
     }
 }
 
 /*
- * TODO: Refactor Heap (completely) also add building from the bottom
- *
  * TODO: Implement:                         Status:
+ * TODO:            2D printing for BTrees  Done
+ * TODO:            2D pr. vertical
  * TODO:            Biparental heap
  * TODO:            Leftist heap
  * TODO:            Skew heap
@@ -117,4 +127,7 @@ namespace CS_Test_Chamber
  *
  * TODO: Experiment:
  * TODO:            Try unsafe on BST<int>
+ *
+ * TODO: Refactor:
+ * TODO:            Heap (completely)       Done
  */

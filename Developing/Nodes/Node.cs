@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Developing.Interfaces;
 
 namespace Developing.Nodes
 {
@@ -89,11 +90,20 @@ namespace Developing.Nodes
     /// in it and two children.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BstNode<T>
+    public class BstNode<T> : IBinaryNode<T, BstNode<T>>
         where T : IComparable<T>
     {
         public T Value { get; set; }
         public BstNode<T> Left { get; set; }
         public BstNode<T> Right { get; set; }
+    }
+
+    public class AvlNode<T> : IBinaryNode<T, AvlNode<T>>
+        where T : IComparable<T>
+    {
+        public T Value { get; set; }
+        public int Balance { get; set; }
+        public AvlNode<T> Left { get; set; }
+        public AvlNode<T> Right { get; set; }
     }
 }

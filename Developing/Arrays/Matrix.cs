@@ -1,15 +1,4 @@
-﻿#region Europe
-// Matrix.cs
-// 
-// CS Test Chamber
-// CS Test Chamber
-// 
-// 2021
-// 10
-// 26
-#endregion
-
-using System;
+﻿using System;
 using Developing.Interfaces;
 
 namespace CS_Test_Chamber.Developing.Arrays

@@ -4,11 +4,43 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using Developing.Interfaces;
+using Developing.Tree;
 
-namespace CS_Test_Chamber.Developing.GeneralExtensions
+namespace Developing.GeneralExtensions
 {
     public static class MyClassesExtender
     {
+        public static void Print2D<TValue, TNode>(this BinaryTreeBase<TValue, TNode> tree) 
+            where TNode : IBinaryNode<TValue, TNode>
+        {
+            if (tree.Root == null) return;
+
+            Print2DFromNode<TValue, TNode>(tree.Root, 0);
+        }
+
+        public static void Print2DFromNode<TValue, TNode>(TNode ptr, int level)
+            where TNode : IBinaryNode<TValue, TNode>
+        {
+            if(ptr == null) return;
+
+            Print2DFromNode<TValue, TNode>(ptr.Right, level + 1);
+
+            if (level != 0)
+            {
+                for (int i = 0; i < level - 1; i++)
+                {
+                    Console.Write("|\t");
+                }
+                Console.WriteLine("|-------" + ptr.Value.ToString());
+            }
+            else
+                Console.WriteLine(ptr.Value.ToString());
+
+            Print2DFromNode<TValue, TNode>(ptr.Left, level + 1);
+        }
+
+
+
         public static IEnumerable<TOut> DoubleEnumerableTuples<T1, T2, TOut>
         (
             this (IEnumerable<T1> Item1, IEnumerable<T2> Item2) objectTuple,
@@ -79,5 +111,7 @@ namespace CS_Test_Chamber.Developing.GeneralExtensions
 
             return res;
         }
+
+
     }
 }

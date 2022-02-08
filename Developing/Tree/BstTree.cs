@@ -1,36 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Developing.Interfaces;
 using Developing.Nodes;
 
 namespace Developing.Tree
 {
-    internal class BstTree<T>
+    internal class BstTree<T> : BinaryTreeBase<T, BstNode<T>>
         where T : IComparable<T>
     {
-        public T Max => FindMax(_root).Value;
-        public T Min => FindMin(_root).Value;
+        //private BstNode<T> _root;
 
-        private BstNode<T> _root = null;
+        public T Max => FindMax(Root).Value;
+        public T Min => FindMin(Root).Value;
+        public int Height => CalculateHeight(Root);
+        
+        public BstTree(params T[] arr)
+        {
+            foreach (var item in arr)
+            {
+                Insert(item);
+            }
+        }
+
+
 
         public BstNode<T> Search(T val, out BstNode<T> prev)
         {
             BstNode<T> ptr = null;
             prev = null;
 
-            if (null == (ptr = _root)) return null;
+            if (null == (ptr = Root)) return null;
 
             while (ptr != null && ptr.Value.CompareTo(val) != 0)
             {
                 prev = ptr;
-                if (val.CompareTo(ptr.Value) > 0)
-                {
-                    ptr = ptr.Right;
-                }
-                else
-                {
-                    ptr = ptr.Left;
-                }
+
+                ptr = val.CompareTo(ptr.Value) > 0 ? ptr.Right : ptr.Left;
             }
 
             return ptr;
@@ -47,7 +53,7 @@ namespace Developing.Tree
                 return;
 
             if (last == null)
-                _root = node;
+                Root = node;
             else
             {
                 if (last.Value.CompareTo(node.Value) > 0)
@@ -92,7 +98,7 @@ namespace Developing.Tree
 
                 if (last == null)
                 {
-                    _root = p;
+                    Root = p;
                 }
                 else
                 {
@@ -131,5 +137,37 @@ namespace Developing.Tree
 
             return ptr;
         }
+
+        public int CalculateHeight(BstNode<T> node)
+        {
+            if (node == null) return 0;
+
+            return
+                Math.Max(CalculateHeight(node.Left) + 1, CalculateHeight(node.Right) + 1);
+        }
+
+        private string PrintInOrder(BstNode<T> ptr, ref string res)
+        {
+            if (ptr == null) return string.Empty;
+
+            PrintInOrder(ptr.Left, ref res);
+
+            res += ptr.Value + " ";
+
+            PrintInOrder(ptr.Right, ref res);
+
+            return res;
+        }
+
+
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            string res = string.Empty;
+            return PrintInOrder(Root, ref res);
+        }
+        /// <inheritdoc />
+        public override int GetHashCode() => HashCode.Combine(Root);
     }
 }
