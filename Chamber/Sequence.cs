@@ -15,9 +15,9 @@ namespace CS_Test_Chamber.Chamber
         private int _max;
         private int[] _array;
 
-        internal Sequence(int howMuch,int min = 0, int max = 10,int Seed = 0)
+        internal Sequence(int howMuch,int min = 0, int max = 10,int seed = 0)
         {
-            _rand = new Random(Seed);
+            _rand = new Random(seed);
             _howMuch = howMuch;
             _array = new int[_howMuch];
             _max = max;
@@ -38,7 +38,7 @@ namespace CS_Test_Chamber.Chamber
             }
         }
 
-        public static explicit operator int[](Sequence seq) => seq._array;
+        public static implicit operator int[](Sequence seq) => seq._array;
 
         /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator()

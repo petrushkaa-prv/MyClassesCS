@@ -5,6 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>CS_Test_Chamber</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,28 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 using Developing.Arrays;
 using Developing.GeneralExtensions;
 using Developing.Lists;
 using Developing.Nodes;
+using Developing.Other;
 using Developing.Tree;
 
-//using System.Collections.Generic;
-//using System.Linq;
+
 
 namespace CS_Test_Chamber.Chamber
 {
-    static class Program
-    { 
-        static Sequence _rand = new (5, Seed: 12);
-
-        static void Main(string[] args)
+    internal static class Program
+    {
+        public static unsafe float QrSqrt(float number)
         {
-            var splay = new SplayTree<int>((int[])_rand);
+            const float th = 1.5f;
 
-            splay.Print2D();
+            float x2 = number * 0.5f;
+            float y = number;
+
+            int i = *(int*)&y;
+            i = 0x5f3759df - (i >> 1);
+            y = *(float*)&i;
+            y *= th - x2 * y * y;
+
+            return y;
+        }
+
+
+        public static Sequence Rand = new(howMuch: 25, 
+                                          min: 0, 
+                                          max: 25, 
+                                          seed: 25);
+
+        private static void Main(string[] args)
+        {
+            var match = new SequenceMatcher("BROBOT", "BREAD");
+
+            Console.WriteLine(match);
         }
     }
 }
@@ -31,7 +57,7 @@ namespace CS_Test_Chamber.Chamber
  * TODO: Implement:                             Status:
  * TODO:            2D printing for BTrees      Done
  * TODO:            2D pr. vertical
- * TODO:            Biparental heap
+ * TODO:            Biparental heap             InProgress
  * TODO:            Leftist heap
  * TODO:            Skew heap
  * TODO:            Binomial queue
@@ -39,12 +65,9 @@ namespace CS_Test_Chamber.Chamber
  * TODO:            BST tree                    Done
  * TODO:            AVL tree                    Done
  * TODO:            B-tree
- * TODO:            2-3 tree
- * TODO:            2-3-4 tree
  * TODO:            BR tree
  * TODO:            Splay tree                  BUG!
  * TODO:            RST tree
- * TODO:            AVL<->BR<->2-3-4 conv.  
  *
  * TODO: Experiment:
  * TODO:            Try unsafe on BST<int>
@@ -52,4 +75,5 @@ namespace CS_Test_Chamber.Chamber
  *
  * TODO: Refactor:
  * TODO:            Heap (completely)           Done
+ * TODO:            Heap (IComparable T)
  */

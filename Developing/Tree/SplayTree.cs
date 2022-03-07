@@ -25,7 +25,7 @@ namespace Developing.Tree
             {
                 if (root.Left != null)
                 {
-                    if (value.CompareTo(root.Left.Value) < 0)
+                    if (value.CompareTo(root.Left.Value) > 0)
                     {
                         if (root.Left.Left != null)
                         {
