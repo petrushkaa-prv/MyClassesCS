@@ -8,17 +8,39 @@ using System.Threading.Tasks;
 
 namespace Chamber
 {
-    public class Sequence
+    public class Sequence<T> : ISequenceModifier<T>, IEnumerable<T>
     {
-        public readonly int Count;
+        private readonly ISequenceModifier<T> _sequence;
 
-        public Sequence(int count)
+        public Sequence(int count = 10, int min = 0, int max = 10, int seed = 0)
         {
-            Count = count;
+            _sequence = Type.GetTypeCode(typeof(T)) switch
+            {
+                TypeCode.Int32 => new IntegerSequence(count, min, max, seed),
+                TypeCode.Single => (dynamic)new FloatSequence(count, seed),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
-        public int[] Integers(int min = 0, int max = 100) => new IntegerSequence(Count, min, max).Array;
-        public float[] Floats() => new FloatSequence(Count).Array;
+        public T Next => _sequence.Next;
+        public T[] Array => _sequence.Array;
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            T[] arr = this.Array;
+
+            if(Array.Length <= 0) yield break;
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                yield return arr[i];
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 
     public interface ISequenceModifier<out T>

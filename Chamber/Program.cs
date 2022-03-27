@@ -63,13 +63,12 @@ namespace Chamber
             return y;
         }
 
-        private static readonly Sequence Rand = new(10);
+        private static readonly Sequence<float> Rand = new(10, seed: DateTime.Now.Millisecond);
 
         private static void Main(string[] args)
         {
-            var si = new Developing.Lists.Stack<int>(Rand.Integers());
-
-            Console.WriteLine(si);
+            var s = new Developing.Lists.Stack<float>(Rand.Array);
+            
         }
     }
 }
