@@ -12,8 +12,8 @@ namespace Developing.Nodes
     /// extenstion methods to work universally on all trees
     /// using it.
     /// </summary>
-    /// <typeparam name="TValue"></typeparam>
-    /// <typeparam name="TNode"></typeparam>
+    /// <typeparam name="TValue">The type of the value the node contains</typeparam>
+    /// <typeparam name="TNode">The type of the child node (usually itself)</typeparam>
     /// <remarks>
     /// Is an abstract class an can't be created locally.
     /// </remarks>
@@ -30,79 +30,33 @@ namespace Developing.Nodes
     /// <typeparam name="T"></typeparam>
     public class SlNode<T> : IEnumerable<T> 
             where T : IComparable<T>
+    {
+        public T Value { get; set; }
+        public SlNode<T> Next { get; set; }
+
+        public SlNode(T value, SlNode<T> next = null)
         {
-            public T Value { get; set; }
-            public SlNode<T> Next { get; set; }
+            Value = value;
+            Next = next;
+        }
 
-            public SlNode(T value, SlNode<T> next = null)
+        /// <inheritdoc />
+        public IEnumerator<T> GetEnumerator()
+        {
+            SlNode<T> ptr = this;
+
+            while (ptr != null)
             {
-                Value = value;
-                Next = next;
-            }
-
-            //class SinglyLinkedEnumerator : IEnumerator<T>
-            //{
-            //    //private int _pos = -1;
-            //    private bool _start = true;
-            //    private SlNode<T> _root;
-            //    private SlNode<T> _current;
-            //    public SinglyLinkedEnumerator(SlNode<T> newroot)
-            //    {
-            //        _current = _root = newroot;
-            //    }
-            //    public bool MoveNext()
-            //    {
-            //        if (_root == null) return false;
-            //        if (_start)
-            //        {
-            //            _start = false;
-            //            return true;
-            //        }
-            //        _current = _current.Next;
-            //        return _current != null;
-            //    }
-            //    public void Reset()
-            //    {
-            //        _current = _root;
-            //        _start = true;
-            //    }
-            //    public T Current
-            //    {
-            //        get
-            //        {
-            //            if (_current == null)
-            //                throw new InvalidOperationException();
-            //            return _current.Value;
-            //        }
-            //    }
-            //    object? IEnumerator.Current => Current;
-            //    public void Dispose()
-            //    {
-            //        GC.SuppressFinalize(this);
-            //    }
-            //}
-            //public IEnumerator<T> GetEnumerator()
-            //{
-            //    return new SinglyLinkedEnumerator(this);
-            //}
-
-            /// <inheritdoc />
-            public IEnumerator<T> GetEnumerator()
-            {
-                SlNode<T> ptr = this;
-
-                while (ptr != null)
-                {
-                    yield return ptr.Value;
-                    ptr = ptr.Next;
-                }
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
+                yield return ptr.Value;
+                ptr = ptr.Next;
             }
         }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
 
     /// <summary>
     /// Represents a Binary Search Tree Node containing the main value

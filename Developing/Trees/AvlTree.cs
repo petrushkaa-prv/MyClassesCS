@@ -4,7 +4,7 @@ using System.Text;
 using Developing.Interfaces;
 using Developing.Nodes;
 
-namespace Developing.Tree
+namespace Developing.Trees
 {
     internal class AvlTree<T> : BinaryTree<T, AvlNode<T>>
         where T : IComparable<T>

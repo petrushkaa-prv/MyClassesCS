@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -15,11 +16,35 @@ using Developing.GeneralExtensions;
 using Developing.Lists;
 using Developing.Nodes;
 using Developing.Other;
-using Developing.Tree;
+using Developing.Trees;
+
+/*
+ * TODO: Implement:                             Status:         CommentStatus:
+ * TODO:            2D printing for BTrees      Done
+ * TODO:            2D pr. vertical
+ * TODO:            Biparental heap             InProgress
+ * TODO:            Leftist heap
+ * TODO:            Binomial queue
+ * TODO:            BST tree                    Done
+ * TODO:            AVL tree                    Done
+ * TODO:            BR tree
+ * TODO:            Splay tree                  BUG!
+ * TODO:            RST tree
+ * TODO:            Seq. matcher                Done
+ * TODO:            Adv. Seq. matcher
+ *
+ * TODO: Experiment:
+ * TODO:            Try unsafe on BST<int>
+ * TODO:            And comp. unit tests
+ *
+ * TODO: Refactor:
+ * TODO:            Heap (completely)           Done
+ * TODO:            Heap (IComparable T)
+ */
 
 
 
-namespace CS_Test_Chamber.Chamber
+namespace Chamber
 {
     internal static class Program
     {
@@ -38,42 +63,13 @@ namespace CS_Test_Chamber.Chamber
             return y;
         }
 
-
-        public static Sequence Rand = new(howMuch: 25, 
-                                          min: 0, 
-                                          max: 25, 
-                                          seed: 25);
+        private static readonly Sequence Rand = new(10);
 
         private static void Main(string[] args)
         {
-            var match = new SequenceMatcher("BROBOT", "BREAD");
+            var si = new Developing.Lists.Stack<int>(Rand.Integers());
 
-            Console.WriteLine(match);
+            Console.WriteLine(si);
         }
     }
 }
-
-/*
- * TODO: Implement:                             Status:
- * TODO:            2D printing for BTrees      Done
- * TODO:            2D pr. vertical
- * TODO:            Biparental heap             InProgress
- * TODO:            Leftist heap
- * TODO:            Skew heap
- * TODO:            Binomial queue
- * TODO:            Fibonacci queue
- * TODO:            BST tree                    Done
- * TODO:            AVL tree                    Done
- * TODO:            B-tree
- * TODO:            BR tree
- * TODO:            Splay tree                  BUG!
- * TODO:            RST tree
- *
- * TODO: Experiment:
- * TODO:            Try unsafe on BST<int>
- * TODO:            And comp. unit tests
- *
- * TODO: Refactor:
- * TODO:            Heap (completely)           Done
- * TODO:            Heap (IComparable T)
- */

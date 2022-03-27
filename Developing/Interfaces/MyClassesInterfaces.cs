@@ -17,7 +17,7 @@ namespace Developing.Interfaces
         bool Contains(T element);
     }
 
-    public interface IStackLike<T>
+    public interface IStack<T>
     {
         void Push(T elem);
         void Pop();

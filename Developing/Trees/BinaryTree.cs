@@ -4,7 +4,7 @@ using System.Text;
 using Developing.Interfaces;
 using Developing.Nodes;
 
-namespace Developing.Tree
+namespace Developing.Trees
 {
     public abstract class BinaryTree<TValue, TNode>
         where TNode : BinaryNode<TValue, TNode>

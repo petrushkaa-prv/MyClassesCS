@@ -8,26 +8,26 @@ namespace Developing.Other
 {
     internal class SequenceMatcher
     {
-        protected readonly string Sequence1;
-        protected readonly string Sequence2;
+        private readonly string _sequence1;
+        private readonly string _sequence2;
 
-        protected int MatchValue;
-        protected int MisMatchValue;
-        protected int GapValue;
+        private int _matchValue;
+        private int _misMatchValue;
+        private int _gapValue;
 
-        protected string Result1;
-        protected string Result2;
-        protected int CheckSumValue;
+        protected readonly string Result1;
+        protected readonly string Result2;
+        protected readonly int CheckSumValue;
 
         public SequenceMatcher(string seq1, string seq2, int matchValue = 1, int misMatchValue = -3, int gapValue = -2)
         {
-            Sequence1 = seq1;
-            Sequence2 = seq2;
-            MatchValue = matchValue;
-            MisMatchValue = misMatchValue;
-            GapValue = gapValue;
+            _sequence1 = seq1;
+            _sequence2 = seq2;
+            _matchValue = matchValue;
+            _misMatchValue = misMatchValue;
+            _gapValue = gapValue;
 
-            (Result1, Result2, CheckSumValue) = FindMatching(Sequence1, Sequence2, GapValue, MatchValue, MisMatchValue);
+            (Result1, Result2, CheckSumValue) = FindMatching(_sequence1, _sequence2, _gapValue, _matchValue, _misMatchValue);
         }
 
         public static (string matchingSeq1, string matchingSeq2, int bestMatchingValue) FindMatching(string seq1, string seq2, int gapValue, int matchValue, int mismatchValue)
@@ -35,7 +35,7 @@ namespace Developing.Other
             int m = seq1.Length, n = seq2.Length;
 
             var table = new (int val, int dir)[m + 1, n + 1];
-            const short left = 0, up = 1, left_up = 2;      // directions
+            const short left = 0, up = 1, leftUp = 2;      // directions
 
             for (int i = 1; i <= m; i++)
             {
@@ -60,7 +60,7 @@ namespace Developing.Other
 
                     if (tlu >= tu)
                     {
-                        table[i, j] = tlu >= tl ? (tlu, left_up) : (tl, left);
+                        table[i, j] = tlu >= tl ? (tlu, left_up: leftUp) : (tl, left);
                     }
                     else
                         table[i, j] = tu >= tl ? (tu, up) : (tl, left);
@@ -76,7 +76,7 @@ namespace Developing.Other
 
                 switch (table[k, t].dir)
                 {
-                    case left_up:
+                    case leftUp:
                         {
                             k--;
                             t--;
@@ -104,7 +104,7 @@ namespace Developing.Other
             {
                 switch (table[p.j, p.i].dir)
                 {
-                    case left_up:
+                    case leftUp:
                         {
                             res1[k] = seq1[p.j - 1];
                             res2[k] = seq2[p.i - 1];
@@ -136,14 +136,16 @@ namespace Developing.Other
             return (new string(res1), new string(res2), table[m, n].val);
         }
 
-        public void Deconstruct(out string Match1, out string Match2, out int BestMatchingValue)
+        public void Deconstruct(out string match1, out string match2, out int bestMatchingValue)
         {
-            Match1 = Result1;
-            Match2 = Result2;
-            BestMatchingValue = CheckSumValue;
+            match1 = Result1;
+            match2 = Result2;
+            bestMatchingValue = CheckSumValue;
         }
 
         /// <inheritdoc />
-        public override string ToString() => $"First sequence: {Sequence1}\tAfter match: {Result1}\nSecond sequence: {Sequence2}\tAfter match: {Result2}\nBest matching value: {CheckSumValue}";
+        public override string ToString() => $"First sequence: \t{_sequence1}\nSecond sequence: \t{_sequence2}\nFirst after match: \t{Result1}\nSecond after match: \t{Result2}\nBest matching value: \t{CheckSumValue}";
+
+
     }
 }

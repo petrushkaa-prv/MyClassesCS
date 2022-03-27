@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Developing.Nodes;
 
-namespace Developing.Tree
+namespace Developing.Trees
 {
     internal class SplayTree<T> : BinaryTree<T, SplayNode<T>>
         where T : IComparable<T>

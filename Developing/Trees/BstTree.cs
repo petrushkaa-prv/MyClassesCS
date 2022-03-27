@@ -4,7 +4,7 @@ using System.Text;
 using Developing.Interfaces;
 using Developing.Nodes;
 
-namespace Developing.Tree
+namespace Developing.Trees
 {
     internal class BstTree<T> : BinaryTree<T, BstNode<T>>
         where T : IComparable<T>

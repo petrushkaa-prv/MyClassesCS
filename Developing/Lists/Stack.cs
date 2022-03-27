@@ -60,7 +60,7 @@ namespace Developing.Lists
         }
     }
 
-    public class Stack<T> : IEnumerable<T>, /*IMyClasses<T>,*/ IStackLike<T>
+    public class Stack<T> : IEnumerable<T>, /*IMyClasses<T>,*/ IStack<T>
             where T : IComparable<T>
     {
         public int Size { get; private set; } = 0;

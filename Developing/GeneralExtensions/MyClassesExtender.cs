@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Developing.Interfaces;
 using Developing.Nodes;
-using Developing.Tree;
+using Developing.Trees;
 
 namespace Developing.GeneralExtensions
 {
@@ -102,7 +102,7 @@ namespace Developing.GeneralExtensions
         }
 
         public static TClass Transform<TClass, T>(this TClass arg, Func<T, T> func)
-            where TClass : IEnumerable<T>, IStackLike<T>, new()
+            where TClass : IEnumerable<T>, IStack<T>, new()
         {
             TClass res = new TClass();
 
