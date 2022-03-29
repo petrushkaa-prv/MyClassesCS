@@ -23,12 +23,12 @@ namespace Developing.Nodes
         public TNode Left;
         public TNode Right;
     }
-
+    
     /// <summary>
     /// Represents a singly linked Node that implements automatic iterating.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class SlNode<T> : IEnumerable<T> 
+    public class SlNode<T>
             where T : IComparable<T>
     {
         public T Value { get; set; }
@@ -39,24 +39,23 @@ namespace Developing.Nodes
             Value = value;
             Next = next;
         }
+    }
 
-        /// <inheritdoc />
-        public IEnumerator<T> GetEnumerator()
+    public class DlNode<T>
+        where T : IComparable<T>
+    {
+        public T Value { get; set; }
+        public DlNode<T> Next { get; set; }
+        public DlNode<T> Previous { get; set; }
+
+        public DlNode(T value, DlNode<T> next = null, DlNode<T> prev = null)
         {
-            SlNode<T> ptr = this;
-
-            while (ptr != null)
-            {
-                yield return ptr.Value;
-                ptr = ptr.Next;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            Value = value;
+            Next = next;
+            Previous = prev;
         }
     }
+
 
     /// <summary>
     /// Represents a Binary Search Tree Node containing the main value

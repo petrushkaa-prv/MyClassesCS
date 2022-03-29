@@ -249,7 +249,7 @@ namespace Developing.Lists
         /// <inheritdoc />
         public bool Contains(T element)
         {
-            foreach (var el in TopNode)
+            foreach (var el in this)
             {
                 if (el.CompareTo(element) > 0) return true;
             }
@@ -272,10 +272,16 @@ namespace Developing.Lists
             return string.Join(" -> ", (T[])this);
         }
 
-        // version 3 (see Node.SlNode class)
+        /// <inheritdoc />
         public IEnumerator<T> GetEnumerator()
         {
-            return TopNode.GetEnumerator();
+            var ptr = this.TopNode;
+
+            while (ptr != null)
+            {
+                yield return ptr.Value;
+                ptr = ptr.Next;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()

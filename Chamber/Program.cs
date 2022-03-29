@@ -19,7 +19,7 @@ using Developing.Other;
 using Developing.Trees;
 
 /*
- * TODO: Implement:                             Status:         CommentStatus:
+ * TODO: Implement:                             Status:
  * TODO:            2D printing for BTrees      Done
  * TODO:            2D pr. vertical
  * TODO:            Biparental heap             InProgress
@@ -63,11 +63,11 @@ namespace Chamber
             return y;
         }
 
-        private static readonly Sequence<float> Rand = new(10, seed: DateTime.Now.Millisecond);
+        private static readonly Sequence<string> Rand = 
+            new (seed: DateTime.Now.Millisecond, strLen: 10);
 
         private static void Main(string[] args)
         {
-            var s = new Developing.Lists.Stack<float>(Rand.Array);
             
         }
     }

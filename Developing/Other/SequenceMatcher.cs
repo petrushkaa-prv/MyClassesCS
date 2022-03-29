@@ -11,13 +11,20 @@ namespace Developing.Other
         private readonly string _sequence1;
         private readonly string _sequence2;
 
-        private int _matchValue;
-        private int _misMatchValue;
-        private int _gapValue;
+        private readonly int _matchValue;
+        private readonly int _misMatchValue;
+        private readonly int _gapValue;
 
         protected readonly string Result1;
         protected readonly string Result2;
         protected readonly int CheckSumValue;
+
+        enum Direction
+        {
+            Left,
+            Up,
+            LeftUp
+        }
 
         public SequenceMatcher(string seq1, string seq2, int matchValue = 1, int misMatchValue = -3, int gapValue = -2)
         {
@@ -34,17 +41,17 @@ namespace Developing.Other
         {
             int m = seq1.Length, n = seq2.Length;
 
-            var table = new (int val, int dir)[m + 1, n + 1];
-            const short left = 0, up = 1, leftUp = 2;      // directions
+            var table = new (int val, Direction dir)[m + 1, n + 1];
+            //const short left = 0, up = 1, leftUp = 2;      // directions
 
             for (int i = 1; i <= m; i++)
             {
-                table[i, 0] = (i * gapValue, left);
+                table[i, 0] = (i * gapValue, Direction.Left);
             }
 
             for (int i = 1; i <= n; i++)
             {
-                table[0, i] = (i * gapValue, up);
+                table[0, i] = (i * gapValue, Direction.Up);
             }
 
             for (int i = 1; i <= m; i++)
@@ -60,10 +67,10 @@ namespace Developing.Other
 
                     if (tlu >= tu)
                     {
-                        table[i, j] = tlu >= tl ? (tlu, left_up: leftUp) : (tl, left);
+                        table[i, j] = tlu >= tl ? (tlu, left_up: Direction.LeftUp) : (tl, Direction.Left);
                     }
                     else
-                        table[i, j] = tu >= tl ? (tu, up) : (tl, left);
+                        table[i, j] = tu >= tl ? (tu, Direction.Up) : (tl, Direction.Left);
                 }
             }
 
@@ -76,18 +83,18 @@ namespace Developing.Other
 
                 switch (table[k, t].dir)
                 {
-                    case leftUp:
+                    case Direction.LeftUp:
                         {
                             k--;
                             t--;
                         }
                         break;
-                    case left:
+                    case Direction.Left:
                         {
                             k--;
                         }
                         break;
-                    case up:
+                    case Direction.Up:
                         {
                             t--;
                         }
@@ -104,21 +111,21 @@ namespace Developing.Other
             {
                 switch (table[p.j, p.i].dir)
                 {
-                    case leftUp:
+                    case Direction.LeftUp:
                         {
                             res1[k] = seq1[p.j - 1];
                             res2[k] = seq2[p.i - 1];
 
                             break;
                         }
-                    case left:
+                    case Direction.Left:
                         {
                             res1[k] = seq1[p.j - 1];
                             res2[k] = '-';
 
                             break;
                         }
-                    case up:
+                    case Direction.Up:
                         {
                             res1[k] = '-';
                             res2[k] = seq2[p.i - 1];
