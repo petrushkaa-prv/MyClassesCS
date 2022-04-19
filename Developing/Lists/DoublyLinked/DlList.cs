@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CS_Test_Chamber.Developing.Lists
+namespace Developing.Lists
 {
     internal class DlList
     {
+        //TODO
     }
 }

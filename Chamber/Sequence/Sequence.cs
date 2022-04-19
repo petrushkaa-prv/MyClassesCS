@@ -19,25 +19,14 @@ namespace Chamber
         private readonly int _strLength;
         private int _seed;
 
-        public Sequence(int count = 10, int min = 0, int max = 10, int seed = 0)
+        public Sequence(int count = 10, int min = 0, int max = 10, int strLength = 0, int seed = 0)
         {
             _count = count;
             _min = min;
             _max = max;
             _seed = seed;
             
-            Initialize(_count, _min, _max, _seed);
-        }
-
-        public Sequence(int count = 10, int strLen = 10, int seed = 0)
-        {
-            _count = count;
-            _min = 0;
-            _max = 0;
-            _seed = seed;
-            _strLength = strLen;
-
-            _sequence = (dynamic)new StringSequence(count, _strLength, _seed);
+            Initialize(_count, _min, _max, _seed, Type.GetTypeCode(typeof(T)) == TypeCode.String ? strLength : 0);
         }
 
         private void Initialize(int count = 10, int min = 0, int max = 10, int seed = 0, int strLength = 0)

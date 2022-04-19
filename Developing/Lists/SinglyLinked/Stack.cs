@@ -9,7 +9,7 @@ namespace Developing.Lists
 {
     public static class StackExtender
     {
-        public static IEnumerable<N> DoWork<T, N>(this Developing.Lists.Stack<T> stack, Func<T, N> func)
+        public static IEnumerable<N> DoWork<T, N>(this Developing.Lists.MyStack<T> stack, Func<T, N> func)
             where T : IComparable<T>
         {
             foreach (var elem in stack)
@@ -18,7 +18,7 @@ namespace Developing.Lists
             }
         }
 
-        public static Developing.Lists.Stack<T> DoWork2<T>(this Developing.Lists.Stack<T> stack, Func<(T, T), T> func)
+        public static Developing.Lists.MyStack<T> DoWork2<T>(this Developing.Lists.MyStack<T> stack, Func<(T, T), T> func)
             where T : IComparable<T>
         {
             var res = (T[])stack;
@@ -31,11 +31,11 @@ namespace Developing.Lists
             return res;
         }
 
-        public static Stack<N> Convert<T, N>(this Stack<T> stack)
+        public static MyStack<N> Convert<T, N>(this MyStack<T> stack)
             where N : IComparable<N>
             where T : IComparable<T>
         {
-            var res = new Stack<N>();
+            var res = new MyStack<N>();
 
             foreach (var VARIABLE in stack.Reverse())
             {
@@ -45,11 +45,11 @@ namespace Developing.Lists
             return res;
         }
 
-        public static Stack<N> Convert<T, N>(this Stack<T> stack, Func<T, N> func)
+        public static MyStack<N> Convert<T, N>(this MyStack<T> stack, Func<T, N> func)
             where N : IComparable<N>
             where T : IComparable<T>
         {
-            Stack<N> res = new Stack<N>();
+            MyStack<N> res = new MyStack<N>();
 
             foreach (var VARIABLE in stack.Reverse())
             {
@@ -60,70 +60,120 @@ namespace Developing.Lists
         }
     }
 
-    public class Stack<T> : IEnumerable<T>, /*IMyClasses<T>,*/ IStack<T>
-            where T : IComparable<T>
+    public class MyStack<T> : SinglyLinked<T>, IEnumerable<T>, IMyClasses<T>, IMyStack<T>
+            //where T : IComparable<T>
     {
-        public int Size { get; private set; } = 0;
-        public SlNode<T> TopNode { get; private set; } = null;
+        private int _size;
+        public override int Size => _size;
+        private SlNode<T> _head;
+        public override SlNode<T> Head => _head;
 
         public T Peek
         {
             get
             {
                 if (IsEmpty) throw new InvalidOperationException();
-                return TopNode.Value;
+                return Head.Value;
             }
         }
 
-        public bool IsEmpty => Size == 0;
+        public override bool IsEmpty => Size == 0;
 
-        public Stack()
+        public MyStack()
         {
-
+            _size = 0;
+            _head = null;
         }
-        public Stack(params T[] arr)
+        public MyStack(params T[] arr)
         {
             foreach (var val in arr)
             {
-                Push(val);
+                this.Push(val);
             }
-
-            Size = arr.Length;
         }
 
         public void Push(T value)
         {
-            this.Size++;
+            this._size++;
 
-            SlNode<T> newNode = new SlNode<T>(value);
+            var newNode = new SlNode<T>(value);
 
-            if (TopNode == null)
+            if (Head == null)
             {
-                TopNode = newNode;
+                _head = newNode;
                 return;
             }
 
-            newNode.Next = TopNode;
-            TopNode = newNode;
+            newNode.Next = Head;
+            _head = newNode;
         }
 
         public void Pop()
         {
             if (IsEmpty) return;
 
-            Size--;
-            TopNode = TopNode.Next;
+            _size--;
+            _head = _head.Next;
         }
 
-        public Stack<T> Copy()
+        public MyStack<T> Copy()
         {
-            T[] tmp = (T[])this;
+            var tmp = (T[])this;
             Array.Reverse(tmp);
 
             return tmp;
         }
 
-        public static explicit operator T[](Stack<T> stack)
+        public void Append(MyStack<T> stack)
+        {
+            if (stack.IsEmpty) return;
+
+            foreach (var el in stack)
+            {
+                this.Push(el);
+            }
+        }
+        public void Subtract(MyStack<T> stack, out MyStack<T> subtractedValuesStack)
+        {
+            if (stack.IsEmpty)
+            {
+                subtractedValuesStack = null;
+                return;
+            }
+
+            subtractedValuesStack = new MyStack<T>();
+
+            bool ini = false;
+            foreach (var elem in stack)
+            {
+
+                while (this.Contains(elem, out var ptr, out var prev))
+                {
+                    if (prev == null)
+                    {
+                        _head = ptr.Next;
+                    }
+                    else
+                    {
+                        prev.Next = ptr.Next;
+                        ptr.Next = null;
+                    }
+
+
+                    if (!ini)
+                    {
+                        subtractedValuesStack = new MyStack<T>();
+                        ini = true;
+                    }
+
+                    subtractedValuesStack.Push(ptr.Value);
+
+                    this._size--;
+                }
+            }
+        }
+
+        public static explicit operator T[](MyStack<T> stack)
         {
             T[] res = new T[stack.Size];
 
@@ -140,50 +190,14 @@ namespace Developing.Lists
 
             return res;
         }
-        public static implicit operator Stack<T>(T[] arr) => new Stack<T>(arr);
+        public static implicit operator MyStack<T>(T[] arr) => new MyStack<T>(arr);
 
-        public static Stack<T> operator +(Stack<T> lhs, Stack<T> rhs)
-        {
-            if (lhs.IsEmpty) return rhs.Copy();
-            if (rhs.IsEmpty) return lhs.Copy();
-
-            T[] lhsT = (T[])lhs, rhsT = (T[])rhs;
-            T[] resT = new T[lhsT.Length + rhsT.Length];
-
-            for (int i = 0; i < resT.Length; i++)
-            {
-                resT[i] = i < lhsT.Length ? lhsT[i] : rhsT[i - lhsT.Length];
-            }
-
-            return resT;
-        }
-        public static Stack<T> operator -(Stack<T> lhs, Stack<T> rhs)
-        {
-            if (lhs.IsEmpty) return rhs.Copy();
-            if (rhs.IsEmpty) return lhs.Copy();
-
-            Stack<T> res = new Stack<T>();
-
-            foreach (var lhsV in lhs)
-            {
-                bool met = false;
-
-                foreach (var rhsV in rhs)
-                {
-                    if ((dynamic)lhsV == (dynamic)rhsV) met = true;
-                }
-
-                if (!met) res.Push(lhsV);
-            }
-
-            return res;
-        }
-        public static bool operator ==(Stack<T> lhs, Stack<T> rhs)
+        public static bool operator ==(MyStack<T> lhs, MyStack<T> rhs)
         {
             //if (IsNull(lhs) || IsNull(rhs)) return false;
             if (lhs.Size != rhs.Size) return false;
 
-            SlNode<T> rptr = rhs.TopNode;
+            SlNode<T> rptr = rhs.Head;
 
             foreach (var v in lhs)
             {
@@ -194,7 +208,7 @@ namespace Developing.Lists
 
             return true;
         }
-        public static bool operator !=(Stack<T> lhs, Stack<T> rhs)
+        public static bool operator !=(MyStack<T> lhs, MyStack<T> rhs)
         {
             return !(lhs == rhs);
         }
@@ -212,7 +226,7 @@ namespace Developing.Lists
                 if (idx > this.Size || idx < 0) throw new IndexOutOfRangeException();
                 //if (IsEmpty || IsNull(this)) throw new Exception();
 
-                SlNode<T> tmp = TopNode;
+                SlNode<T> tmp = Head;
 
                 int i = 0;
                 while (tmp != null && i != idx)
@@ -225,7 +239,9 @@ namespace Developing.Lists
             }
         }
 
-        public Stack<T> Sort()
+
+        // TODO: Reimplement by only modifying the original stack
+        public MyStack<T> Sort()
         {
             var res = (T[])this;
 
@@ -234,38 +250,13 @@ namespace Developing.Lists
             return res;
         }
 
-
-        /// <inheritdoc />
-        public void FillWith(T element, int howMany)
-        {
-            if (IsEmpty) return;
-
-            for (int i = 0; i < howMany; i++)
-            {
-                Push(element);
-            }
-        }
-
-        /// <inheritdoc />
-        public bool Contains(T element)
-        {
-            foreach (var el in this)
-            {
-                if (el.CompareTo(element) > 0) return true;
-            }
-
-            return false;
-        }
-
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return this == (Stack<T>)obj;
+            return this == (MyStack<T>)obj;
         }
-
         /// <inheritdoc />
-        public override int GetHashCode() => HashCode.Combine(this.TopNode, this.Size);
-
+        public override int GetHashCode() => HashCode.Combine(this.Head, this.Size);
         /// <inheritdoc />
         public override string ToString()
         {
@@ -275,7 +266,9 @@ namespace Developing.Lists
         /// <inheritdoc />
         public IEnumerator<T> GetEnumerator()
         {
-            var ptr = this.TopNode;
+            if(IsEmpty) yield break;
+
+            var ptr = this.Head;
 
             while (ptr != null)
             {
@@ -283,7 +276,6 @@ namespace Developing.Lists
                 ptr = ptr.Next;
             }
         }
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

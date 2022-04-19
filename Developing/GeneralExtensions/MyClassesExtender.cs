@@ -23,7 +23,7 @@ namespace Developing.GeneralExtensions
         public static void Print2DFromNode<TValue, TNode>(TNode ptr, int level)
             where TNode : BinaryNode<TValue, TNode>
         {
-            if(ptr == null) return;
+            if (ptr == null) return;
 
             Print2DFromNode<TValue, TNode>(ptr.Right, level + 1);
 
@@ -102,7 +102,7 @@ namespace Developing.GeneralExtensions
         }
 
         public static TClass Transform<TClass, T>(this TClass arg, Func<T, T> func)
-            where TClass : IEnumerable<T>, IStack<T>, new()
+            where TClass : IEnumerable<T>, IMyStack<T>, new()
         {
             TClass res = new TClass();
 

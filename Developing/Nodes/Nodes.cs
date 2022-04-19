@@ -25,11 +25,11 @@ namespace Developing.Nodes
     }
     
     /// <summary>
-    /// Represents a singly linked Node that implements automatic iterating.
+    /// Represents a singly linked Node
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class SlNode<T>
-            where T : IComparable<T>
+            //where T : IComparable<T>
     {
         public T Value { get; set; }
         public SlNode<T> Next { get; set; }
@@ -46,13 +46,13 @@ namespace Developing.Nodes
     {
         public T Value { get; set; }
         public DlNode<T> Next { get; set; }
-        public DlNode<T> Previous { get; set; }
+        public DlNode<T> Prev { get; set; }
 
         public DlNode(T value, DlNode<T> next = null, DlNode<T> prev = null)
         {
             Value = value;
             Next = next;
-            Previous = prev;
+            Prev = prev;
         }
     }
 
