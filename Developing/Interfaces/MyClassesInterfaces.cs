@@ -1,16 +1,21 @@
-﻿using Developing.Nodes;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using Developing.Nodes;
 
 namespace Developing.Interfaces
 {
     /// <summary>
     /// Interface of general methods to be present in all MyClasses Classes
     /// </summary>
-    public interface IMyClasses<in T>
+    public interface IMyCollections<T> : IEnumerable<T>
     {
         bool IsEmpty { get; }
         public int Size { get; }
 
         public bool Contains(T element);
+
+        public void Clear();
     }
 
     public interface IMyStack<T>
@@ -32,7 +37,7 @@ namespace Developing.Interfaces
         public void RemoveEnd();
     }
 
-    public abstract class SinglyLinked<T> : IMyClasses<T>
+    public abstract class SinglyLinked<T> : IMyCollections<T>
     {
         public abstract SlNode<T> Head { get; }
 
@@ -47,6 +52,9 @@ namespace Developing.Interfaces
         {
             return Contains(element, out _, out _);
         }
+
+        /// <inheritdoc />
+        public abstract void Clear();
 
         protected bool Contains(T element, out SlNode<T> foundPtr, out SlNode<T> prevPtr)
         {
@@ -67,7 +75,37 @@ namespace Developing.Interfaces
             }
 
             foundPtr = ptr;
-            return foundPtr != null && foundPtr.Value == (dynamic)element;
+            return foundPtr is not null && foundPtr.Value == (dynamic)element;
+        }
+
+        /// <inheritdoc />
+        public virtual IEnumerator<T> GetEnumerator()
+        {
+            if(IsEmpty) yield break;
+
+            var ptr = this.Head;
+
+            while (ptr is not null)
+            {
+                yield return ptr.Value;
+                ptr = ptr.Next;
+            }
+        }
+
+        /// <inheritdoc />
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendJoin(", ", this);
+
+            return sb.ToString();
         }
     }
 }

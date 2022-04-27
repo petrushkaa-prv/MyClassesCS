@@ -9,15 +9,6 @@ namespace Developing.Lists
 {
     public static class StackExtender
     {
-        public static IEnumerable<N> DoWork<T, N>(this Developing.Lists.MyStack<T> stack, Func<T, N> func)
-            where T : IComparable<T>
-        {
-            foreach (var elem in stack)
-            {
-                yield return func(elem);
-            }
-        }
-
         public static Developing.Lists.MyStack<T> DoWork2<T>(this Developing.Lists.MyStack<T> stack, Func<(T, T), T> func)
             where T : IComparable<T>
         {
@@ -31,15 +22,15 @@ namespace Developing.Lists
             return res;
         }
 
-        public static MyStack<N> Convert<T, N>(this MyStack<T> stack)
-            where N : IComparable<N>
-            where T : IComparable<T>
+        public static MyStack<TOut> Convert<TIn, TOut>(this MyStack<TIn> stack)
+            where TOut : IComparable<TOut>
+            where TIn : IComparable<TIn>
         {
-            var res = new MyStack<N>();
+            var res = new MyStack<TOut>();
 
             foreach (var VARIABLE in stack.Reverse())
             {
-                res.Push((N)(dynamic)VARIABLE);
+                res.Push((TOut)(dynamic)VARIABLE);
             }
 
             return res;
@@ -60,11 +51,11 @@ namespace Developing.Lists
         }
     }
 
-    public class MyStack<T> : SinglyLinked<T>, IEnumerable<T>, IMyClasses<T>, IMyStack<T>
-            //where T : IComparable<T>
+    public class MyStack<T> : SinglyLinked<T>, IEnumerable<T>, IMyCollections<T>, IMyStack<T>
     {
         private int _size;
         public override int Size => _size;
+
         private SlNode<T> _head;
         public override SlNode<T> Head => _head;
 
@@ -239,15 +230,11 @@ namespace Developing.Lists
             }
         }
 
-
-        // TODO: Reimplement by only modifying the original stack
-        public MyStack<T> Sort()
+        /// <inheritdoc />
+        public override void Clear()
         {
-            var res = (T[])this;
-
-            Array.Sort(res);
-
-            return res;
+            this._head = null;
+            _size = 0;
         }
 
         /// <inheritdoc />
@@ -261,24 +248,6 @@ namespace Developing.Lists
         public override string ToString()
         {
             return string.Join(" -> ", (T[])this);
-        }
-
-        /// <inheritdoc />
-        public IEnumerator<T> GetEnumerator()
-        {
-            if(IsEmpty) yield break;
-
-            var ptr = this.Head;
-
-            while (ptr != null)
-            {
-                yield return ptr.Value;
-                ptr = ptr.Next;
-            }
-        }
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

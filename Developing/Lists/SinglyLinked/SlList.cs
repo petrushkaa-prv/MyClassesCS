@@ -9,7 +9,7 @@ using Developing.Nodes;
 
 namespace Developing.Lists
 {
-    public class SlList<T> : IMyList<T>, IMyClasses<T>, IEnumerable<T>
+    public class SlList<T> : IMyList<T>, IMyCollections<T>, IEnumerable<T>
     {
         public int Size { get; private set; }
 
@@ -139,6 +139,14 @@ namespace Developing.Lists
             }
 
             return false;
+        }
+
+        /// <inheritdoc />
+        public void Clear()
+        {
+            Head = null;
+            Rear = null;
+            Size = 0;
         }
 
         /// <inheritdoc />

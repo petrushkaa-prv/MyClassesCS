@@ -1,4 +1,14 @@
-﻿using System;
+﻿global using Developing.Arrays;
+global using Developing.GeneralExtensions;
+global using Developing.Interfaces;
+global using Developing.Lists;
+global using Developing.Nodes;
+global using Developing.Other;
+global using Developing.Trees;
+global using Developing.Graphs;
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -11,34 +21,36 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using Chamber.HelpRomko;
-using Developing.Arrays;
-using Developing.GeneralExtensions;
-using Developing.Interfaces;
-using Developing.Lists;
-using Developing.Nodes;
-using Developing.Other;
-using Developing.Trees;
+
 
 /*
  * TODO: Implement:                             Status:
- * TODO:            2D printing for BTrees      Done
+ * TODO:            2D printing for BTrees              Done
  * TODO:            2D pr. vertical
- * TODO:            Biparental heap             InProgress
+ * TODO:            Biparental heap                     InProgress
  * TODO:            Leftist heap
  * TODO:            Binomial queue
- * TODO:            BST tree                    Done
- * TODO:            AVL tree                    Done
- * TODO:            Splay tree                  BUG!
+ * TODO:            BST tree                            Done
+ * TODO:            AVL tree                            Done
+ * TODO:            Splay tree                          BUG!
  * TODO:            RST tree
- * TODO:            Seq. matcher                Done
+ * TODO:            Seq. matcher                        Done
+ * TODO:            Sequence class                      InProgress
+ * TODO:            Sequence for complex cl.
+ * TODO:            Graph                               Done
+ * TODO:            DirectedGraph                       Done(?)
+ * TODO:            WeightedGraph
+ * TODO:            WeightedDirectedGraph
+ * TODO:            MatrixGraphRepresentation
+ * TODO:            DFS & BFS
+ * TODO:            Add extensions for graphs
  *
  * TODO: Experiment:
  * TODO:            Try unsafe on BST<int>
  * TODO:            And comp. unit tests
  *
  * TODO: Refactor:
- * TODO:            Heap (completely)           Done
+ * TODO:            Heap (completely)                   Done
  * TODO:            Heap (IComparable T)
  */
 
@@ -74,36 +86,20 @@ namespace Chamber
 
         public static void Main(string[] args)
         {
-            SlList<SinglyLinked<int>> list = new(new MyStack<int>(Rand.Array), new MyStack<int>(Rand.Array));
+            var g = new Graph(10, new MatrixGraphRepresentation());
 
-            foreach (var test in list)
+            var arr = Rand.Array;
+
+            for (int i = 0; i < 15; i++)
             {
-                Console.WriteLine(test);
+                int u = Rand.Next;
+                int v = Rand.Next;
+                if(u == v) continue;
+
+                g.AddEdge(u, v);
             }
 
-            var s1 = new MyStack<int>(Rand.Array);
-            var s2 = new MyStack<int>(Rand.Array);
-            Console.WriteLine(s1);
-            Console.WriteLine(s2);
-
-
-            if (!true)
-            {
-                s1.Append(s2);
-                Console.WriteLine(s1);
-            }
-            else
-            {
-                Console.WriteLine(s1);
-                s1.Subtract(s2, out var s3);
-                Console.WriteLine(s1);
-                Console.WriteLine("Sub 1:");
-                Console.WriteLine(s3);
-                s1.Subtract(s3, out var s4);
-                Console.WriteLine(s1);
-                Console.WriteLine("Sub 2:");
-                Console.WriteLine(s4);
-            }
+            Console.WriteLine(g);
         }
     }
 }

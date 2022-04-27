@@ -1,9 +1,9 @@
 ﻿using System;
 using Developing.Interfaces;
 
-namespace CS_Test_Chamber.Developing.Arrays
+namespace Developing.Arrays
 {
-    public class Matrix<T> : IMyClasses<T> 
+    public class Matrix<T>
         where T : IComparable<T>
     {
         private T[] _matrixElements = null;
