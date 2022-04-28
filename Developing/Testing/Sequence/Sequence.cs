@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chamber
+namespace Developing.Testing
 {
     public class Sequence<T> : ISequenceModifier<T>, IEnumerable<T>
     {
@@ -54,9 +54,13 @@ namespace Chamber
             Initialize(_count, _min, _max, _seed);
         }
 
+        /// <inheritdoc/>
         public T Next => _sequence.Next;
+
+        /// <inheritdoc/>
         public T[] Array => _sequence.Array;
 
+        /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator()
         {
             var arr = this.Array;
@@ -67,118 +71,14 @@ namespace Chamber
                 yield return el;
         }
 
+        /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return _sequence.ToString();
         }
-    }
-
-    public interface ISequenceModifier<out T>
-    {
-        T Next { get; }
-
-        T[] Array { get; }
-    }
-
-    public class SequenceModifier<T> : ISequenceModifier<T>
-    {
-        private protected readonly Random Random;
-        private readonly int _count;
-
-        protected SequenceModifier(int count, int seed = 0)
-        {
-            _count = count;
-
-            Random = new Random(seed);
-        }
-
-        public virtual T Next => (dynamic)Random.Next();
-        public virtual T[] Array
-        {
-            get
-            {
-                var array = new T[_count];
-
-                for (int i = 0; i < _count; i++)
-                {
-                    array[i] = Next;
-                }
-
-                return array;
-            }
-        }
-    }
-
-    public class FloatSequence : SequenceModifier<float>
-    {
-        public FloatSequence(int count, int seed = 0) : 
-            base(count, seed)
-        {
-        }
-
-        public override float Next => Random.NextSingle();
-    }
-
-    public class DoubleSequence : SequenceModifier<double>
-    {
-        public DoubleSequence(int count, int seed = 0) :
-            base(count, seed)
-        {
-        }
-
-        public override double Next => Random.NextDouble();
-    }
-
-    public class IntegerSequence : SequenceModifier<int>
-    {
-        private readonly int _min;
-        private readonly int _max;
-
-        public IntegerSequence(int count, int min = 0, int max = 100, int seed = 0) : base(count, seed)
-        {
-            _min = min;
-            _max = max;
-        }
-
-        public override int Next => base.Random.Next(_min, _max);
-    }
-
-    public class CharSequence : SequenceModifier<char>
-    {
-        private const int MinAsciiChar = 33;
-        private const int MaxAsciiChar = 126;
-
-        public CharSequence(int count, int seed = 0) : base(count, seed)
-        {
-        }
-
-        public override char Next => (char)base.Random.Next(MinAsciiChar, MaxAsciiChar);
-        
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-
-            foreach (var c in Array)
-            {
-                sb.Append(c);
-            }
-
-            return sb.ToString();
-        }
-    }
-
-    public class StringSequence : SequenceModifier<string>
-    {
-        private readonly CharSequence _charSequence;
-
-        public StringSequence(int count, int stringLength, int seed = 0) : base(count, seed)
-        {
-            _charSequence = new CharSequence(stringLength, seed);
-        }
-
-        public override string Next => _charSequence.ToString();
     }
 }
 

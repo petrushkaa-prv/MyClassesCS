@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Developing.Lists;
 
 namespace Developing.Graphs
 {
@@ -14,6 +15,6 @@ namespace Developing.Graphs
 
         public static IGraphSearcher<T> DFS<T>(this Graph<T> g) where T : new() => (IGraphSearcher<T>)new GeneralGraphSearcher<T>(g, new SlStack<int>(), true);
 
-        public static IGraphSearcher<T> DFS<T>(this DiGraph<T> g) where T : new() => (IGraphSearcher<T>)new GeneralGraphSearcher<T>(g, new SlStack<int>(), false);
+        public static IGraphSearcher<T> DFS<T>(this DirectedGraph<T> g) where T : new() => (IGraphSearcher<T>)new GeneralGraphSearcher<T>(g, new SlStack<int>(), false);
     }
 }

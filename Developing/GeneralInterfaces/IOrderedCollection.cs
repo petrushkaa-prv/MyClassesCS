@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Developing.Graphs
+namespace Developing.Interfaces
 {
     public interface IOrderedCollection<T> : IEnumerable<T>
     {

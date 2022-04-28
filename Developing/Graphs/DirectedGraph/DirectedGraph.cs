@@ -6,33 +6,37 @@ using System.Text;
 
 namespace Developing.Graphs
 {
-    internal class DiGraph : IGraph
+    internal class DirectedGraph : IGraph
     {
+        /// <inheritdoc/>
         public int VertexCount { get; private set; }
-        public IGraphRepresentation Representation { get; protected set; }
-        protected internal readonly IAdjacencyStructure AdjacencyStructure;
 
+        /// <inheritdoc/>
+        public IGraphRepresentation Representation { get; protected set; }
+
+        /// <inheritdoc/>
         public virtual bool Directed => true;
 
-        public DiGraph(int vertices, IGraphRepresentation representation)
+        protected internal readonly IAdjacencyStructure AdjacencyStructure;
+
+        public DirectedGraph(int vertices, IGraphRepresentation representation)
         {
             Representation = representation;
             VertexCount = vertices;
             AdjacencyStructure = representation.GetAdjacencyStructure<bool>(vertices);
         }
 
-        public DiGraph(int vertices) : this(vertices, new DictionaryGraphRepresentation())
+        public DirectedGraph(int vertices) : this(vertices, new DictionaryGraphRepresentation())
         {
         }
 
-        internal DiGraph(int vertices, IGraphRepresentation graph, IAdjacencyStructure adjacency)
+        internal DirectedGraph(int vertices, IGraphRepresentation graph, IAdjacencyStructure adjacency)
         {
             VertexCount = vertices;
             Representation = graph;
             AdjacencyStructure = adjacency;
         }
-
-        // remove virtual if not using inheritance in Graph
+        
         public virtual bool AddEdge(int u, int v)
         {
             if (u < 0 || v < 0 || u >= VertexCount || v >= VertexCount)
@@ -49,7 +53,7 @@ namespace Developing.Graphs
             return true;
         }
 
-        // remove virtual if not using inheritance in Graph
+        /// <inheritdoc/>
         public virtual bool HasEdge(int u, int v)
         {
             if (u < 0 || v < 0 || u >= VertexCount || v >= VertexCount)
@@ -58,7 +62,7 @@ namespace Developing.Graphs
             return u != v && AdjacencyStructure.HasEdge(u, v);
         }
 
-
+        /// <inheritdoc/>
         public IEnumerable<int> OutNeighbors(int v)
         {
             if (v < 0 || v >= VertexCount)
@@ -81,6 +85,7 @@ namespace Developing.Graphs
             return true;
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             var stringBuilder = new StringBuilder();

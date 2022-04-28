@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Developing.GeneralInterfaces;
+using Developing.Interfaces;
 using Developing.Nodes;
 
 namespace Developing.Lists
@@ -12,9 +13,13 @@ namespace Developing.Lists
     public class SlList<T> : SinglyLinked<T>, IMyList<T>, IMyCollections<T>, IEnumerable<T>
     {
         private int _size;
+
+        /// <inheritdoc/>
         public override int Size => _size;
 
         private SlNode<T> _head;
+
+        /// <inheritdoc/>
         public override SlNode<T> Head => _head;
 
         private SlNode<T> _rear;
@@ -37,6 +42,7 @@ namespace Developing.Lists
                 AddEnd(val);
         }
 
+        /// <inheritdoc/>
         public void AddFront(T val)
         {
             _size++;
@@ -54,6 +60,8 @@ namespace Developing.Lists
             newNode.Next = Head;
             _head = newNode;
         }
+
+        /// <inheritdoc/>
         public void AddEnd(T val)
         {
             _size++;
@@ -72,6 +80,7 @@ namespace Developing.Lists
             _rear = newNode;
         }
 
+        /// <inheritdoc/>
         public void RemoveFront()
         {
             if (IsEmpty) return;
@@ -80,6 +89,8 @@ namespace Developing.Lists
 
             _head = Head.Next;
         }
+
+        /// <inheritdoc/>
         public void RemoveEnd()
         {
             if (IsEmpty) return;

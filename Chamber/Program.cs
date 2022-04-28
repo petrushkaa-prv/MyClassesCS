@@ -1,11 +1,12 @@
-﻿global using Developing.Arrays;
-global using Developing.GeneralExtensions;
-global using Developing.Interfaces;
-global using Developing.Lists;
-global using Developing.Nodes;
-global using Developing.Other;
-global using Developing.Trees;
-global using Developing.Graphs;
+﻿using Developing.Arrays;
+using Developing.GeneralExtensions;
+using Developing.Interfaces;
+using Developing.Lists;
+using Developing.Nodes;
+using Developing.Other;
+using Developing.Trees;
+using Developing.Graphs;
+using Developing.Testing;
 
 using System;
 using System.Collections;
@@ -79,14 +80,18 @@ namespace Chamber
             new(
                 10, 
                 0, 
-                10, 
+                20, 
                 5, 
                 0
                 );
 
         public static void Main(string[] args)
         {
-            var g = new DiGraph<int>(25);
+            IGraph<int> a;
+            var g = new DirectedGraph<int>(25);
+            var b = new DirectedGraph(25);
+            var c = new Graph<int>(20);
+            var d = new Graph(20);
 
             for (int i = 0; i < 10; i++)
             {
@@ -95,10 +100,18 @@ namespace Chamber
                 if (u == v) continue;
 
                 g.AddEdge(u, v, Rand.Next);
+                b.AddEdge(u, v);
+                c.AddEdge(u, v);
+                d.AddEdge(u, v);
             }
 
             Console.WriteLine(g);
-            Console.WriteLine(g.Reverse());
+            Console.WriteLine();
+            Console.WriteLine(b);
+            Console.WriteLine();
+            Console.WriteLine(c);
+            Console.WriteLine();
+            Console.WriteLine(d);
         }
     }
 }

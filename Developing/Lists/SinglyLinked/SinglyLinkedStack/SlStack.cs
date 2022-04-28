@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Developing.GeneralInterfaces;
 
 namespace Developing.Lists
 {
@@ -48,11 +49,16 @@ namespace Developing.Lists
     public class SlStack<T> : SinglyLinked<T>, IEnumerable<T>, IMyCollections<T>, IOrderedCollection<T>, IMyStack<T> 
     {
         private int _size;
+
+        /// <inheritdoc/>
         public override int Size => _size;
 
         private SlNode<T> _head;
+
+        /// <inheritdoc/>
         public override SlNode<T> Head => _head;
 
+        /// <inheritdoc/>
         public T Peek
         {
             get
@@ -62,6 +68,7 @@ namespace Developing.Lists
             }
         }
 
+        /// <inheritdoc/>
         public override bool IsEmpty => Size == 0;
 
         public SlStack()
@@ -75,6 +82,7 @@ namespace Developing.Lists
                 this.Push(val);
         }
 
+        /// <inheritdoc/>
         public void Push(T value)
         {
             this._size++;
@@ -91,6 +99,7 @@ namespace Developing.Lists
             _head = newNode;
         }
 
+        /// <inheritdoc/>
         public T Pop()
         {
             if (IsEmpty) throw new InvalidOperationException("The stack is empty");

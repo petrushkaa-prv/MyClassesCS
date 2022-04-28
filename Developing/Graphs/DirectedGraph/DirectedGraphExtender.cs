@@ -8,9 +8,9 @@ namespace Developing.Graphs
 {
     internal static class DirectedGraphExtender
     {
-        public static DiGraph Reverse(this DiGraph graph)
+        public static DirectedGraph Reverse(this DirectedGraph graph)
         {
-            var res = new DiGraph(graph.VertexCount, graph.Representation);
+            var res = new DirectedGraph(graph.VertexCount, graph.Representation);
 
             foreach (var edge in graph.DFS().SearchAll())
                 res.AddEdge(edge.To, edge.From);

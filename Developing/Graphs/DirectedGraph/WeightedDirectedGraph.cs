@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Developing.Graphs
 {
-    internal class DiGraph<T> : DiGraph, IGraph<T>
-    where T : new()
+    internal class DirectedGraph<T> : DirectedGraph, IGraph<T>
+        where T : new()
     {
         protected IAdjacencyStructure<T> MyAdjacencyStructure => (IAdjacencyStructure<T>)AdjacencyStructure;
 
-        public DiGraph(int vertices, IGraphRepresentation representation) : base(vertices, representation, representation.GetAdjacencyStructure<T>(vertices))
+        public DirectedGraph(int vertices, IGraphRepresentation representation) : base(vertices, representation, representation.GetAdjacencyStructure<T>(vertices))
         {
         }
 
-        public DiGraph(int vertices) : this(vertices, new DictionaryGraphRepresentation())
+        public DirectedGraph(int vertices) : this(vertices, new DictionaryGraphRepresentation())
         {
         }
 
@@ -35,7 +35,7 @@ namespace Developing.Graphs
         }
 
 
-
+        /// <inheritdoc/>
         public IEnumerable<Edge<T>> OutEdges(int v)
         {
             var g = this;
@@ -47,6 +47,7 @@ namespace Developing.Graphs
                 yield return new Edge<T>(v, outEdge.Item1, outEdge.Item2);
         }
 
+        /// <inheritdoc/>
         public void SetEdgeWeight(int from, int to, T weight)
         {
             if (MyAdjacencyStructure.HasEdge(from, to))
@@ -55,6 +56,7 @@ namespace Developing.Graphs
             MyAdjacencyStructure.SetValue(from, to, weight);
         }
 
+        /// <inheritdoc/>
         public T GetEdgeWeight(int from, int to)
         {
             if (MyAdjacencyStructure.HasEdge(from, to))
@@ -63,6 +65,7 @@ namespace Developing.Graphs
             return MyAdjacencyStructure.GetValue(from, to);
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             var sb = new StringBuilder();
