@@ -30,10 +30,8 @@ namespace Developing.Arrays
             var tempHeap = _heap;
             _heap = new T[2 * tempHeap.Length];
 
-            for (int i = 0; i < tempHeap.Length; i++)
-            {
+            for (int i = 0; i < tempHeap.Length; i++) 
                 _heap[i] = tempHeap[i];
-            }
         }
 
         public static void UpHeap(T[] Arr, int i)
@@ -41,10 +39,8 @@ namespace Developing.Arrays
             Arr[0] = default;
             var val = Arr[i];
 
-            for (; Arr[i] < (dynamic)val; i /= 2)
-            {
+            for (; Arr[i] < (dynamic)val; i /= 2) 
                 Arr[i] = Arr[i / 2];
-            }
 
             Arr[i] = val;
         }
@@ -79,7 +75,7 @@ namespace Developing.Arrays
             {
             }
 
-            return value ==(dynamic)_heap[idx] ? idx : -1;
+            return value == (dynamic)_heap[idx] ? idx : -1;
         }
 
         public void Insert(T value)
@@ -138,10 +134,8 @@ namespace Developing.Arrays
 
             var minIdx = idx;
             for (int i = idx + 1; i < _index; i++)
-            {
-                if(_heap[i] < (dynamic)_heap[minIdx])
+                if (_heap[i] < (dynamic)_heap[minIdx])
                     minIdx = i;
-            }
 
             return minIdx;
         }
@@ -149,24 +143,19 @@ namespace Developing.Arrays
         private void CreateFromTop(T[] arr)
         {
             _index = 1;
-            foreach (var elem in arr)
-            {
+
+            foreach (var elem in arr) 
                 Insert(elem);
-            }
         }
         private void CreateFromBottom(T[] arr)
         {
             _index = arr.Length;
             _heap = new T[arr.Length + 1];
-            for (int i = 0; i < arr.Length; i++)
-            {
+            for (int i = 0; i < arr.Length; i++) 
                 _heap[i + 1] = arr[i];
-            }
 
-            for (int i = _index / 2; i >= 1; i--)
-            {
+            for (int i = _index / 2; i >= 1; i--) 
                 DownHeap(_heap, i, _index);
-            }
         }
 
         // ReSharper disable once IdentifierTypo
@@ -175,15 +164,11 @@ namespace Developing.Arrays
             var heap = new T[arr.Length + 1];
             heap[0] = default;
 
-            for (int i = 0; i < arr.Length; i++)
-            {
+            for (int i = 0; i < arr.Length; i++) 
                 heap[i + 1] = arr[i];
-            }
 
-            for (int i = (heap.Length - 1) / 2; i >= 1; i--)
-            {
+            for (int i = (heap.Length - 1) / 2; i >= 1; i--) 
                 DownHeap(heap, i, heap.Length - 1);
-            }
 
             return heap;
         }

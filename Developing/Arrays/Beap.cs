@@ -31,9 +31,7 @@ namespace Developing.Arrays
             _beap = new T[2 * temp.Length];
 
             for (int i = 0; i < temp.Length; i++)
-            {
                 _beap[i] = temp[i];
-            }
         }
 
         public static void UpBeap(T[] arr, int k)
@@ -47,18 +45,17 @@ namespace Developing.Arrays
             while (i > 1)
             {
                 if (j == 1)
-                {
                     k = k - i + 1;
-                }
                 else if (j == i)
                 {
-                    k = k - i;
+                    k -= i;
                     j--;
                 }
                 else
                 {
-                    k = k - i;
+                    k -= i;
                     j--;
+
                     if (arr[k + 1] < (dynamic)arr[k])
                     {
                         k++;
@@ -73,9 +70,7 @@ namespace Developing.Arrays
                     i--;
                 }
                 else
-                {
                     break;
-                }
             }
 
             arr[k1] = tempVal;

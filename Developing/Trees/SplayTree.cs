@@ -13,9 +13,7 @@ namespace Developing.Trees
         public SplayTree(params T[] arr)
         {
             foreach (var item in arr)
-            {
                 Insert(item);
-            }
         }
 
 
@@ -23,38 +21,31 @@ namespace Developing.Trees
         {
             if (value.CompareTo(root.Value) < 0) // left subtree
             {
+
+
                 if (root.Left != null)
-                {
                     if (value.CompareTo(root.Left.Value) > 0)
-                    {
                         if (root.Left.Left != null)
                         {
                             Splay(value, ref root.Left.Left);
                             LZigZig(ref root);
                         }
-                        else 
+                        else
                             LZig(ref root);
-                    }
                     else if (value.CompareTo(root.Left.Value) > 0)
-                    {
                         if (root.Left.Right != null)
                         {
                             Splay(value, ref root.Left.Right);
                             LZigZag(ref root);
                         }
-                        else 
+                        else
                             LZig(ref root);
-                    }
-                    else 
+                    else
                         LZig(ref root);
-                }
             }
             else if (value.CompareTo(root.Value) > 0)
-            {
                 if (root.Right != null)
-                {
                     if (value.CompareTo(root.Right.Value) > 0)
-                    {
                         if (root.Right.Right != null)
                         {
                             Splay(value, ref root.Right.Right);
@@ -62,9 +53,7 @@ namespace Developing.Trees
                         }
                         else
                             RZig(ref root);
-                    }
                     else if (value.CompareTo(root.Right.Value) < 0)
-                    {
                         if (root.Right.Left != null)
                         {
                             Splay(value, ref root.Right.Left);
@@ -72,11 +61,8 @@ namespace Developing.Trees
                         }
                         else 
                             RZig(ref root);
-                    }
                     else
                         RZig(ref root);
-                }
-            }
         }
 
         private void LZig(ref SplayNode<T> p)
@@ -174,9 +160,7 @@ namespace Developing.Trees
 
             var p = Root;
             if (Root.Left == null)
-            {
                 Root = Root.Right;
-            }
             else
             {
                 Splay(value, ref Root.Left);

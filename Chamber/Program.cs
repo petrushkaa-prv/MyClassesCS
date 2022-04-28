@@ -35,15 +35,15 @@ using System.Threading.Tasks;
  * TODO:            Splay tree                          BUG!
  * TODO:            RST tree
  * TODO:            Seq. matcher                        Done
- * TODO:            Sequence class                      InProgress
- * TODO:            Sequence for complex cl.
+ * TODO:            Sequence class                      Done
+ * TODO:            Sequence for complex cl.            
  * TODO:            Graph                               Done
- * TODO:            DirectedGraph                       Done(?)
- * TODO:            WeightedGraph
- * TODO:            WeightedDirectedGraph
- * TODO:            MatrixGraphRepresentation
- * TODO:            DFS & BFS
- * TODO:            Add extensions for graphs
+ * TODO:            DirectedGraph                       Done
+ * TODO:            WeightedGraph                       Done
+ * TODO:            WeightedDirectedGraph               Done
+ * TODO:            MatrixGraphRepresentation           Done
+ * TODO:            DFS & BFS                            InProgress(DFS:Done)
+ * TODO:            Add extensions for graphs           InProgress
  *
  * TODO: Experiment:
  * TODO:            Try unsafe on BST<int>
@@ -81,25 +81,24 @@ namespace Chamber
                 0, 
                 10, 
                 5, 
-                DateTime.Now.Millisecond
+                0
                 );
 
         public static void Main(string[] args)
         {
-            var g = new Graph(10, new MatrixGraphRepresentation());
+            var g = new DiGraph<int>(25);
 
-            var arr = Rand.Array;
-
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 10; i++)
             {
                 int u = Rand.Next;
                 int v = Rand.Next;
-                if(u == v) continue;
+                if (u == v) continue;
 
-                g.AddEdge(u, v);
+                g.AddEdge(u, v, Rand.Next);
             }
 
             Console.WriteLine(g);
+            Console.WriteLine(g.Reverse());
         }
     }
 }

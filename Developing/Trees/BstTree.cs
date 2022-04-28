@@ -18,9 +18,7 @@ namespace Developing.Trees
         public BstTree(params T[] arr)
         {
             foreach (var item in arr)
-            {
                 Insert(item);
-            }
         }
 
         
@@ -58,12 +56,10 @@ namespace Developing.Trees
             if (last == null)
                 Root = node;
             else
-            {
                 if (last.Value.CompareTo(node.Value) > 0)
                     last.Left = node;
                 else
                     last.Right = node;
-            }
         }
         public override void Delete(T value)
         {
@@ -71,19 +67,15 @@ namespace Developing.Trees
             if (null == (ptr = Search(value, out var last))) return;
 
             if (ptr.Left != null && ptr.Right == null)
-            {
                 if (last.Left == ptr)
                     last.Left = ptr.Left;
                 else
                     last.Right = ptr.Left;
-            }
             else if (ptr.Left == null && ptr.Right != null)
-            {
                 if (last.Left == ptr)
                     last.Left = ptr.Right;
                 else
                     last.Right = ptr.Right;
-            }
             else if (ptr.Left != null && ptr.Right != null)
             {
                 BstNode<T> pParent = ptr, p = ptr.Left;
@@ -100,16 +92,12 @@ namespace Developing.Trees
                     pParent.Left = p.Left;
 
                 if (last == null)
-                {
                     Root = p;
-                }
                 else
-                {
                     if (last.Left == ptr)
                         last.Left = p;
                     else
                         last.Right = p;
-                }
 
                 p.Left = ptr.Left;
                 p.Right = ptr.Right;
@@ -123,9 +111,7 @@ namespace Developing.Trees
             var ptr = node;
 
             while (ptr.Right != null)
-            {
                 ptr = ptr.Right;
-            }
 
             return ptr;
         }
@@ -134,9 +120,7 @@ namespace Developing.Trees
             var ptr = node;
 
             while (ptr.Left != null)
-            {
                 ptr = ptr.Left;
-            }
 
             return ptr;
         }

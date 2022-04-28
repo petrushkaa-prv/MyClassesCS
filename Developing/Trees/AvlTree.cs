@@ -15,9 +15,7 @@ namespace Developing.Trees
         public AvlTree(params T[] arr)
         {
             foreach (var item in arr)
-            {
                 Insert(item);
-            }
         }
 
 
@@ -247,9 +245,7 @@ namespace Developing.Trees
             var ptr = node;
 
             while (ptr.Right != null)
-            {
                 ptr = ptr.Right;
-            }
 
             return ptr;
         }
@@ -258,9 +254,7 @@ namespace Developing.Trees
             var ptr = node;
 
             while (ptr.Left != null)
-            {
                 ptr = ptr.Left;
-            }
 
             return ptr;
         }

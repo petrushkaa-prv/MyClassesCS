@@ -45,14 +45,10 @@ namespace Developing.Other
             //const short left = 0, up = 1, leftUp = 2;      // directions
 
             for (int i = 1; i <= m; i++)
-            {
                 table[i, 0] = (i * gapValue, Direction.Left);
-            }
 
             for (int i = 1; i <= n; i++)
-            {
                 table[0, i] = (i * gapValue, Direction.Up);
-            }
 
             for (int i = 1; i <= m; i++)
             {
@@ -66,9 +62,7 @@ namespace Developing.Other
                     int tl = table[i - 1, j].val + gapValue;
 
                     if (tlu >= tu)
-                    {
-                        table[i, j] = tlu >= tl ? (tlu, left_up: Direction.LeftUp) : (tl, Direction.Left);
-                    }
+                        table[i, j] = tlu >= tl ? (tlu, Direction.LeftUp) : (tl, Direction.Left);
                     else
                         table[i, j] = tu >= tl ? (tu, Direction.Up) : (tl, Direction.Left);
                 }
@@ -152,7 +146,5 @@ namespace Developing.Other
 
         /// <inheritdoc />
         public override string ToString() => $"First sequence: \t{_sequence1}\nSecond sequence: \t{_sequence2}\nFirst after match: \t{Result1}\nSecond after match: \t{Result2}\nBest matching value: \t{CheckSumValue}";
-
-
     }
 }

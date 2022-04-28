@@ -11,38 +11,6 @@ namespace Developing.GeneralExtensions
 {
     public static class MyClassesExtender
     {
-        public static void Print2D<TValue, TNode>(this BinaryTree<TValue, TNode> tree) 
-            where TNode : BinaryNode<TValue, TNode>
-            where TValue : IComparable<TValue>
-        {
-            if (tree.Root == null) return;
-
-            Print2DFromNode<TValue, TNode>(tree.Root, 0);
-        }
-
-        public static void Print2DFromNode<TValue, TNode>(TNode ptr, int level)
-            where TNode : BinaryNode<TValue, TNode>
-        {
-            if (ptr == null) return;
-
-            Print2DFromNode<TValue, TNode>(ptr.Right, level + 1);
-
-            if (level != 0)
-            {
-                for (int i = 0; i < level - 1; i++)
-                {
-                    Console.Write("|\t");
-                }
-                Console.WriteLine("|-------" + ptr.Value.ToString());
-            }
-            else
-                Console.WriteLine(ptr.Value.ToString());
-
-            Print2DFromNode<TValue, TNode>(ptr.Left, level + 1);
-        }
-
-
-
         public static IEnumerable<TOut> DoubleEnumerableTuples<T1, T2, TOut>
         (
             this (IEnumerable<T1> Item1, IEnumerable<T2> Item2) objectTuple,
@@ -106,10 +74,8 @@ namespace Developing.GeneralExtensions
         {
             TClass res = new TClass();
 
-            foreach (var elem in arg)
-            {
+            foreach (var elem in arg) 
                 res.Push(func(elem));
-            }
 
             return res;
         }

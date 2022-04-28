@@ -18,9 +18,7 @@ namespace Developing.Trees
             var ptr = Root;
 
             while (ptr != null && ptr.Value.CompareTo(value) != 0)
-            {
                 ptr = value.CompareTo(ptr.Value) > 0 ? ptr.Right : ptr.Left;
-            }
 
             return ptr;
         }

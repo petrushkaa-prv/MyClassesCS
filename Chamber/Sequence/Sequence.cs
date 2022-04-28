@@ -26,7 +26,7 @@ namespace Chamber
             _max = max;
             _seed = seed;
             
-            Initialize(_count, _min, _max, _seed, Type.GetTypeCode(typeof(T)) == TypeCode.String ? strLength : 0);
+            Initialize(_count, _min, _max, _seed, _strLength = Type.GetTypeCode(typeof(T)) == TypeCode.String ? strLength : 0);
         }
 
         private void Initialize(int count = 10, int min = 0, int max = 10, int seed = 0, int strLength = 0)
@@ -59,21 +59,16 @@ namespace Chamber
 
         public IEnumerator<T> GetEnumerator()
         {
-            T[] arr = this.Array;
+            var arr = this.Array;
 
             if(Array.Length <= 0) yield break;
 
-            for (int i = 0; i < arr.Length; i++)
-            {
-                yield return arr[i];
-            }
+            foreach (var el in arr)
+                yield return el;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-        
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
         public override string ToString()
         {
             return _sequence.ToString();
@@ -104,7 +99,7 @@ namespace Chamber
         {
             get
             {
-                T[] array = new T[_count];
+                var array = new T[_count];
 
                 for (int i = 0; i < _count; i++)
                 {
@@ -123,8 +118,17 @@ namespace Chamber
         {
         }
 
-        public override float Next => base.Random.NextSingle();
+        public override float Next => Random.NextSingle();
+    }
 
+    public class DoubleSequence : SequenceModifier<double>
+    {
+        public DoubleSequence(int count, int seed = 0) :
+            base(count, seed)
+        {
+        }
+
+        public override double Next => Random.NextDouble();
     }
 
     public class IntegerSequence : SequenceModifier<int>

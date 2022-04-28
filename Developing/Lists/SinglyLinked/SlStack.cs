@@ -9,49 +9,43 @@ namespace Developing.Lists
 {
     public static class StackExtender
     {
-        public static Developing.Lists.MyStack<T> DoWork2<T>(this Developing.Lists.MyStack<T> stack, Func<(T, T), T> func)
+        public static Developing.Lists.SlStack<T> DoWork2<T>(this Developing.Lists.SlStack<T> stack, Func<(T, T), T> func)
             where T : IComparable<T>
         {
             var res = (T[])stack;
 
             for (int i = 0; i < res.Length; i++)
-            {
                 res[i] = func((res[i], (dynamic)i));
-            }
 
             return res;
         }
 
-        public static MyStack<TOut> Convert<TIn, TOut>(this MyStack<TIn> stack)
+        public static SlStack<TOut> Convert<TIn, TOut>(this SlStack<TIn> stack)
             where TOut : IComparable<TOut>
             where TIn : IComparable<TIn>
         {
-            var res = new MyStack<TOut>();
+            var res = new SlStack<TOut>();
 
-            foreach (var VARIABLE in stack.Reverse())
-            {
-                res.Push((TOut)(dynamic)VARIABLE);
-            }
+            foreach (var elem in stack.Reverse())
+                res.Push((TOut)(dynamic)elem);
 
             return res;
         }
 
-        public static MyStack<N> Convert<T, N>(this MyStack<T> stack, Func<T, N> func)
+        public static SlStack<N> Convert<T, N>(this SlStack<T> stack, Func<T, N> func)
             where N : IComparable<N>
             where T : IComparable<T>
         {
-            MyStack<N> res = new MyStack<N>();
+            SlStack<N> res = new SlStack<N>();
 
-            foreach (var VARIABLE in stack.Reverse())
-            {
-                res.Push(func(VARIABLE));
-            }
+            foreach (var elem in stack.Reverse())
+                res.Push(func(elem));
 
             return res;
         }
     }
 
-    public class MyStack<T> : SinglyLinked<T>, IEnumerable<T>, IMyCollections<T>, IMyStack<T>
+    public class SlStack<T> : SinglyLinked<T>, IEnumerable<T>, IMyCollections<T>, IOrderedCollection<T>, IMyStack<T> 
     {
         private int _size;
         public override int Size => _size;
@@ -70,17 +64,15 @@ namespace Developing.Lists
 
         public override bool IsEmpty => Size == 0;
 
-        public MyStack()
+        public SlStack()
         {
             _size = 0;
             _head = null;
         }
-        public MyStack(params T[] arr)
+        public SlStack(params T[] arr)
         {
             foreach (var val in arr)
-            {
                 this.Push(val);
-            }
         }
 
         public void Push(T value)
@@ -99,15 +91,20 @@ namespace Developing.Lists
             _head = newNode;
         }
 
-        public void Pop()
+        public T Pop()
         {
-            if (IsEmpty) return;
+            if (IsEmpty) throw new InvalidOperationException("The stack is empty");
 
             _size--;
+
+            var returnValue = _head.Value;
+
             _head = _head.Next;
+
+            return returnValue;
         }
 
-        public MyStack<T> Copy()
+        public SlStack<T> Copy()
         {
             var tmp = (T[])this;
             Array.Reverse(tmp);
@@ -115,16 +112,14 @@ namespace Developing.Lists
             return tmp;
         }
 
-        public void Append(MyStack<T> stack)
+        public void Append(SlStack<T> stack)
         {
             if (stack.IsEmpty) return;
 
             foreach (var el in stack)
-            {
-                this.Push(el);
-            }
+                Push(el);
         }
-        public void Subtract(MyStack<T> stack, out MyStack<T> subtractedValuesStack)
+        public void Subtract(SlStack<T> stack, out SlStack<T> subtractedValuesStack)
         {
             if (stack.IsEmpty)
             {
@@ -132,18 +127,15 @@ namespace Developing.Lists
                 return;
             }
 
-            subtractedValuesStack = new MyStack<T>();
+            subtractedValuesStack = new SlStack<T>();
 
             bool ini = false;
             foreach (var elem in stack)
             {
-
                 while (this.Contains(elem, out var ptr, out var prev))
                 {
                     if (prev == null)
-                    {
                         _head = ptr.Next;
-                    }
                     else
                     {
                         prev.Next = ptr.Next;
@@ -153,7 +145,7 @@ namespace Developing.Lists
 
                     if (!ini)
                     {
-                        subtractedValuesStack = new MyStack<T>();
+                        subtractedValuesStack = new SlStack<T>();
                         ini = true;
                     }
 
@@ -164,7 +156,7 @@ namespace Developing.Lists
             }
         }
 
-        public static explicit operator T[](MyStack<T> stack)
+        public static explicit operator T[](SlStack<T> stack)
         {
             T[] res = new T[stack.Size];
 
@@ -181,9 +173,9 @@ namespace Developing.Lists
 
             return res;
         }
-        public static implicit operator MyStack<T>(T[] arr) => new MyStack<T>(arr);
+        public static implicit operator SlStack<T>(T[] arr) => new SlStack<T>(arr);
 
-        public static bool operator ==(MyStack<T> lhs, MyStack<T> rhs)
+        public static bool operator ==(SlStack<T> lhs, SlStack<T> rhs)
         {
             //if (IsNull(lhs) || IsNull(rhs)) return false;
             if (lhs.Size != rhs.Size) return false;
@@ -199,7 +191,7 @@ namespace Developing.Lists
 
             return true;
         }
-        public static bool operator !=(MyStack<T> lhs, MyStack<T> rhs)
+        public static bool operator !=(SlStack<T> lhs, SlStack<T> rhs)
         {
             return !(lhs == rhs);
         }
@@ -240,7 +232,7 @@ namespace Developing.Lists
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return this == (MyStack<T>)obj;
+            return this == (SlStack<T>)obj;
         }
         /// <inheritdoc />
         public override int GetHashCode() => HashCode.Combine(this.Head, this.Size);

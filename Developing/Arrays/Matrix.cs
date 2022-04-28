@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Developing.Interfaces;
 
 namespace Developing.Arrays
@@ -6,18 +7,21 @@ namespace Developing.Arrays
     public class Matrix<T>
         where T : IComparable<T>
     {
-        private T[] _matrixElements = null;
+        private readonly T[] _matrixElements;
 
-        private int _matrixSize = 0;
+        private readonly int _matrixSize;
         public int Size => _matrixSize;
         public bool IsEmpty => _matrixSize == 0;
 
-        private int _matrixRows = 0;
-        private int _matrixColumns = 0;
+        private readonly int _matrixRows;
+        private readonly int _matrixColumns;
 
         public Matrix()
         {
-
+            _matrixElements = null;
+            _matrixSize = 0;
+            _matrixRows = 0;
+            _matrixColumns = 0;
         }
         public Matrix(int size)
         {
@@ -41,9 +45,7 @@ namespace Developing.Arrays
             _matrixElements = new T[_matrixSize];
 
             for (int i = 0; i < arr.Length; i++)
-            {
                 _matrixElements[i] = arr[i];
-            }
         }
         public Matrix(Matrix<T> old)
         {
@@ -53,21 +55,18 @@ namespace Developing.Arrays
             _matrixElements = new T[_matrixSize];
 
             for (int i = 0; i < old._matrixSize; i++)
-            {
                 _matrixElements[i] = old._matrixElements[i];
-            }
         }
 
         public static Matrix<T> operator +(Matrix<T> lhs, Matrix<T> rhs)
         {
-            if (lhs._matrixSize != rhs._matrixSize) throw new System.Exception("Matrix dimensions must agree");
+            if (lhs._matrixSize != rhs._matrixSize) 
+                throw new System.Exception("Matrix dimensions must agree");
 
             Matrix<T> res = new Matrix<T>(lhs._matrixSize);
 
             for (int i = 0; i < lhs._matrixSize; i++)
-            {
                 res._matrixElements[i] = (dynamic)lhs._matrixElements[i] + (dynamic)rhs._matrixElements[i];
-            }
 
             return res;
         }
@@ -75,16 +74,15 @@ namespace Developing.Arrays
         {
             Matrix<T> res = old;
 
-            for (int i = 0; i < res._matrixSize; i++)
-            {
+            for (int i = 0; i < res._matrixSize; i++) 
                 res._matrixElements[i] = -(dynamic)res._matrixElements[i];
-            }
 
             return res;
         }
         public static Matrix<T> operator -(Matrix<T> lhs, Matrix<T> rhs)
         {
-            if (lhs._matrixSize != rhs._matrixSize) throw new System.Exception("Matrix dimensions must agree");
+            if (lhs._matrixSize != rhs._matrixSize) 
+                throw new System.Exception("Matrix dimensions must agree");
             
             return new Matrix<T>(lhs + (-rhs));
         }
@@ -92,34 +90,28 @@ namespace Developing.Arrays
         /// <inheritdoc />
         public void FillWith(T element, int howMany = 0)
         {
-            for (int i = 0; i < _matrixSize; i++)
-            {
+            for (int i = 0; i < _matrixSize; i++) 
                 _matrixElements[i] = element;
-            }
         }
 
         /// <inheritdoc />
         public bool Contains(T element)
         {
             foreach (var matrixElement in _matrixElements)
-            {
-                if (element.CompareTo(matrixElement) > 0) return true;
-            }
+                if (element.CompareTo(matrixElement) > 0)
+                    return true;
 
             return false;
         }
 
         public override string ToString()
         {
-            string res = new string("");
+            var sb = new StringBuilder();
 
             for (int i = 0; i < _matrixSize; i++)
-            {
-                res += (i + 1) % _matrixRows != 0 ? _matrixElements[i] + "\t" : _matrixElements[i] + "\n";
-                /*res.Append((i + 1) % _matrixRows != 0 ? _matrixElements[i] + "\t" : _matrixElements[i] + "\n")*/
-            }
+                sb.Append((i + 1) % _matrixRows != 0 ? _matrixElements[i] + "\t" : _matrixElements[i] + "\n");
 
-            return res;
+            return sb.ToString();
         }
     }
 }

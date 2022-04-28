@@ -1,42 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using Developing.Nodes;
+using System.Threading.Tasks;
 
-namespace Developing.Interfaces
+namespace Developing.Lists
 {
-    /// <summary>
-    /// Interface of general methods to be present in all MyClasses Classes
-    /// </summary>
-    public interface IMyCollections<T> : IEnumerable<T>
-    {
-        bool IsEmpty { get; }
-        public int Size { get; }
-
-        public bool Contains(T element);
-
-        public void Clear();
-    }
-
-    public interface IMyStack<T>
-    {
-        void Push(T elem);
-        void Pop();
-        public T Peek { get; }
-    }
-
-    public interface IMyList<T>
-    {
-        public T Front { get; }
-        public T Back { get; }
-
-        public void AddFront(T val);
-        public void AddEnd(T val);
-
-        public void RemoveFront();
-        public void RemoveEnd();
-    }
-
     public abstract class SinglyLinked<T> : IMyCollections<T>
     {
         public abstract SlNode<T> Head { get; }
@@ -81,15 +51,15 @@ namespace Developing.Interfaces
         /// <inheritdoc />
         public virtual IEnumerator<T> GetEnumerator()
         {
-            if(IsEmpty) yield break;
+            if (IsEmpty) yield break;
 
             var ptr = this.Head;
 
-            while (ptr is not null)
+            do
             {
                 yield return ptr.Value;
-                ptr = ptr.Next;
             }
+            while ((ptr = ptr.Next) is not null);
         }
 
         /// <inheritdoc />
