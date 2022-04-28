@@ -37,6 +37,13 @@ namespace Developing.Graphs
             AdjacencyStructure = adjacency;
         }
         
+        public DirectedGraph(IGraph graph)
+        {
+            for (int i = 0; i < graph.VertexCount; i++)
+                foreach (var outNeighbor in graph.OutNeighbors(i))
+                    AddEdge(i, outNeighbor);
+        }
+
         public virtual bool AddEdge(int u, int v)
         {
             if (u < 0 || v < 0 || u >= VertexCount || v >= VertexCount)

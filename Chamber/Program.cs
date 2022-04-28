@@ -15,7 +15,9 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -76,42 +78,58 @@ namespace Chamber
             return y;
         }
 
+        public static string Ea<T>(this IEnumerable<T> input)
+        {
+            var sb = new StringBuilder();
+
+            foreach (var elem in input)
+            {
+                sb.Append(elem.ToString());
+                sb.Append('\t');
+            }
+
+            return sb.ToString();
+        }
+
         private static readonly Sequence<int> Rand =
             new(
                 10, 
                 0, 
                 20, 
                 5, 
-                0
+                DateTime.Now.Millisecond
                 );
 
         public static void Main(string[] args)
         {
-            IGraph<int> a;
-            var g = new DirectedGraph<int>(25);
+            var a = new DirectedGraph<int>(25);
             var b = new DirectedGraph(25);
-            var c = new Graph<int>(20);
+            var c = new Graph<int>(25);
             var d = new Graph(20);
 
             for (int i = 0; i < 10; i++)
             {
                 int u = Rand.Next;
                 int v = Rand.Next;
+
                 if (u == v) continue;
 
-                g.AddEdge(u, v, Rand.Next);
+                a.AddEdge(u, v, Rand.Next);
                 b.AddEdge(u, v);
-                c.AddEdge(u, v);
+                c.AddEdge(u, v, Rand.Next);
                 d.AddEdge(u, v);
             }
 
-            Console.WriteLine(g);
+            Console.WriteLine(a);
             Console.WriteLine();
             Console.WriteLine(b);
             Console.WriteLine();
             Console.WriteLine(c);
             Console.WriteLine();
-            Console.WriteLine(d);
+            Console.WriteLine(c.IsAcyclic().ToString() + "\t" + c.IsBipartite(out var s1, out var s2));
+
+            Console.WriteLine(s1);
+            Console.WriteLine(s2);
         }
     }
 }

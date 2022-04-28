@@ -9,7 +9,7 @@ namespace Developing.Graphs
     internal class DirectedGraph<T> : DirectedGraph, IGraph<T>
         where T : new()
     {
-        protected IAdjacencyStructure<T> MyAdjacencyStructure => (IAdjacencyStructure<T>)AdjacencyStructure;
+        protected IAdjacencyStructure<T> MyAdjacencyStructure => (IAdjacencyStructure<T>)base.AdjacencyStructure;
 
         public DirectedGraph(int vertices, IGraphRepresentation representation) : base(vertices, representation, representation.GetAdjacencyStructure<T>(vertices))
         {
@@ -17,6 +17,17 @@ namespace Developing.Graphs
 
         public DirectedGraph(int vertices) : this(vertices, new DictionaryGraphRepresentation())
         {
+        }
+
+        public DirectedGraph(IGraph<T> graph) : this(graph.VertexCount, graph.Representation)
+        {
+            for (int i = 0; i < graph.VertexCount; i++)
+            {
+                foreach (var edge in graph.OutEdges(i))
+                {
+                    AddEdge(edge.From, edge.To, edge.Weight);
+                }
+            }
         }
 
         public virtual bool AddEdge(int u, int v, T weight)

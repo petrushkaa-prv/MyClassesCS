@@ -24,6 +24,15 @@ namespace Developing.Graphs
 
         public Graph(int vertices) => _diGraph = new DirectedGraph(vertices);
 
+        protected Graph(DirectedGraph directedGraph) => _diGraph = directedGraph;
+
+        public Graph(Graph graph) : this(graph.VertexCount, graph.Representation)
+        {
+            for (int i = 0; i < graph.VertexCount; i++)
+                foreach (int outNeighbor in graph.OutNeighbors(i))
+                    AddEdge(i, outNeighbor);
+        }
+
         public bool AddEdge(int u, int v) => _diGraph.AddEdge(u, v) && _diGraph.AddEdge(v, u);
         public bool RemoveEdge(int u, int v) => _diGraph.RemoveEdge(u, v) && _diGraph.RemoveEdge(v, u);
 

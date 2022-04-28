@@ -17,6 +17,15 @@ namespace Developing.Graphs
             this.To = to;
         }
 
+        public static bool operator ==(Edge e1, Edge e2)
+        {
+            return e1.From == e2.From && e1.To == e2.To;
+        }
+        public static bool operator !=(Edge e1, Edge e2)
+        {
+            return !(e1 == e2);
+        }
+
         /// <inheritdoc />
         public override string ToString() => $"({From}, {To})";
     }
@@ -32,6 +41,15 @@ namespace Developing.Graphs
             this.From = from;
             this.To = to;
             this.Weight = weight;
+        }
+
+        public static bool operator ==(Edge<T> e1, Edge<T> e2)
+        {
+            return (e1.From == e2.From && e1.To == e2.To && e1.Weight == (dynamic)e2.Weight);
+        }
+        public static bool operator !=(Edge<T> e1, Edge<T> e2)
+        {
+            return !(e1 == e2);
         }
 
         public override string ToString() => $"({From}, {To} - [{Weight}])";

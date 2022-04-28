@@ -9,18 +9,27 @@ namespace Developing.Graphs
     internal class Graph<T> : Graph, IGraph<T>
         where T : new()
     {
-        public Graph(int vertices, IGraphRepresentation representation) : base(vertices, representation)
+        public Graph(int vertices, IGraphRepresentation representation) : base(new DirectedGraph<T>(vertices, representation))
         {
         }
 
-        public Graph(int vertices) : base(vertices)
+        public Graph(int vertices) : base(new DirectedGraph<T>(vertices))
         {
         }
+
+        public Graph(Graph<T> graph) : this(graph.VertexCount, graph.Representation)
+        {
+            for (int i = 0; i < graph.VertexCount; i++)
+                foreach (var edge in graph.OutEdges(i))
+                    AddEdge(edge.From, edge.To, edge.Weight);
+        }
+
         /// <inheritdoc/>
         public IEnumerable<Edge<T>> OutEdges(int v) => (_diGraph as DirectedGraph<T>)!.OutEdges(v);
         
         public bool AddEdge(int u, int v, T weight)
-            => (_diGraph as DirectedGraph<T>)!.AddEdge(u, v, weight) && (_diGraph as DirectedGraph<T>)!.AddEdge(v, u, weight);
+            => (_diGraph as DirectedGraph<T>)!.AddEdge(u, v, weight) && 
+               (_diGraph as DirectedGraph<T>)!.AddEdge(v, u, weight);
 
         /// <inheritdoc/>
         public void SetEdgeWeight(int from, int to, T weight)
