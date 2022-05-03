@@ -42,7 +42,7 @@ namespace Developing.Nodes
     }
 
     public class DlNode<T>
-        where T : IComparable<T>
+        //where T : IComparable<T>
     {
         public T Value { get; set; }
         public DlNode<T> Next { get; set; }

@@ -23,6 +23,7 @@ namespace Developing.Graphs
             try
             {
                 _aliveIterators[v]++;
+
                 for (int i = 0; i < _matrix.GetLength(0); i++)
                     if (_matrix[v, i].present) 
                         yield return (i, _matrix[v, i].val);

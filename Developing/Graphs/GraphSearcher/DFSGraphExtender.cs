@@ -9,12 +9,16 @@ namespace Developing.Graphs
 {
     internal static class DFSGraphExtender
     {
-        public static IGraphSearcher DFS(this IGraph g) => (IGraphSearcher)new GeneralGraphSearcher(g, new SlStack<int>(), !g.Directed);
+        public static IGraphSearcher DFS(this IGraph graph) 
+            => new GeneralGraphSearcher(graph, new SlStack<int>(), !graph.Directed);
 
-        public static IGraphSearcher<T> DFS<T>(this IGraph<T> g) => (IGraphSearcher<T>)new GeneralGraphSearcher<T>(g, new SlStack<int>(), !g.Directed);
+        public static IGraphSearcher<T> DFS<T>(this IGraph<T> graph) 
+            => new GeneralGraphSearcher<T>(graph, new SlStack<int>(), !graph.Directed);
 
-        public static IGraphSearcher<T> DFS<T>(this Graph<T> g) where T : new() => (IGraphSearcher<T>)new GeneralGraphSearcher<T>(g, new SlStack<int>(), true);
+        public static IGraphSearcher<T> DFS<T>(this Graph<T> graph) where T : new() 
+            => new GeneralGraphSearcher<T>(graph, new SlStack<int>(), true);
 
-        public static IGraphSearcher<T> DFS<T>(this DirectedGraph<T> g) where T : new() => (IGraphSearcher<T>)new GeneralGraphSearcher<T>(g, new SlStack<int>(), false);
+        public static IGraphSearcher<T> DFS<T>(this DirectedGraph<T> graph) where T : new()
+            => new GeneralGraphSearcher<T>(graph, new SlStack<int>(), false);
     }
 }

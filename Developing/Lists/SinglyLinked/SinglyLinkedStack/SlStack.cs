@@ -46,7 +46,7 @@ namespace Developing.Lists
         }
     }
 
-    public class SlStack<T> : SinglyLinked<T>, IEnumerable<T>, IMyCollections<T>, IOrderedCollection<T>, IMyStack<T> 
+    public class SlStack<T> : SinglyLinked<T>, IEnumerable<T>, IMyCollections<T>, IOrderedContainer<T>, IMyStack<T> 
     {
         private int _size;
 

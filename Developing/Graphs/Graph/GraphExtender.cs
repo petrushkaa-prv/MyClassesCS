@@ -74,9 +74,8 @@ namespace Developing.Graphs
                 if (visited[i]) continue;
 
                 visited[i] = true;
-
-                // TODO: REPLACE WITH BFS WHEN IMPLEMENTED
-                foreach (var edge in graph.DFS().SearchFrom(i))
+                
+                foreach (var edge in graph.BFS().SearchFrom(i))
                 {
                     if (visitedEdges.Contains(new Edge(edge.To, edge.From))) continue;
 

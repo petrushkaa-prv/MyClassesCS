@@ -45,7 +45,7 @@ using System.Threading.Tasks;
  * TODO:            WeightedGraph                       Done
  * TODO:            WeightedDirectedGraph               Done
  * TODO:            MatrixGraphRepresentation           Done
- * TODO:            DFS & BFS                            InProgress(DFS:Done)
+ * TODO:            DFS & BFS                           Done
  * TODO:            Add extensions for graphs           InProgress
  *
  * TODO: Experiment:
@@ -78,58 +78,29 @@ namespace Chamber
             return y;
         }
 
-        public static string Ea<T>(this IEnumerable<T> input)
-        {
-            var sb = new StringBuilder();
-
-            foreach (var elem in input)
-            {
-                sb.Append(elem.ToString());
-                sb.Append('\t');
-            }
-
-            return sb.ToString();
-        }
-
         private static readonly Sequence<int> Rand =
             new(
                 10, 
                 0, 
                 20, 
                 5, 
-                DateTime.Now.Millisecond
+                0
                 );
 
         public static void Main(string[] args)
         {
-            var a = new DirectedGraph<int>(25);
-            var b = new DirectedGraph(25);
-            var c = new Graph<int>(25);
-            var d = new Graph(20);
+            var mat1 = new Matrix<int>(3, 2);
+            var mat2 = new Matrix<int>(2, 3);
 
-            for (int i = 0; i < 10; i++)
-            {
-                int u = Rand.Next;
-                int v = Rand.Next;
+            mat1.FillWith(2);
+            mat2.FillWith(4);
 
-                if (u == v) continue;
+            Console.WriteLine(mat1);
+            Console.WriteLine(mat2);
 
-                a.AddEdge(u, v, Rand.Next);
-                b.AddEdge(u, v);
-                c.AddEdge(u, v, Rand.Next);
-                d.AddEdge(u, v);
-            }
-
-            Console.WriteLine(a);
-            Console.WriteLine();
-            Console.WriteLine(b);
-            Console.WriteLine();
-            Console.WriteLine(c);
-            Console.WriteLine();
-            Console.WriteLine(c.IsAcyclic().ToString() + "\t" + c.IsBipartite(out var s1, out var s2));
-
-            Console.WriteLine(s1);
-            Console.WriteLine(s2);
+            Console.WriteLine(mat1 * mat2);
+            Console.WriteLine(mat2 * mat1);
+            Console.WriteLine(mat1.ElementVise() * mat1.ElementVise());
         }
     }
 }

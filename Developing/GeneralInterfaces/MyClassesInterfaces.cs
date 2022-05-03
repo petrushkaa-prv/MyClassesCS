@@ -6,7 +6,7 @@ using Developing.Nodes;
 
 namespace Developing.Interfaces
 {
-    public interface IMyStack<T> : IOrderedCollection<T>
+    public interface IMyStack<T> : IOrderedContainer<T>
     {
         new void Push(T elem);
         new T Pop();

@@ -9,12 +9,12 @@ namespace Developing.Graphs
 {
     internal class GeneralGraphSearcher<T> : IGraphSearcher<T>
     {
-        private IOrderedCollection<int> _container;
+        private IOrderedContainer<int> _container;
         private IGraph<T> _graph;
         private IEnumerator<Edge<T>>[] _enums;
         private bool _skipEdgesToFinished;
 
-        public GeneralGraphSearcher(IGraph<T> graph, IOrderedCollection<int> container, bool skipEdgesToFinished)
+        public GeneralGraphSearcher(IGraph<T> graph, IOrderedContainer<int> container, bool skipEdgesToFinished)
         {
             _container = container;
             _graph = graph;
@@ -60,7 +60,7 @@ namespace Developing.Graphs
                     }
                 }
 
-                curEn = (IEnumerator<Edge<T>>)null;
+                curEn = null;
             }
             finally
             {
@@ -76,7 +76,7 @@ namespace Developing.Graphs
     {
         private GeneralGraphSearcher<bool> _internalGraphSearcher;
 
-        public GeneralGraphSearcher(IGraph graph, IOrderedCollection<int> container, bool skipEdgesToFinished) 
+        public GeneralGraphSearcher(IGraph graph, IOrderedContainer<int> container, bool skipEdgesToFinished) 
             => _internalGraphSearcher = new GeneralGraphSearcher<bool>(new GraphAdapter(graph), container, skipEdgesToFinished);
 
         public IEnumerable<Edge> SearchAll()

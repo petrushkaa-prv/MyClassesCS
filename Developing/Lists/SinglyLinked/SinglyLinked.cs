@@ -32,7 +32,7 @@ namespace Developing.Lists
         {
             prevPtr = null;
 
-            if (this.IsEmpty)
+            if (IsEmpty)
             {
                 foundPtr = null;
                 return false;
