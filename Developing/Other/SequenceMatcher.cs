@@ -54,7 +54,6 @@ namespace Developing.Other
             {
                 for (int j = 1; j <= n; j++)
                 {
-
                     int tlu = table[i - 1, j - 1].val + (seq1[i - 1] == seq2[j - 1] ? matchValue : mismatchValue);
 
                     int tu = table[i, j - 1].val + gapValue;

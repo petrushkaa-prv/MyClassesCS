@@ -3,14 +3,19 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>CS_Test_Chamber</RootNamespace>
+    <RootNamespace>Chamber</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <StartupObject>Chamber.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Developing\Arrays\Dictionary.cs" />
     <Compile Remove="Developing\Arrays\Vector.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>
 
 </Project>

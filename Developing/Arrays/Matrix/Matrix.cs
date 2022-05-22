@@ -129,10 +129,7 @@ namespace Developing.Arrays
 
 
 
-        public static implicit operator ElementViseMatrix<T>(Matrix<T> matrix)
-        {
-            return new ElementViseMatrix<T>(matrix);
-        }
+        public static implicit operator ElementViseMatrix<T>(Matrix<T> matrix) => new(matrix);
 
         public ElementViseMatrix<T> ElementVise() => this;
 

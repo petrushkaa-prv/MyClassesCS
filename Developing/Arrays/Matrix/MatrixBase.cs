@@ -134,14 +134,15 @@ namespace Developing.Arrays
             return sb.ToString();
         }
 
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            return (MatrixBase<T>)obj == this;
-        }
+        public virtual string ToString(bool rowVise)
+            => rowVise ? string.Join(',', _matrixElements) : ToString();
 
         /// <inheritdoc />
-        public override int GetHashCode() =>
-            HashCode.Combine(_matrixElements, _matrixColumns, _matrixRows, _matrixSize, typeof(T));
+        public override bool Equals(object obj)
+            => (MatrixBase<T>)obj == this;
+
+        /// <inheritdoc />
+        public override int GetHashCode() 
+            => HashCode.Combine(_matrixElements, _matrixColumns, _matrixRows, _matrixSize, typeof(T));
     }
 }

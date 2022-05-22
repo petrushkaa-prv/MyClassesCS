@@ -26,6 +26,49 @@ namespace Developing.Arrays
         {
         }
 
+        public static ElementViseMatrix<T> operator -(ElementViseMatrix<T> old)
+        {
+            var res = new ElementViseMatrix<T>(old._matrixSize);
+
+            for (int i = 0; i < res._matrixSize; i++)
+                res._matrixElements[i] = -(dynamic)res._matrixElements[i];
+
+            return res;
+        }
+
+        public static ElementViseMatrix<T> operator +(ElementViseMatrix<T> lhs, ElementViseMatrix<T> rhs)
+        {
+            if (lhs._matrixSize != rhs._matrixSize)
+                throw new System.Exception("Matrix dimensions must agree");
+
+            var res = new ElementViseMatrix<T>(lhs._matrixSize);
+
+            for (int i = 0; i < lhs._matrixSize; i++)
+                res._matrixElements[i] = lhs._matrixElements[i] + (dynamic)rhs._matrixElements[i];
+
+            return res;
+        }
+        public static ElementViseMatrix<T> operator -(ElementViseMatrix<T> lhs, ElementViseMatrix<T> rhs)
+        {
+            if (lhs._matrixSize != rhs._matrixSize)
+                throw new System.Exception("Matrix dimensions must agree");
+
+            return new ElementViseMatrix<T>(lhs + (-rhs));
+        }
+        public static ElementViseMatrix<T> operator +(ElementViseMatrix<T> matrix, T val)
+        {
+            var res = new ElementViseMatrix<T>(matrix);
+
+            for (int i = 0; i < res._matrixSize; i++)
+                res._matrixElements[i] += (dynamic)val;
+
+            return res;
+        }
+        public static ElementViseMatrix<T> operator -(ElementViseMatrix<T> matrix, T val)
+        {
+            return matrix + -(dynamic)val;
+        }
+
         public static ElementViseMatrix<T> operator *(ElementViseMatrix<T> lhs, ElementViseMatrix<T> rhs)
         {
             if (rhs._matrixColumns != lhs._matrixColumns || rhs._matrixRows != lhs._matrixRows)
@@ -38,12 +81,27 @@ namespace Developing.Arrays
 
             return res;
         }
-
-
-        public static implicit operator Matrix<T>(ElementViseMatrix<T> matrix)
+        public static ElementViseMatrix<T> operator *(ElementViseMatrix<T> matrix, T val)
         {
-            return new Matrix<T>(matrix);
+            var res = new ElementViseMatrix<T>(matrix);
+
+            for (int i = 0; i < res._matrixSize; i++)
+                res._matrixElements[i] *= (dynamic)val;
+
+            return res;
         }
+        public static ElementViseMatrix<T> operator /(ElementViseMatrix<T> matrix, T val)
+        {
+            var res = new ElementViseMatrix<T>(matrix);
+
+            for (int i = 0; i < res._matrixSize; i++)
+                res._matrixElements[i] /= (dynamic)val;
+
+            return res;
+        }
+
+
+        public static implicit operator Matrix<T>(ElementViseMatrix<T> matrix) => new (matrix);
 
 
         public override MatrixBase<T> ToPower(int power)

@@ -9,6 +9,6 @@ namespace Developing.Graphs
     internal class MatrixGraphRepresentation : IGraphRepresentation
     {
         public IAdjacencyStructure<T> GetAdjacencyStructure<T>(int size) where T : new()
-            => (IAdjacencyStructure<T>)new MatrixAdjacencyStructure<T>(size);
+            => new MatrixAdjacencyStructure<T>(size);
     }
 }

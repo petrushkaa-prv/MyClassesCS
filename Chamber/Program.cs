@@ -1,4 +1,5 @@
-﻿using Developing.Arrays;
+﻿#nullable enable
+using Developing.Arrays;
 using Developing.GeneralExtensions;
 using Developing.Interfaces;
 using Developing.Lists;
@@ -9,12 +10,15 @@ using Developing.Graphs;
 using Developing.Testing;
 
 using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -55,52 +59,43 @@ using System.Threading.Tasks;
  * TODO: Refactor:
  * TODO:            Heap (completely)                   Done
  * TODO:            Heap (IComparable T)
+ * TODO:            Generic cl. add comp. dependence
  */
 
 
 
-namespace Chamber
+namespace Chamber;
+
+internal static class Program
 {
-    internal static class Program
+    public static unsafe float QrSqrt(float number) 
     {
-        public static unsafe float QrSqrt(float number)
-        {
-            const float th = 1.5f;
+        const float th = 1.5f;
 
-            float x2 = number * 0.5f;
-            float y = number;
+        float x2 = number * 0.5f;
+            
+        int i = 0x5f3759df - (*(int*)&number >> 1);
+        float y = *(float*)&i;
+        y *= th - x2 * y * y;
 
-            int i = *(int*)&y;
-            i = 0x5f3759df - (i >> 1);
-            y = *(float*)&i;
-            y *= th - x2 * y * y;
+        return y;
+    }
 
-            return y;
-        }
+    private static readonly Sequence<int> Rand =
+        new(
+            10, 
+            0, 
+            10, 
+            5, 
+            0
+        );
 
-        private static readonly Sequence<int> Rand =
-            new(
-                10, 
-                0, 
-                20, 
-                5, 
-                0
-                );
 
-        public static void Main(string[] args)
-        {
-            var mat1 = new Matrix<int>(3, 2);
-            var mat2 = new Matrix<int>(2, 3);
 
-            mat1.FillWith(2);
-            mat2.FillWith(4);
 
-            Console.WriteLine(mat1);
-            Console.WriteLine(mat2);
 
-            Console.WriteLine(mat1 * mat2);
-            Console.WriteLine(mat2 * mat1);
-            Console.WriteLine(mat1.ElementVise() * mat1.ElementVise());
-        }
+    public static void Main(string[] args)
+    {
+
     }
 }

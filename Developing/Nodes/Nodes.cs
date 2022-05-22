@@ -27,9 +27,8 @@ namespace Developing.Nodes
     /// <summary>
     /// Represents a singly linked Node
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Generic type</typeparam>
     public class SlNode<T>
-            //where T : IComparable<T>
     {
         public T Value { get; set; }
         public SlNode<T> Next { get; set; }
@@ -41,8 +40,11 @@ namespace Developing.Nodes
         }
     }
 
+    /// <summary>
+    /// Represents a doubly linked node
+    /// </summary>
+    /// <typeparam name="T">Generic type</typeparam>
     public class DlNode<T>
-        //where T : IComparable<T>
     {
         public T Value { get; set; }
         public DlNode<T> Next { get; set; }

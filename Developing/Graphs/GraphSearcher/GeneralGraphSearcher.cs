@@ -33,23 +33,23 @@ namespace Developing.Graphs
             }
         }
 
-        public IEnumerable<Edge<T>> SearchFrom(int v)
+        public IEnumerable<Edge<T>> SearchFrom(int v) 
         {
-            try
+            try 
             {
                 var curEn = _graph.OutEdges(v).GetEnumerator();
                 _enums[v] = curEn;
                 _container.Push(v);
 
-                while (_container.Size > 0)
+                while (_container.Size > 0) 
                 {
                     curEn = _enums[_container.Peek];
-                    if (!curEn.MoveNext())
+                    if (!curEn.MoveNext()) 
                     {
                         curEn.Dispose();
                         _container.Pop();
-                    }
-                    else
+                    } 
+                    else 
                     {
                         yield return curEn.Current;
 
@@ -64,7 +64,7 @@ namespace Developing.Graphs
             }
             finally
             {
-                foreach (var index in _container)
+                foreach (var index in _container) 
                     _enums[index].Dispose();
             }
         }
