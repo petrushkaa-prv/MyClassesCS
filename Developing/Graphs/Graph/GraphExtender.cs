@@ -9,6 +9,10 @@ namespace Developing.Graphs
 {
     internal static class GraphExtender
     {
+        public static bool IsBipartite(this Graph graph)
+        {
+            return IsBipartite(graph, out _, out _);
+        }
         public static bool IsBipartite(this Graph graph, out IEnumerable<int> firstSubSet, out IEnumerable<int> secondSubSet)
         {
             var isBipartite = true;
@@ -94,32 +98,6 @@ namespace Developing.Graphs
             return true;
         }
 
-        public static Graph Square(this Graph graph)
-        {
-            Graph res = new Graph(graph.VertexCount, graph.Representation);
-            for (int u = 0; u < res.VertexCount; u++)
-            {
-                foreach (var outNeighbor in res.OutNeighbors(u))
-                {
-                    res.AddEdge(u, outNeighbor);
-                }
-            }
 
-            for (int i = 0; i < graph.VertexCount; i++)
-            {
-                foreach (int neighbor in graph.OutNeighbors(i))
-                {
-                    foreach (int nn in graph.OutNeighbors(neighbor))
-                    {
-                        if (i != nn)
-                        {
-                            res.AddEdge(i, nn);
-                        }
-                    }
-                }
-            }
-
-            return res;
-        }
     }
 }

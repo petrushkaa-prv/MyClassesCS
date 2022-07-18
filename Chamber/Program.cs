@@ -1,4 +1,5 @@
 ﻿#nullable enable
+
 using Developing.Arrays;
 using Developing.GeneralExtensions;
 using Developing.Interfaces;
@@ -15,6 +16,7 @@ using System.Data.SqlClient;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -27,7 +29,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
+
+using static System.Math;
+using static Developing.Graphs.GraphAlgorithms;
 
 
 /*
@@ -90,12 +96,17 @@ internal static class Program
             0
         );
 
-
-
-
-
     public static void Main(string[] args)
     {
+        int i = 0;
+        var t = new TickedBackgroundTask(1000, 10);
+        t.Start((() =>
+        {
+            Console.WriteLine(i++);
+        }));
 
+        Console.ReadKey();
+
+        t.StopAsync();
     }
 }
