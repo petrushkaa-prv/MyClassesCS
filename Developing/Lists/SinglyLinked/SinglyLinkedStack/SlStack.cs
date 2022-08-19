@@ -46,7 +46,7 @@ namespace Developing.Lists
         }
     }
 
-    public class SlStack<T> : SinglyLinked<T>, IEnumerable<T>, IMyCollections<T>, IOrderedContainer<T>, IMyStack<T> 
+    public class SlStack<T> : SinglyLinked<T>, IEnumerable<T>, IMyCollection<T>, IOrderedContainer<T>, IMyStack<T> 
     {
         private int _size;
 
@@ -97,6 +97,13 @@ namespace Developing.Lists
 
             newNode.Next = Head;
             _head = newNode;
+        }
+
+        /// <inheritdoc/>
+        public void Push(params T[] values)
+        {
+            foreach (var val in values)
+                this.Push(val);
         }
 
         /// <inheritdoc/>

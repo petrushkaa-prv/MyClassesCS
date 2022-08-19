@@ -36,8 +36,9 @@ namespace Developing.Graphs
         public bool AddEdge(int u, int v) => _diGraph.AddEdge(u, v) && _diGraph.AddEdge(v, u);
         public bool RemoveEdge(int u, int v) => _diGraph.RemoveEdge(u, v) && _diGraph.RemoveEdge(v, u);
 
+        //TODO: CHECK FOR INTEGRITY
         /// <inheritdoc/>
-        public bool HasEdge(int from, int to) => _diGraph.HasEdge(from, to);
+        public bool HasEdge(int from, int to) => _diGraph.HasEdge(from, to) || _diGraph.HasEdge(to, from);
 
         /// <inheritdoc/>
         public IEnumerable<int> OutNeighbors(int v) => _diGraph.OutNeighbors(v);

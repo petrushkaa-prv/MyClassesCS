@@ -10,7 +10,7 @@ using Developing.Nodes;
 
 namespace Developing.Lists
 {
-    public class SlList<T> : SinglyLinked<T>, IMyList<T>, IMyCollections<T>, IEnumerable<T>
+    public class SlList<T> : SinglyLinked<T>, IMyList<T>, IMyCollection<T>, IEnumerable<T>
     {
         private int _size;
 

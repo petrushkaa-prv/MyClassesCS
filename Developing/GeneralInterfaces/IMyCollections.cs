@@ -9,7 +9,7 @@ namespace Developing.GeneralInterfaces
     /// <summary>
     /// Interface of general methods to be present in all container classes of [MyClassesCS]
     /// </summary>
-    public interface IMyCollections<T> : IEnumerable<T>
+    public interface IMyCollection<T> : IEnumerable<T>
     {
         /// <summary>
         /// Tells if the collection doesn't contain any elements

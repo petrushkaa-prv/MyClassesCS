@@ -9,7 +9,7 @@ using Developing.Nodes;
 
 namespace Developing.Lists
 {
-    public abstract class SinglyLinked<T> : IMyCollections<T>
+    public abstract class SinglyLinked<T> : IMyCollection<T>
     {
         public abstract SlNode<T> Head { get; }
 

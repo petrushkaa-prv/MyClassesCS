@@ -9,7 +9,7 @@ using Developing.Interfaces;
 
 namespace Developing.Lists
 {
-    internal class DlQueue<T> : IEnumerable<T>, IMyCollections<T>, IOrderedContainer<T>
+    internal class DlQueue<T> : IEnumerable<T>, IMyCollection<T>, IOrderedContainer<T>
     {
         private readonly DlList<T> _list;
 
@@ -35,8 +35,14 @@ namespace Developing.Lists
         /// <inheritdoc />
         public void Push(T val) => _list.AddFront(val);
 
+        public void Push(params T[] values)
+        {
+            foreach(var val in values)
+                this.Push(val);
+        }
+
         /// <inheritdoc />
-        public T Peek => _list.Back;
+    public T Peek => _list.Back;
 
         /// <inheritdoc />
         public T Pop()
@@ -48,7 +54,7 @@ namespace Developing.Lists
             return returnValue;
         }
 
-        /// <inheritdoc cref="IMyCollections{T}.Size" />
+        /// <inheritdoc cref="IMyCollection{T}.Size" />
         public int Size => _list.Size;
 
         /// <inheritdoc />

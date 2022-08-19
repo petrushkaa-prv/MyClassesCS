@@ -31,10 +31,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Developing.Other.Logger;
 using static System.Math;
 using static Developing.Graphs.GraphAlgorithms;
-
 
 /*
  * TODO: Implement:                             Status:
@@ -46,6 +45,8 @@ using static Developing.Graphs.GraphAlgorithms;
  * TODO:            BST tree                            Done
  * TODO:            AVL tree                            Done
  * TODO:            Splay tree                          BUG!
+ * TODO:            BW tree
+ * TODO:            AA tree
  * TODO:            RST tree
  * TODO:            Seq. matcher                        Done
  * TODO:            Sequence class                      Done
@@ -74,19 +75,6 @@ namespace Chamber;
 
 internal static class Program
 {
-    public static unsafe float QrSqrt(float number) 
-    {
-        const float th = 1.5f;
-
-        float x2 = number * 0.5f;
-            
-        int i = 0x5f3759df - (*(int*)&number >> 1);
-        float y = *(float*)&i;
-        y *= th - x2 * y * y;
-
-        return y;
-    }
-
     private static readonly Sequence<int> Rand =
         new(
             10, 
@@ -98,15 +86,65 @@ internal static class Program
 
     public static void Main(string[] args)
     {
-        int i = 0;
-        var t = new TickedBackgroundTask(1000, 10);
-        t.Start((() =>
+        new LoggerTesting(Rand).Run();
+    }
+}
+
+public class LoggerTesting
+{
+    private Sequence<int> _rand;
+
+    public LoggerTesting(Sequence<int> rnd)
+    {
+        this._rand = rnd;
+    }
+
+    public void Run()
+    {
+        var g = new Graph(10);
+        var wg = LogWrapper<Graph>.WrapWithLogs(g);
+
+        int time = 0;
+
+        var tbt = new TickedBackgroundTask(20, 1000);
+        tbt.Start(() =>
         {
-            Console.WriteLine(i++);
-        }));
+            wg.Run(gd =>
+            {
+                int from = 0, to = 0;
+
+                try
+                {
+                    while (!gd.HasEdge(from, to))
+                    {
+                        from = _rand.Next;
+                        to = _rand.Next;
+
+                        if (from != to)
+                            gd.AddEdge(from, to);
+
+                        return $"Added Edge {from} to {to}";
+                    }
+                }
+                catch
+                {
+
+                }
+
+                return $"Failed to add Edge {from} to {to}";
+            });
+
+            Console.WriteLine(time += 20);
+
+            if (wg.Object.DFS().SearchAll().Count() == wg.Object.VertexCount * (wg.Object.VertexCount - 1))
+            {
+                Console.WriteLine($"\n\n\n===DONE===\n\n\n");
+                tbt.Stop();
+            }
+        });
 
         Console.ReadKey();
 
-        t.StopAsync();
+        Console.WriteLine(wg);
     }
 }

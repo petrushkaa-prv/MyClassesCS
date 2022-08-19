@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Developing.Other
 {
-    internal class BackgroundTask
+    internal class BackgroundTask : IDisposable
     {
-        protected Task? _timerTask;
-        protected readonly PeriodicTimer _timer;
-        protected readonly CancellationTokenSource _cts;
+        private protected Task? _timerTask;
+        private protected readonly PeriodicTimer _timer;
+        private protected readonly CancellationTokenSource _cts;
 
         public BackgroundTask(double milliseconds) : this(TimeSpan.FromMilliseconds(milliseconds))
         {
@@ -30,6 +30,12 @@ namespace Developing.Other
         public virtual void Start(Action func)
         {
             _timerTask = DoWorkAsync(func);
+        }
+
+        public virtual void Stop()
+        {
+            _cts.Cancel();
+            this.Dispose();
         }
 
         protected virtual async Task DoWorkAsync(Action func)
@@ -52,6 +58,14 @@ namespace Developing.Other
             
             await _timerTask;
             _cts.Dispose();
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            _timerTask?.Dispose();
+            _timer?.Dispose();
+            _cts?.Dispose();
         }
     }
 }

@@ -12,13 +12,19 @@ namespace Developing.Interfaces
     /// Interface to represent a basic FIFO/LIFO and similar containers
     /// </summary>
     /// <typeparam name="T">Value to be contained</typeparam>
-    public interface IOrderedContainer<T> : IEnumerable<T>
+    public interface IOrderedContainer<T> : IMyCollection<T>
     {
         /// <summary>
         /// Adds the value to the collection
         /// </summary>
-        /// <param name="val">Value to be inserted</param>
-        void Push(T val);
+        /// <param name="value">Value to be inserted</param>
+        void Push(T value);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="values">Values to be inserted</param>
+        void Push(params T[] values);
 
         /// <summary>
         /// Returns the value of the current top node
@@ -30,10 +36,5 @@ namespace Developing.Interfaces
         /// </summary>
         /// <returns></returns>
         T Pop();
-
-        /// <summary>
-        /// The number of elements contained
-        /// </summary>
-        int Size { get; }
     }
 }
