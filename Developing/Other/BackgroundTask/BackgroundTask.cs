@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Developing.GeneralExtensions;
 
 namespace Developing.Other
 {
@@ -35,6 +36,7 @@ namespace Developing.Other
         public virtual void Stop()
         {
             _cts.Cancel();
+            _cts.Dispose();
             this.Dispose();
         }
 
@@ -63,9 +65,12 @@ namespace Developing.Other
         /// <inheritdoc />
         public void Dispose()
         {
+            if(_cts.Token.CanBeCanceled)
+                _cts.Cancel();
+
             _timerTask?.Dispose();
             _timer?.Dispose();
-            _cts?.Dispose();
+            //_cts?.Dispose();
         }
     }
 }

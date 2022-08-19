@@ -86,7 +86,12 @@ internal static class Program
 
     public static void Main(string[] args)
     {
-        new LoggerTesting(Rand).Run();
+        using var tbt = new TickedBackgroundTask(1, 100);
+        tbt.Start(() =>
+        {
+            Console.WriteLine(Rand.Next);
+        });
+        Console.ReadKey();
     }
 }
 
@@ -96,7 +101,7 @@ public class LoggerTesting
 
     public LoggerTesting(Sequence<int> rnd)
     {
-        this._rand = rnd;
+        _rand = rnd;
     }
 
     public void Run()

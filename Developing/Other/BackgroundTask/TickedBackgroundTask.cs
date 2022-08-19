@@ -37,14 +37,13 @@ namespace Developing.Other
             {
                 while (_ticks-- > 0 && await _timer.WaitForNextTickAsync(_cts.Token))
                     func();
-
             }
             catch (OperationCanceledException)
             {
             }
             finally
             {
-                _cts.Dispose();
+                _cts.Cancel();
             }
         }
     }
