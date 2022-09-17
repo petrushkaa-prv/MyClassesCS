@@ -64,12 +64,11 @@ namespace Developing.Lists
 
             var ptr = _head;
 
-            while (ptr is not null && ptr.Value != (dynamic)element)
-            {
+            while (ptr is not null && ptr.Value != (dynamic)element) 
                 ptr = ptr!.Next;
-            }
 
             foundPtr = ptr;
+
             return foundPtr is not null && foundPtr.Value == (dynamic)element;
         }
 
@@ -187,7 +186,7 @@ namespace Developing.Lists
             do
             {
                 yield return ptr.Value;
-            }
+            } 
             while ((ptr = ptr.Next) is not null);
         }
 

@@ -22,10 +22,9 @@ namespace Developing.Trees
         {
             if (value.CompareTo(root.Value) < 0) // left subtree
             {
-
-
                 if (root.Left != null)
                     if (value.CompareTo(root.Left.Value) > 0)
+                    {
                         if (root.Left.Left != null)
                         {
                             Splay(value, ref root.Left.Left);
@@ -33,7 +32,9 @@ namespace Developing.Trees
                         }
                         else
                             LZig(ref root);
+                    }
                     else if (value.CompareTo(root.Left.Value) > 0)
+                    {
                         if (root.Left.Right != null)
                         {
                             Splay(value, ref root.Left.Right);
@@ -41,12 +42,15 @@ namespace Developing.Trees
                         }
                         else
                             LZig(ref root);
+                    }
                     else
                         LZig(ref root);
             }
             else if (value.CompareTo(root.Value) > 0)
+            {
                 if (root.Right != null)
                     if (value.CompareTo(root.Right.Value) > 0)
+                    {
                         if (root.Right.Right != null)
                         {
                             Splay(value, ref root.Right.Right);
@@ -54,16 +58,20 @@ namespace Developing.Trees
                         }
                         else
                             RZig(ref root);
+                    }
                     else if (value.CompareTo(root.Right.Value) < 0)
+                    {
                         if (root.Right.Left != null)
                         {
                             Splay(value, ref root.Right.Left);
                             RZigZag(ref root);
                         }
-                        else 
+                        else
                             RZig(ref root);
+                    }
                     else
                         RZig(ref root);
+            }
         }
 
         private void LZig(ref SplayNode<T> p)

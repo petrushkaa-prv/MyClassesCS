@@ -15,6 +15,10 @@ namespace Developing.Other
         public TickedBackgroundTask(double interval, int ticks) : this(TimeSpan.FromMilliseconds(interval), ticks)
         {
         }
+        public TickedBackgroundTask(double interval, int ticks, CancellationTokenSource cts) : this(TimeSpan.FromMilliseconds(interval), ticks, cts)
+        {
+
+        }
         /// <inheritdoc />
         public TickedBackgroundTask(TimeSpan interval, int ticks) : this(interval, ticks, new CancellationTokenSource())
         {
@@ -40,10 +44,6 @@ namespace Developing.Other
             }
             catch (OperationCanceledException)
             {
-            }
-            finally
-            {
-                _cts.Cancel();
             }
         }
     }

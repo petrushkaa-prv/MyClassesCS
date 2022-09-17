@@ -6,7 +6,7 @@ using Developing.Nodes;
 
 namespace Developing.Trees
 {
-    public abstract class BinaryTree<TValue, TNode>
+    public abstract class BinaryTree<TValue, TNode> 
         where TNode : BinaryNode<TValue, TNode>
         where TValue : IComparable<TValue>
     {

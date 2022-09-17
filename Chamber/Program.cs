@@ -1,41 +1,4 @@
-﻿#nullable enable
-
-using Developing.Arrays;
-using Developing.GeneralExtensions;
-using Developing.Interfaces;
-using Developing.Lists;
-using Developing.Nodes;
-using Developing.Other;
-using Developing.Trees;
-using Developing.Graphs;
-using Developing.Testing;
-
-using System;
-using System.Data;
-using System.Data.SqlClient;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
-using Developing.Other.Logger;
-using static System.Math;
-using static Developing.Graphs.GraphAlgorithms;
-
-/*
+﻿/*
  * TODO: Implement:                             Status:
  * TODO:            2D printing for BTrees              Done
  * TODO:            2D pr. vertical
@@ -67,7 +30,51 @@ using static Developing.Graphs.GraphAlgorithms;
  * TODO:            Heap (completely)                   Done
  * TODO:            Heap (IComparable T)
  * TODO:            Generic cl. add comp. dependence
+ * TODO:            Rethink the tree nodes imp.         InProgress
  */
+
+
+
+#nullable enable
+
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
+using static System.Math;
+
+using Developing.Arrays;
+using Developing.GeneralExtensions;
+using Developing.Interfaces;
+using Developing.Lists;
+using Developing.Nodes;
+using Developing.Other;
+using Developing.Trees;
+using Developing.Graphs;
+using Developing.Other.Logger;
+using Developing.Testing;
+using static Developing.Other.QuickMath;
+using static Developing.Graphs.GraphAlgorithms;
+
+
+
 
 
 
@@ -77,34 +84,127 @@ internal static class Program
 {
     private static readonly Sequence<int> Rand =
         new(
-            10, 
+            100, 
             0, 
-            10, 
+            100, 
             5, 
             0
         );
 
     public static void Main(string[] args)
     {
-        using var tbt = new TickedBackgroundTask(1, 100);
-        tbt.Start(() =>
+
+
+    }
+    
+}
+
+
+public class TaskRing
+{
+    private BackgroundTask _observer;
+    private DlRingList<(Task task, int shared)> _ring;
+
+    public TaskRing(int count, Action func)
+    {
+        _ring = new DlRingList<(Task task, int shared)>();
+
+        for (int i = 0; i < count; i++)
         {
-            Console.WriteLine(Rand.Next);
+            _ring.AddFront((new Task(func), new int()));
+        }
+
+        _observer = new BackgroundTask(100);
+    }
+
+    public void Execute()
+    {
+        foreach (var v in _ring)
+        {
+            v.task.Start();   
+        }
+
+
+        _observer.Start(() =>
+        {
+            var ptr = _ring.Head;
+            while(true)
+            {
+                Task.Delay(1000);
+
+
+
+                ptr = ptr.Next;
+            }
         });
-        Console.ReadKey();
+    }
+
+    private class DlRingList<T> : DlList<T>
+    {
+
+        private void ReconnectEnds()
+        {
+            base.Rear.Next = base.Head;
+            base.Head.Prev = base.Rear;
+        }
+
+        public new void AddFront(T val)
+        {
+            base.AddFront(val);
+
+            ReconnectEnds();
+        }
+
+        public new void AddEnd(T val)
+        {
+            base.AddEnd(val);
+
+            ReconnectEnds();
+        }
+
+        public new void RemoveEnd()
+        {
+            base.RemoveEnd();
+
+            ReconnectEnds();
+        }
+
+        public new void RemoveFront()
+        {
+            base.RemoveFront();
+
+            ReconnectEnds();
+        }
     }
 }
 
 public class LoggerTesting
 {
     private Sequence<int> _rand;
+    private SlStack<Action> _stuck;
+
 
     public LoggerTesting(Sequence<int> rnd)
     {
         _rand = rnd;
+        _stuck = new SlStack<Action>();
+        _stuck.Push(Test1_Graph);
+        _stuck.Push(Test2_ParallelExecution);
     }
 
     public void Run()
+    {
+        int i = 0;
+        foreach (var t in _stuck)
+        {
+            Console.WriteLine($"PERFOMING TEST {++i}");
+            Console.ReadKey();
+            t.Invoke();
+            Console.ReadKey();
+        }
+    }
+
+    private void Test1_Graph()
     {
         var g = new Graph(10);
         var wg = LogWrapper<Graph>.WrapWithLogs(g);
@@ -133,7 +233,7 @@ public class LoggerTesting
                 }
                 catch
                 {
-
+                    // ignored
                 }
 
                 return $"Failed to add Edge {from} to {to}";
@@ -151,5 +251,63 @@ public class LoggerTesting
         Console.ReadKey();
 
         Console.WriteLine(wg);
+    }
+    private void Test2_ParallelExecution()
+    {
+        using var tbt = new TickedBackgroundTask(1, 100);
+        var l = new SlList<LoggedObject<Task>>();
+        var wl = new LoggedObject<SlList<LoggedObject<Task>>>(l);
+
+
+
+        tbt.Start(() =>
+        {
+            wl.Run(list =>
+            {
+                var tmpLog = new DlQueue<string>();
+
+                list.AddFront(new LoggedObject<Task>(new Task(() =>
+                {
+                    int rnd;
+
+                    do
+                    {
+                        rnd = _rand.Next;
+                        Console.Write($"{Task.CurrentId}::{rnd}\n");
+                        Task.Delay(10000);
+
+                        tmpLog.Push($"{Task.CurrentId} current guess: {rnd}");
+                    } while (rnd != 0);
+                }))
+                {
+                    Logs = tmpLog
+                });
+
+                var curr = list.Front;
+
+                curr.Run(t =>
+                {
+                    t.Start();
+
+                    return $"Started Task {t.Id}";
+                });
+
+                return $"Added Task with id: {curr.Object.Id}";
+            });
+        });
+
+        Console.ReadKey();
+
+        Console.WriteLine(wl);
+
+        var counts = new SlStack<(int, int)>();
+
+        foreach (var el in wl.Object)
+        {
+            Console.WriteLine(el);
+            counts.Push((el.Object.Id, el.Logs.Size));
+        }
+
+        Console.WriteLine();
     }
 }

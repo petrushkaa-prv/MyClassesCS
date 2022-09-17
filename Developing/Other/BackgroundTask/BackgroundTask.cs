@@ -14,7 +14,11 @@ namespace Developing.Other
         private protected readonly PeriodicTimer _timer;
         private protected readonly CancellationTokenSource _cts;
 
-        public BackgroundTask(double milliseconds) : this(TimeSpan.FromMilliseconds(milliseconds))
+        public BackgroundTask(double interval) : this(TimeSpan.FromMilliseconds(interval))
+        {
+
+        }
+        public BackgroundTask(double interval, CancellationTokenSource cts) : this(TimeSpan.FromMilliseconds(interval), cts)
         {
 
         }
@@ -36,11 +40,9 @@ namespace Developing.Other
         public virtual void Stop()
         {
             _cts.Cancel();
-            _cts.Dispose();
-            this.Dispose();
         }
 
-        protected virtual async Task DoWorkAsync(Action func)
+        protected virtual async Task DoWorkAsync(Action func) 
         {
             try
             {

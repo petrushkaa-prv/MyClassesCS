@@ -23,10 +23,8 @@ namespace Developing.Testing
         {
             var sb = new StringBuilder();
 
-            foreach (var c in Array)
-            {
+            foreach (var c in Array) 
                 sb.Append(c);
-            }
 
             return sb.ToString();
         }
