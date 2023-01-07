@@ -8,7 +8,7 @@ using Developing.Interfaces;
 
 namespace Developing.Graphs
 {
-    internal static class BFSGraphExtender
+    public static class BFSGraphExtender
     {
         public static IGraphSearcher BFS(this Graph graph) 
             => new GeneralGraphSearcher(graph, new DlQueue<int>(), true);

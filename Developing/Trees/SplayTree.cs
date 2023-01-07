@@ -8,7 +8,7 @@ using Developing.Nodes;
 
 namespace Developing.Trees
 {
-    internal class SplayTree<T> : BinaryTree<T, SplayNode<T>>
+    public class SplayTree<T> : BinaryTree<T, SplayNode<T>>
         where T : IComparable<T>
     {
         public SplayTree(params T[] arr)

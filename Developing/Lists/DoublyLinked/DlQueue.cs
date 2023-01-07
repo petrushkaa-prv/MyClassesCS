@@ -9,7 +9,7 @@ using Developing.Interfaces;
 
 namespace Developing.Lists
 {
-    internal class DlQueue<T> : IEnumerable<T>, IMyCollection<T>, IOrderedContainer<T>
+    public class DlQueue<T> : IEnumerable<T>, IMyCollection<T>, IOrderedContainer<T>
     {
         private readonly DlList<T> _list;
 

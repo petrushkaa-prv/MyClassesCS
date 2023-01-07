@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Graphs
 {
-    internal struct Edge
+    public struct Edge
     {
         public readonly int From;
         public readonly int To;
@@ -27,10 +27,13 @@ namespace Developing.Graphs
         }
 
         /// <inheritdoc />
+        /// 
         public override string ToString() => $"({From}, {To})";
+        /// <inheritdoc />
+        public override int GetHashCode() => HashCode.Combine(From, To);
     }
 
-    internal struct Edge<T>
+    public struct Edge<T>
     {
         public int From;
         public int To;

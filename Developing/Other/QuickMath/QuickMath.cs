@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Other;
 
-internal static class QuickMath
+public static class QuickMath
 {
     /// <summary>
     /// Finds the Greatest Common Divisor of two numbers

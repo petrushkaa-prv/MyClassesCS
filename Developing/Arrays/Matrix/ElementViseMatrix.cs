@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Arrays
 {
-    public class ElementViseMatrix<T> : MatrixBase<T>
+    class ElementViseMatrix<T> : MatrixBase<T>
         where T : struct, IComparable<T>
     {
         public ElementViseMatrix() : base()
@@ -96,20 +96,6 @@ namespace Developing.Arrays
 
             for (int i = 0; i < res._matrixSize; i++)
                 res._matrixElements[i] /= (dynamic)val;
-
-            return res;
-        }
-
-
-        public static implicit operator Matrix<T>(ElementViseMatrix<T> matrix) => new (matrix);
-
-
-        public override MatrixBase<T> ToPower(int power)
-        {
-            var res = new ElementViseMatrix<T>(this);
-
-            for (int i = 0; i < power - 1; i++)
-                res *= this;
 
             return res;
         }

@@ -6,7 +6,7 @@ using Developing.Nodes;
 
 namespace Developing.Trees
 {
-    internal class AvlTree<T> : BinaryTree<T, AvlNode<T>>
+    public class AvlTree<T> : BinaryTree<T, AvlNode<T>>
         where T : IComparable<T>
     {
         public T Max => FindMax(Root).Value;

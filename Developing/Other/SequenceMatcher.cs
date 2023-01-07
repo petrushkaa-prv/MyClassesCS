@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Other;
 
-internal class SequenceMatcher
+public class SequenceMatcher
 {
     private readonly string _sequence1;
     private readonly string _sequence2;

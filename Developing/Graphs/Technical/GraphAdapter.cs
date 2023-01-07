@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Graphs
 {
-    internal class GraphAdapter : IGraph<bool>
+    public class GraphAdapter : IGraph<bool>
     {
         private IGraph _graph;
 

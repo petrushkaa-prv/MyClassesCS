@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Graphs
 {
-    internal class MatrixAdjacencyStructure<T> : IAdjacencyStructure<T>
+    public class MatrixAdjacencyStructure<T> : IAdjacencyStructure<T>
         where T : new()
     {
         private readonly (bool present, T val)[,] _matrix;

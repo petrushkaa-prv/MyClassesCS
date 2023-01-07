@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Graphs
 {
-    internal class DictionaryAdjacencyStructure<T> : IAdjacencyStructure<T>
+    public class DictionaryAdjacencyStructure<T> : IAdjacencyStructure<T>
         where T : new()
     {
         private readonly Dictionary<int, T>[] _list;

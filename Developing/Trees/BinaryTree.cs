@@ -10,7 +10,7 @@ namespace Developing.Trees
         where TNode : BinaryNode<TValue, TNode>
         where TValue : IComparable<TValue>
     {
-        protected internal TNode Root;
+        public TNode Root;
         public virtual int Height => CalculateHeight(Root);
         
         public virtual TNode Search(TValue value)

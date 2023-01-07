@@ -4,7 +4,7 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace Developing.Arrays
 {
-    internal class Heap<T>
+    public class Heap<T>
     {
         private T[] _heap; // _heap[0] is a sentinel
         private int _index;

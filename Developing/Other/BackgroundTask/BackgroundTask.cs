@@ -8,11 +8,13 @@ using Developing.GeneralExtensions;
 
 namespace Developing.Other
 {
-    internal class BackgroundTask : IDisposable
+    public class BackgroundTask : IDisposable
     {
         private protected Task? _timerTask;
         private protected readonly PeriodicTimer _timer;
         private protected readonly CancellationTokenSource _cts;
+
+        public virtual bool IsFinished { get; private protected set; }
 
         public BackgroundTask(double interval) : this(TimeSpan.FromMilliseconds(interval))
         {
@@ -28,17 +30,20 @@ namespace Developing.Other
         }
         public BackgroundTask(TimeSpan interval, CancellationTokenSource cts)
         {
+            IsFinished = false;
             _timer = new PeriodicTimer(interval);
             _cts = cts;
         }
 
         public virtual void Start(Action func)
         {
+            IsFinished = false;
             _timerTask = DoWorkAsync(func);
         }
 
         public virtual void Stop()
         {
+            IsFinished = true;
             _cts.Cancel();
         }
 
@@ -54,10 +59,16 @@ namespace Developing.Other
             catch (OperationCanceledException)
             {
             }
+            finally
+            {
+                IsFinished = true;
+            }
         }
 
         public async Task StopAsync()
         {
+            IsFinished = true;
+
             if (_timerTask is null) return;
             
             await _timerTask;

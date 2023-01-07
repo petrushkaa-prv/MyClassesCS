@@ -7,7 +7,7 @@ using Developing.Arrays;
 
 namespace Developing.Graphs
 {
-    internal static class GraphAlgorithms
+    public static class GraphAlgorithms
     {
         public static Graph Square(Graph graph)
         {

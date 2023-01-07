@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Graphs
 {
-    internal interface IGraphRepresentation
+    public interface IGraphRepresentation
     {
         public IAdjacencyStructure<T> GetAdjacencyStructure<T>(int size) where T : new();
     }

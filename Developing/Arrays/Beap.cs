@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Arrays
 {
-    internal class Beap<T>
+    public class Beap<T>
     {
         private T[] _beap; // _beap[0] is a sentinel
         private int _index;

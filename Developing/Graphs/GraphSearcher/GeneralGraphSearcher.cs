@@ -7,7 +7,7 @@ using Developing.Interfaces;
 
 namespace Developing.Graphs
 {
-    internal class GeneralGraphSearcher<T> : IGraphSearcher<T>
+    public class GeneralGraphSearcher<T> : IGraphSearcher<T>
     {
         private IOrderedContainer<int> _container;
         private IGraph<T> _graph;
@@ -72,7 +72,7 @@ namespace Developing.Graphs
 
 
 
-    internal class GeneralGraphSearcher : IGraphSearcher
+    public class GeneralGraphSearcher : IGraphSearcher
     {
         private GeneralGraphSearcher<bool> _internalGraphSearcher;
 

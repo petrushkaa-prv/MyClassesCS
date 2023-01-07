@@ -7,7 +7,7 @@ using Developing.Lists;
 
 namespace Developing.Arrays
 {
-    internal class UnionFind
+    public class UnionFind
     {
         private readonly int[] _id;
 

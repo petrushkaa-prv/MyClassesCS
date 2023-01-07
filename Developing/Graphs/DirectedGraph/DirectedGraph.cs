@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Developing.Graphs
 {
-    internal class DirectedGraph : IGraph
+    public class DirectedGraph : IGraph
     {
         /// <inheritdoc/>
         public int VertexCount { get; private set; }
@@ -17,7 +17,7 @@ namespace Developing.Graphs
         /// <inheritdoc/>
         public virtual bool Directed => true;
 
-        protected internal readonly IAdjacencyStructure AdjacencyStructure;
+        protected readonly IAdjacencyStructure AdjacencyStructure;
 
         public DirectedGraph(int vertices, IGraphRepresentation representation)
         {
@@ -30,7 +30,7 @@ namespace Developing.Graphs
         {
         }
 
-        internal DirectedGraph(int vertices, IGraphRepresentation graph, IAdjacencyStructure adjacency)
+        public DirectedGraph(int vertices, IGraphRepresentation graph, IAdjacencyStructure adjacency)
         {
             VertexCount = vertices;
             Representation = graph;

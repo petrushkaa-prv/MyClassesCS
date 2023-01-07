@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Graphs
 {
-    internal class Graph : IGraph
+    public class Graph : IGraph
     {
         protected DirectedGraph _diGraph;
 

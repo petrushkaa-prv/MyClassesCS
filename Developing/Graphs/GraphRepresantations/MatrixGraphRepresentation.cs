@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Graphs
 {
-    internal class MatrixGraphRepresentation : IGraphRepresentation
+    public class MatrixGraphRepresentation : IGraphRepresentation
     {
         public IAdjacencyStructure<T> GetAdjacencyStructure<T>(int size) where T : new()
             => new MatrixAdjacencyStructure<T>(size);

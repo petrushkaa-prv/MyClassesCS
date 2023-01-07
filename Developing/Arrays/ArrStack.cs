@@ -9,7 +9,7 @@ using Developing.Interfaces;
 
 namespace Developing.Arrays;
 
-internal class ArrStack<T> : IEnumerable<T>, IMyCollection<T>, IOrderedContainer<T>, IMyStack<T>, IIndexed<T>
+public class ArrStack<T> : IEnumerable<T>, IMyCollection<T>, IOrderedContainer<T>, IMyStack<T>, IIndexed<T>
 {
     private int _size;
     private int _current;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Other
 {
-    internal class TickedBackgroundTask : BackgroundTask
+    public class TickedBackgroundTask : BackgroundTask
     {
         private int _ticks;
 
@@ -31,6 +31,7 @@ namespace Developing.Other
 
         public override void Start(Action func)
         {
+            IsFinished = false;
             _timerTask = DoWorkAsync(func);
         }
 
@@ -44,6 +45,10 @@ namespace Developing.Other
             }
             catch (OperationCanceledException)
             {
+            }
+            finally
+            {
+                IsFinished = false;
             }
         }
     }

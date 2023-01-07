@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Graphs
 {
-    internal class Graph<T> : Graph, IGraph<T>
+    public class Graph<T> : Graph, IGraph<T>
         where T : new()
     {
         public Graph(int vertices, IGraphRepresentation representation) : base(new DirectedGraph<T>(vertices, representation))

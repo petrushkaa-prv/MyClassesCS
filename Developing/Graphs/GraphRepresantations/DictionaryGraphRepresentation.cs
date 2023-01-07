@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Graphs
 {
-    internal class DictionaryGraphRepresentation : IGraphRepresentation
+    public class DictionaryGraphRepresentation : IGraphRepresentation
     {
         public IAdjacencyStructure<T> GetAdjacencyStructure<T>(int size) where T : new()
             => new DictionaryAdjacencyStructure<T>(size);

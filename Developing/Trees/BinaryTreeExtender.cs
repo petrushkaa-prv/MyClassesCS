@@ -7,7 +7,7 @@ using Developing.Nodes;
 
 namespace Developing.Trees
 {
-    internal static class BinaryTreeExtender
+    public static class BinaryTreeExtender
     {
         public static void Print2D<TValue, TNode>(this BinaryTree<TValue, TNode> tree)
             where TNode : BinaryNode<TValue, TNode> 

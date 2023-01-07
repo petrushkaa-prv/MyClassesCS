@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Developing.Graphs
 {
-    internal interface IGraphSearcher
+    public interface IGraphSearcher
     {
         IEnumerable<Edge> SearchFrom(int v);
 
         IEnumerable<Edge> SearchAll();
     }
 
-    internal interface IGraphSearcher<T>
+    public interface IGraphSearcher<T>
     {
         IEnumerable<Edge<T>> SearchFrom(int v);
 

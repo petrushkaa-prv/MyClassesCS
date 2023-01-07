@@ -9,7 +9,7 @@ namespace Developing.Graphs
     /// <summary>
     /// The base interface representing a non-weighted graph 
     /// </summary>
-    internal interface IGraph
+    public interface IGraph
     {
         /// <summary>
         /// Indicates if the edges in the graph can connect the same two vertices
@@ -50,7 +50,7 @@ namespace Developing.Graphs
     /// Represents a weighted graph 
     /// </summary>
     /// <typeparam name="T">The type corresponding to represent the weights in the graph</typeparam>
-    internal interface IGraph<T> : IGraph
+    public interface IGraph<T> : IGraph
     {
         //bool Directed { get; }
         //int VertexCount { get; }

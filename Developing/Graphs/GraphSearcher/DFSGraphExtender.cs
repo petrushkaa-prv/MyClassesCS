@@ -7,7 +7,7 @@ using Developing.Lists;
 
 namespace Developing.Graphs
 {
-    internal static class DFSGraphExtender
+    public static class DFSGraphExtender
     {
         public static IGraphSearcher DFS(this IGraph graph) 
             => new GeneralGraphSearcher(graph, new SlStack<int>(), !graph.Directed);

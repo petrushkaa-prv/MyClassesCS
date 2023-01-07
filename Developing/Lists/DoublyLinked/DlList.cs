@@ -9,7 +9,7 @@ using Developing.Nodes;
 
 namespace Developing.Lists
 {
-    internal class DlList<T> : IMyList<T>, IMyCollection<T>
+    public class DlList<T> : IMyList<T>, IMyCollection<T>
     {
         private DlNode<T> _head;
         public DlNode<T> Head => _head;

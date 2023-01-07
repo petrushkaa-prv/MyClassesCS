@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Graphs
 {
-    internal interface IAdjacencyStructure
+    public interface IAdjacencyStructure
     {
         bool HasEdge(int u, int v);
 
@@ -17,7 +17,7 @@ namespace Developing.Graphs
         IEnumerable<int> OutNeighbors(int v);
     }
 
-    internal interface IAdjacencyStructure<T> : IAdjacencyStructure
+    public interface IAdjacencyStructure<T> : IAdjacencyStructure
     {
         T GetValue(int u, int v);
 

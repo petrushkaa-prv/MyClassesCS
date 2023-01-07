@@ -7,7 +7,7 @@ using Developing.Lists;
 
 namespace Developing.Graphs
 {
-    internal static class GraphExtender
+    public static class GraphExtender
     {
         public static bool IsBipartite(this Graph graph)
         {

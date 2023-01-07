@@ -36,8 +36,9 @@ namespace Developing.Testing
         {
             _sequence = Type.GetTypeCode(typeof(T)) switch
             {
-                TypeCode.Int32 => new IntegerSequence(count, min, max, seed),
-                TypeCode.Single => (dynamic)new FloatSequence(count, seed),
+                TypeCode.Int32 => (dynamic)new IntegerSequence(count, min, max, seed),
+                TypeCode.Single => new FloatSequence(count, seed),
+                TypeCode.Double => new DoubleSequence(count, seed),
                 TypeCode.Char => new CharSequence(count, seed),
                 TypeCode.String => new StringSequence(count, strLength, seed),
                 _ => throw new ArgumentOutOfRangeException()
@@ -87,13 +88,13 @@ namespace Developing.Testing
 
 
 
-//internal class Sequence : IEnumerable<int>
+//public class Sequence : IEnumerable<int>
 //{
 //    private Random _rand;
 //    private int _howMuch;
 //    private int _min;
 //    private int _max;
-//    internal Sequence(int howMuch, int min = 0, int max = 10,int seed = 0)
+//    public Sequence(int howMuch, int min = 0, int max = 10,int seed = 0)
 //    {
 //        _rand = new Random(seed);
 //        //_array = new int[_howMuch = howMuch];

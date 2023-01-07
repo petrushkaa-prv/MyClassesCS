@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Graphs
 {
-    internal class DirectedGraph<T> : DirectedGraph, IGraph<T>
+    public class DirectedGraph<T> : DirectedGraph, IGraph<T>
         where T : new()
     {
         protected IAdjacencyStructure<T> MyAdjacencyStructure => (IAdjacencyStructure<T>)base.AdjacencyStructure;

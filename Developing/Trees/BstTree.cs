@@ -6,7 +6,7 @@ using Developing.Nodes;
 
 namespace Developing.Trees
 {
-    internal class BstTree<T> : BinaryTree<T, BstNode<T>>
+    public class BstTree<T> : BinaryTree<T, BstNode<T>>
         where T : IComparable<T>
     {
         //private BstNode<T> _root;

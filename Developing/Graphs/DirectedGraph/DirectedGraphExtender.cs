@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Developing.Graphs
 {
-    internal static class DirectedGraphExtender
+    public static class DirectedGraphExtender
     {
         public static DirectedGraph Reverse(this DirectedGraph graph)
         {
