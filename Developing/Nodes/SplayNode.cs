@@ -9,6 +9,17 @@ namespace Developing.Nodes;
 public class SplayNode<T> : BinaryNode<T, SplayNode<T>>
     where T : IComparable<T>
 {
-    // can be modified for a parent pointer
-    // for iterative splay implementation
+    private SplayNode<T> _parent;
+
+    public SplayNode(ref SplayNode<T> parent)
+    {
+        _parent = parent;
+    }
+
+    public SplayNode()
+    {
+        _parent = null;
+    }
+
+    public ref SplayNode<T> Parent => ref _parent;
 }
