@@ -14,12 +14,8 @@ public static class QuickMath
     public static int Gcd(int a, int b)
     {
         while (b != 0)
-        {
-            var temp = a % b;
-            a = b;
-            b = temp;
-        }
-            
+            (b, a) = (a % b, b);
+
         return a;
     }
 
@@ -60,5 +56,37 @@ public static class QuickMath
             y *= th - x2 * y * y;
 
         return y;
+    }
+
+    public static int CountDigits(int number)
+    {
+        return (int)Math.Floor(Math.Log10(number)) + 1;
+    }
+
+
+    public static int BinPos(int number, int pos)
+    {
+        
+
+        return 0;
+    }
+
+    public static int ModPow(int number, int exponent, int mod)
+    {
+        int t = 1;
+        while (exponent > 0)
+        {
+            if (exponent % 2 == 1)
+            {
+                t *= number;
+                t %= mod;
+            }
+
+            exponent >>= 1;
+            number *= number;
+            number %= mod;
+        }
+
+        return t;
     }
 }

@@ -4,37 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Developing.Testing
+namespace Developing.Testing;
+
+public class SequenceModifier<T> : ISequenceModifier<T>
 {
-    public class SequenceModifier<T> : ISequenceModifier<T>
+    private protected readonly Random Random;
+    private readonly int _count;
+
+    protected SequenceModifier(int count, int seed = 0)
     {
-        private protected readonly Random Random;
-        private readonly int _count;
+        _count = count;
 
-        protected SequenceModifier(int count, int seed = 0)
+        Random = new Random(seed);
+    }
+
+    /// <inheritdoc/>
+    public virtual T Next => (dynamic)Random.Next();
+
+    /// <inheritdoc/>
+    public virtual T[] Array
+    {
+        get
         {
-            _count = count;
+            var array = new T[_count];
 
-            Random = new Random(seed);
-        }
-
-        /// <inheritdoc/>
-        public virtual T Next => (dynamic)Random.Next();
-
-        /// <inheritdoc/>
-        public virtual T[] Array
-        {
-            get
+            for (int i = 0; i < _count; i++)
             {
-                var array = new T[_count];
-
-                for (int i = 0; i < _count; i++)
-                {
-                    array[i] = Next;
-                }
-
-                return array;
+                array[i] = Next;
             }
+
+            return array;
         }
     }
 }

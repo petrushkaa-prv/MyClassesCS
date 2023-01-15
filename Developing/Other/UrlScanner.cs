@@ -10,19 +10,16 @@ namespace Developing.Other;
 
 public static class UrlScraper
 {
-    public static void Scrap(string url)
+    public static string Scrap(string url)
     {
         var awaiter = CallUrl(url);
 
-        if (awaiter.Result != string.Empty)
-        {
-            Console.WriteLine($"Response: {awaiter.Result}");
-        }
+        return awaiter.Result == string.Empty ? string.Empty : awaiter.Result;
     }
 
     public static async Task<string> CallUrl(string url)
     {
-        var client = new HttpClient();
+        using var client = new HttpClient();
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
 
         client.DefaultRequestHeaders.Accept.Clear();
