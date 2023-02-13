@@ -10,7 +10,7 @@ namespace Developing.GeneralInterfaces
     /// Represents a generic interface for lists in [MyClassesCS]
     /// </summary>
     /// <typeparam name="T">Generic type</typeparam>
-    public interface IMyList<T>
+    public interface IMyList<T> : IEnumerable<T>
     {
         /// <summary>
         /// Returns the value contained at the Head(Front) of the list

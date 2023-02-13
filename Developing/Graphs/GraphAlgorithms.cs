@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Developing.Arrays;
+using Developing.Lists;
 
 namespace Developing.Graphs
 {
@@ -65,11 +66,58 @@ namespace Developing.Graphs
             return res;
         }
 
-        //public static Graph<int> MinimumSpanningTree(Graph<int> graph)
-        //{
-        //    var unionFind = new UnionFind(graph.VertexCount);
+        public static DlList<(int vertex, int cost)> Dijkstra<T>(this Graph<int> graph, int start, int end) 
+            where T : new()
+        {
+            var dist = new int[graph.VertexCount];
+            var prev = new int[graph.VertexCount];
+            var explored = new bool[graph.VertexCount];
 
+            for (int i = 0; i < graph.VertexCount; i++)
+            {
+                dist[i] = int.MaxValue;
+            }
 
-        //}
+            dist[start] = 0;
+            prev[start] = -1;
+
+            var stack = new SlStack<int>();
+            while (explored[end] != true)
+            {
+                int v = -1;
+                
+                for (int i = 0; i < explored.Length; i++)
+                {
+                    if (explored[i] == false)
+                        stack.Push(i);
+                }
+
+                v = stack.Pop();
+                foreach (var i in stack)    
+                {
+                    if (dist[i] < dist[v])
+                        v = i;
+                }
+                stack.Clear();
+
+                explored[v] = true;
+
+                foreach (var edge in graph.OutEdges(v))
+                {
+                    if (dist[v] + (dynamic)edge.Weight >= dist[edge.To]) continue;
+
+                    dist[edge.To] = dist[v] + (dynamic)edge.Weight;
+                    prev[edge.To] = v;
+                }
+            }
+
+            var path = new DlList<(int vertex, int cost)>();
+            for (int i = end; i != start; i = prev[i])
+            {
+                path.AddFront((i, dist[i]));
+            }
+            path.AddFront((start, dist[start]));
+            return path;
+        }
     }
 }

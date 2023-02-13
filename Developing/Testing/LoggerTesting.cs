@@ -9,7 +9,7 @@ using Developing.Other;
 
 namespace Developing.Testing;
 
-public class LoggerTesting
+internal class LoggerTesting
 {
     private Sequence<int> _rand;
     private SlStack<Action> _stuck;

@@ -77,7 +77,6 @@ using Developing.Other.Logger;
 using Developing.Testing;
 using static Developing.Other.QuickMath;
 using static Developing.Graphs.GraphAlgorithms;
-using static System.Net.WebRequestMethods;
 using Console = System.Console;
 
 namespace Chamber;
@@ -95,7 +94,9 @@ internal static class Program
 
     public static void Main(string[] args)
     {
-        
+        GraphAlgorithmsTesting.PrepareTests();
+
+        GraphAlgorithmsTesting.Run();
     }
 
 }
